@@ -21,8 +21,9 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@headcode/*": ["./_local_repos/headcode/*"],
-      "@theme/*": ["./_local_repos/theme/*"]
+      "@headcode": ["./_local_repos/headcode/index"],
+      "@headcode/server": ["./_local_repos/headcode/server"],
+      "@theme": ["./_local_repos/theme/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
