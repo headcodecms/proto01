@@ -13,8 +13,11 @@ const config = {
 
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
     '^@headcode$': '<rootDir>/_local_repos/headcode/index',
+    '^@headcode/server$': '<rootDir>/_local_repos/headcode/server',
   },
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

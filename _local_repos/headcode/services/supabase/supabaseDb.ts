@@ -1,8 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { DBInterface, SupabaseConfig } from '../../types'
+import { DBInterface, Section, SupabaseConfig } from '../../types'
 import { cookies } from 'next/headers'
 import { setup } from './supabaseSetup'
 import { getRoles, setRole } from './supabaseRoles'
+import { addSection, deleteSection, getCollections, getSection, saveSection } from './supabaseSections'
 
 const supabaseDb = (config: SupabaseConfig): DBInterface => {
   const supabase = createServerComponentClient(
@@ -33,6 +34,26 @@ const supabaseDb = (config: SupabaseConfig): DBInterface => {
 
     setRole: async (id: string, role: string) => {
       return await setRole(supabase, id, role)
+    },
+
+    getCollections: async (name: string, locale?: string) => {
+      return await getCollections(supabase, name, locale)
+    },
+
+    saveSection: async (section: Section) => {
+      return await saveSection(supabase, section)
+    },
+
+    deleteSection: async (id: string) => {
+      return await deleteSection(supabase, id)
+    },
+
+    addSection: async (name: string, slug: string, locale?: string) => {
+      return await addSection(supabase, name, slug, locale)
+    },
+
+    getSection: async (name: string, slug?: string, locale?: string) => {
+      return await getSection(supabase, name, slug, locale)
     }
   }
 }

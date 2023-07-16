@@ -10,6 +10,12 @@ import DashboardPage from './admin/DashboardPage'
 import UsersLayout from './admin/UsersLayout'
 import UsersPage from './admin/UsersPage'
 
+import GlobalsPage from './admin/GlobalsPage'
+import GlobalsNamePage from './admin/GlobalsNamePage'
+import CollectionsPage from './admin/CollectionsPage'
+import CollectionsNamePage from './admin/CollectionsNamePage'
+import CollectionsNameSlugPage from './admin/CollectionsNameSlugPage'
+
 export {
   supabaseMiddleware,
   supabaseAuthCallback,
@@ -19,4 +25,9 @@ export {
   DashboardPage,
   UsersLayout,
   UsersPage,
+  GlobalsPage,
+  GlobalsNamePage,
+  CollectionsPage,
+  CollectionsNamePage,
+  CollectionsNameSlugPage,
 }

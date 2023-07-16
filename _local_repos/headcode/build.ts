@@ -1,6 +1,8 @@
 import { HeadcodeConfig, SectionConfig, SectionTypeConfig } from './types'
 
-const buildConfig = (config: HeadcodeConfig) => {
+export const buildConfig = (config: HeadcodeConfig) => {
+  checkDuplicates(config)
+
   const clone = config.clone ? config.clone : false
   const globals = parseSectionConfigs(config.globals)
   const collections = parseSectionConfigs(config.collections)
@@ -14,6 +16,24 @@ const buildConfig = (config: HeadcodeConfig) => {
   }
 }
 
+const checkDuplicates = (config: HeadcodeConfig) => {
+  const arr: string[] = []
+
+  config.globals?.forEach((item: any) => {
+    if (arr.includes(item.name)) {
+      throw new Error(`Duplicate name in headcode.comfig.ts ${item.name}`)
+    }
+    arr.push(item.name)
+  })
+
+  config.collections?.forEach((item: any) => {
+    if (arr.includes(item.name)) {
+      throw new Error(`Duplicate name in headcode.comfig.ts ${item.name}`)
+    }
+    arr.push(item.name)
+  })
+}
+
 const parseSectionConfigs = (configs: SectionTypeConfig[] | undefined) => {
   if (!configs) return []
 
@@ -21,12 +41,8 @@ const parseSectionConfigs = (configs: SectionTypeConfig[] | undefined) => {
     const sectionsIsArray = Array.isArray(item.sections)
     const locales = item.locales ?? []
     const metadata = item.metadata ?? false
-    const sections = item.sections
-      ? sectionsIsArray
-        ? item.sections
-        : [item.sections]
-      : false
-    const presets = item.presets ?? false
+    const sections = parseSections(item.sections)
+
     const limit = sectionsIsArray ? item.limit ?? Number.MAX_SAFE_INTEGER : 1
     const renderer = item.renderer ?? 'defaultRenderer'
 
@@ -35,18 +51,30 @@ const parseSectionConfigs = (configs: SectionTypeConfig[] | undefined) => {
       locales,
       metadata,
       sections,
-      presets,
       limit,
       renderer,
     }
   })
 }
 
-const buildSection = (config: SectionConfig) => {
+const parseSections = (
+  sections: SectionConfig | SectionConfig[] | boolean | undefined
+): SectionConfig | SectionConfig[] | boolean => {
+  if (!sections) {
+    return false
+  }
+
+  if (typeof sections === 'boolean' || Array.isArray(sections)) {
+    return sections
+  }
+
+  return [sections]
+}
+
+export const buildSection = (config: SectionConfig) => {
+  // TODO: check that all names and block names are unique
   return {
     ...config,
     theme: config.theme ?? 'custom',
   }
 }
-
-export { buildConfig, buildSection }

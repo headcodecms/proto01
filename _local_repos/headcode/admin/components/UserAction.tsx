@@ -7,7 +7,7 @@ import supabaseAuth from '../../services/supabase/supabaseAuth'
 import { useCookies } from 'react-cookie'
 import { ROLES, TABLES, table } from '../../services/db'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
-import { handleSetRole } from './RolesAction'
+import { handleSetRole } from '../actions/RolesAction'
 
 const UserAction = ({ user }: any) => {
   const [userId, setUserId] = useState('')

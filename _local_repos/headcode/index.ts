@@ -14,6 +14,8 @@ import Loading from './admin/Loading'
 import Error from './admin/Error'
 import ErrorDeniedPage from './admin/ErrorDeniedPage'
 
+import EditSection from './admin/components/EditSection'
+
 export {
   buildConfig,
   buildSection,
@@ -27,4 +29,5 @@ export {
   Loading,
   Error,
   ErrorDeniedPage,
+  EditSection,
 }

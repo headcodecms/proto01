@@ -24,7 +24,6 @@ export default buildConfig({
       sections: HeroSection,
       /* is equivalent to
       sections: [HeroSection],
-      presets: [HeroSection],
       limit: 1,
       renderer: DefaultRenderer,
       */
@@ -36,7 +35,6 @@ export default buildConfig({
     {
       name: 'global.herolist',
       sections: [HeroSection],
-      presets: [HeroSection, HeroSection],
       renderer: 'CustomRenderer',
     },
   ],
@@ -45,10 +43,7 @@ export default buildConfig({
       name: 'blog',
       metadata: true,
       locales: ['de'],
-      /*
-      sections: [HeroSection, TextImageSection],
-      presets: [TextImageSection, HeroSection],
-      */
+      sections: HeroSection,
     },
   ],
 })

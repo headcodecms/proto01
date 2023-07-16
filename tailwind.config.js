@@ -5,5 +5,5 @@ module.exports = {
     './_local_repos/headcode/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {},
-  plugins: [],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

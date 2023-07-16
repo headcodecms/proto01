@@ -13,10 +13,29 @@ export type SupabaseConfig = {
   }
 }
 
+export type Section = {
+  id?: string
+  name: string
+  slug?: string
+  locale?: string
+  meta: any
+  tags: any[]
+  data: any
+  published_at?: number
+}
+
 export interface DBInterface {
   setup(): Promise<void>
+
   getRoles(filter?: string): Promise<any[]>
   setRole(id: string, role: string): Promise<void>
+
+  getCollections(name: string, locale?: string): Promise<any[]>
+
+  saveSection(section: Section): Promise<any>
+  deleteSection(id: string): Promise<void>
+  addSection(name: string, slug: string, locale?: string): Promise<any>
+  getSection(name: string, slug?: string, locale?: string): Promise<any[]>
 }
 
 export interface StorageInterface {
@@ -54,7 +73,6 @@ export type SectionTypeConfig = {
   locales?: string[]
   metadata?: boolean
   sections?: SectionConfig | SectionConfig[] | boolean
-  presets?: SectionConfig[] | boolean
   limit?: number
   renderer?: any
 }
@@ -71,24 +89,22 @@ type SectionField = {
   options?: SectionFieldOption[]
 }
 
-type SectionBlock = {
-  name: string
-  label: string
-  fields: {
-    [key: string]: SectionField
-  }
-  blocks?: SectionBlock[]
+export type SectionFields = {
+  [key: string]: SectionField
 }
 
-export type SectionConfig = {
+export type SectionBase = {
   name: string
   label: string
+  fields: SectionFields
+  blocks?: SectionBase[]
+}
+
+export type SectionBlock = SectionBase
+
+export type SectionConfig = SectionBase & {
   theme?: string
   component: any
-  fields: {
-    [key: string]: SectionField
-  }
-  blocks?: SectionBlock[]
 }
 
 // Fields
