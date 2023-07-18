@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import supabaseDb from '../services/supabase/supabaseDb'
 import config from '@/headcode.config'
-import { TYPE } from './components/Sections'
-import EditSection from './components/EditSection'
-import { parseData } from '../utils/parser'
+import Editor from './components/editor/Editor'
 
 const CollectionNameSlugPage = async ({
   params,
@@ -19,7 +17,9 @@ const CollectionNameSlugPage = async ({
   const dbService = supabaseDb(config.services.supabase)
   const data = await dbService.getSection(name, slug, locale)
   if (data?.length !== 1) {
-    throw new Error(`Error getting collection data for ${name} ${slug} ${locale}`)
+    throw new Error(
+      `Error getting collection data for ${name} ${slug} ${locale}`
+    )
   }
 
   return (
@@ -49,9 +49,8 @@ const CollectionNameSlugPage = async ({
           )}
         </h1>
       </div>
-      <EditSection
-        data={data[0]}
-        type={TYPE.collections}
+      <Editor
+        storedData={data[0]}
         name={name}
         slug={slug}
         locale={locale}

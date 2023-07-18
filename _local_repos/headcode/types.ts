@@ -1,62 +1,7 @@
 import { StaticImageData } from 'next/image'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export type SupabaseConfig = {
-  url: string
-  anon: string
-  connectionString?: string
-  revalidate?: number | boolean
-  rowLevelSecurity?: boolean
-  storage?: {
-    bucket: string
-    version: string
-  }
-}
-
-export type Section = {
-  id?: string
-  name: string
-  slug?: string
-  locale?: string
-  meta: any
-  tags: any[]
-  data: any
-  published_at?: number
-}
-
-export interface DBInterface {
-  setup(): Promise<void>
-
-  getRoles(filter?: string): Promise<any[]>
-  setRole(id: string, role: string): Promise<void>
-
-  getCollections(name: string, locale?: string): Promise<any[]>
-
-  saveSection(section: Section): Promise<any>
-  deleteSection(id: string): Promise<void>
-  addSection(name: string, slug: string, locale?: string): Promise<any>
-  getSection(name: string, slug?: string, locale?: string): Promise<any[]>
-}
-
-export interface StorageInterface {
-  upload(): void
-}
-
-type User = {
-  id: string,
-  email: string | undefined
-}
-
-export interface AuthInterface {
-  signIn(email: string, password: string): Promise<string | null>
-  signUp(email: string, password: string): Promise<string | null>
-  signOut() : Promise<void>
-  getUser(): Promise<User | null>
-}
-
-export interface AuthCallbackInterface {
-  authCallback(request: Request): Promise<NextResponse>
-}
+// Types for headcode.config.ts
 
 export type HeadcodeConfig = {
   version: string
@@ -75,6 +20,18 @@ export type SectionTypeConfig = {
   sections?: SectionConfig | SectionConfig[] | boolean
   limit?: number
   renderer?: any
+}
+
+export type SupabaseConfig = {
+  url: string
+  anon: string
+  connectionString?: string
+  revalidate?: number | boolean
+  rowLevelSecurity?: boolean
+  storage?: {
+    bucket: string
+    version: string
+  }
 }
 
 type SectionFieldOption = {
@@ -107,7 +64,77 @@ export type SectionConfig = SectionBase & {
   component: any
 }
 
-// Fields
+// Types for service interfaces
+
+export interface DBInterface {
+  setup(): Promise<void>
+
+  getRoles(filter?: string): Promise<any[]>
+  setRole(id: string, role: string): Promise<void>
+
+  getCollections(name: string, locale?: string): Promise<any[]>
+
+  saveSection(section: Section): Promise<any>
+  deleteSection(id: string): Promise<void>
+  addSection(name: string, slug: string, locale?: string): Promise<any>
+  getSection(name: string, slug?: string, locale?: string): Promise<any[]>
+}
+
+export interface StorageInterface {
+  upload(): void
+}
+
+type User = {
+  id: string
+  email: string | undefined
+}
+
+export interface AuthInterface {
+  signIn(email: string, password: string): Promise<string | null>
+  signUp(email: string, password: string): Promise<string | null>
+  signOut(): Promise<void>
+  getUser(): Promise<User | null>
+}
+
+export interface AuthCallbackInterface {
+  authCallback(request: Request): Promise<NextResponse>
+}
+
+// Types for data from DB
+
+export type Section = {
+  id?: string
+  name: string
+  slug?: string
+  locale?: string
+  meta: MetaData | null
+  tags: string[]
+  data: Data[] | null
+  published_at?: number
+  created_at?: number
+}
+
+export type FieldsData = {
+  [key: string]: any
+}
+
+export type BlockData = Data
+
+export type Data = {
+  id: string
+  name: string
+  label: string
+  fields: FieldsData
+  blocks?: Data[] | null
+}
+
+export type MetaData = {
+  title: string
+  description: string
+}
+
+// Types for editor fields
+
 export type ImageData = {
   name: string | null
   url: string | null
@@ -142,4 +169,26 @@ export type FieldInput<TValue extends FieldValue> = {
     value: string
   }>
   setValue: (value: TValue) => void
+}
+
+export type SortableListItem = {
+  id: string
+  name: string
+  label: string
+  chosen?: boolean
+  selected?: boolean
+}
+
+export type SortableListMenuItem = {
+  name: string
+  label: string
+}
+
+// Other types
+
+export type EditorNav = {
+  hasSections: boolean
+  meta: boolean
+  section: string | null
+  blocks: string[]
 }

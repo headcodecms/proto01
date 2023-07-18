@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { TYPE } from './components/Sections'
 import supabaseDb from '../services/supabase/supabaseDb'
 import config from '@/headcode.config'
-import EditSection from './components/EditSection'
+import Editor from './components/editor/Editor'
 import { getDefaultSection } from '../utils/config'
 
 const GlobalsNamePage = async ({
@@ -42,13 +41,12 @@ const GlobalsNamePage = async ({
           )}
         </h1>
       </div>
-      <EditSection
-        data={
+      <Editor
+        storedData={
           data.length === 1
             ? data[0]
             : getDefaultSection(name, undefined, locale)
         }
-        type={TYPE.globals}
         name={name}
         locale={locale}
       />

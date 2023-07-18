@@ -43,7 +43,7 @@ export default buildConfig({
       name: 'blog',
       metadata: true,
       locales: ['de'],
-      sections: HeroSection,
+      sections: [HeroSection],
     },
   ],
 })

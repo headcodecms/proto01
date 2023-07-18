@@ -4,13 +4,16 @@ import {
   SectionFields,
   SectionTypeConfig,
   SectionConfig,
+  Section,
+  MetaData,
+  Data,
 } from '../types'
 import { getSectionConfig } from './config'
 import { v4 as uuidv4 } from 'uuid'
 
-export const parseData = (data: any, name: string) => {
+export const parseData = (data: Section, name: string) => {
   const sectionConfig = getSectionConfig(name)
-  const metaData = sectionConfig.metadata ? parseMetadata(data) : null
+  const metaData = sectionConfig.metadata ? parseMetadata(data.meta) : null
   let sectionData = parseSectionData(data, sectionConfig)
 
   if (sectionConfig.limit === 1 && sectionData.length === 0) {
@@ -27,7 +30,7 @@ export const parseData = (data: any, name: string) => {
     meta: metaData,
     data: sectionData,
     locale: getValue(data, 'locale', null),
-    tags: getValue(data, 'tags', null),
+    tags: getValue(data, 'tags', []),
   }
 }
 
@@ -36,18 +39,29 @@ export const getDefaultSectionData = (config: SectionConfig) => ({
   name: config.name,
   label: config.label,
   fields: parseFields({}, config.fields),
-  blocks: null,
+  blocks: config.blocks ? [] : null,
 })
 
-const parseMetadata = (data: any) => {
+const parseMetadata = (data: MetaData | null) => {
   return {
     title: getValue(data, 'title', ''),
     description: getValue(data, 'description', ''),
   }
 }
 
-const parseSectionData = (data: any, config: SectionTypeConfig) => {
-  let sections = Array.isArray(data.data) ? data.data : []
+const parseSectionData = (data: Section, config: SectionTypeConfig) => {
+  let sections: Data[] = []
+  if (Array.isArray(data.data)) {
+    sections = data.data
+  } else if (
+    config.limit &&
+    config.limit === 1 &&
+    Array.isArray(config.sections) &&
+    config.sections.length === 1
+  ) {
+    sections.push(getDefaultSectionData(config.sections[0]))
+  }
+
   sections = sections.filter(
     (item: any) => findMatchingConfig(item.name, config.sections) !== null
   )
@@ -101,9 +115,9 @@ const parseBlocks = (
   })
 }
 
-const findMatchingConfig = (
+export const findMatchingConfig = <T extends SectionBase>(
   name: string,
-  config: boolean | SectionBase | SectionBase[] | undefined
+  config: boolean | T | T[] | undefined
 ) => {
   if (!Array.isArray(config)) {
     return null
@@ -114,8 +128,21 @@ const findMatchingConfig = (
 
 const getValue = (data: any, key: string, defaultValue: any) => {
   if (data?.hasOwnProperty(key)) {
-    return data[key]
+    return data[key] ?? defaultValue
   }
 
   return defaultValue
+}
+
+export const findData = (list: Data[] | null, id: string) => {
+  if (list === null) {
+    return null
+  }
+
+  const data = list.find((item: Data) => item.id === id)
+  if (data) {
+    return data
+  }
+
+  return null
 }
