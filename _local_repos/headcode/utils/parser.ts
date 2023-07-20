@@ -3,12 +3,11 @@ import {
   SectionBlock,
   SectionFields,
   SectionTypeConfig,
-  SectionConfig,
   Section,
   MetaData,
   Data,
 } from '../types'
-import { getSectionConfig } from './config'
+import { findMatchingConfig, getSectionConfig } from './config'
 import { v4 as uuidv4 } from 'uuid'
 
 export const parseData = (data: Section, name: string) => {
@@ -34,7 +33,7 @@ export const parseData = (data: Section, name: string) => {
   }
 }
 
-export const getDefaultSectionData = (config: SectionConfig) => ({
+export const getDefaultSectionData = (config: SectionBase) => ({
   id: uuidv4(),
   name: config.name,
   label: config.label,
@@ -115,34 +114,10 @@ const parseBlocks = (
   })
 }
 
-export const findMatchingConfig = <T extends SectionBase>(
-  name: string,
-  config: boolean | T | T[] | undefined
-) => {
-  if (!Array.isArray(config)) {
-    return null
-  }
-
-  return config.find((item) => item.name === name)
-}
-
 const getValue = (data: any, key: string, defaultValue: any) => {
   if (data?.hasOwnProperty(key)) {
     return data[key] ?? defaultValue
   }
 
   return defaultValue
-}
-
-export const findData = (list: Data[] | null, id: string) => {
-  if (list === null) {
-    return null
-  }
-
-  const data = list.find((item: Data) => item.id === id)
-  if (data) {
-    return data
-  }
-
-  return null
 }

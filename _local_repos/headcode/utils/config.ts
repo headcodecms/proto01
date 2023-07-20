@@ -1,5 +1,5 @@
 import config from '@/headcode.config'
-import { Data } from '../types'
+import { Data, SectionBase } from '../types'
 
 export const getSectionConfig = (name: string) => {
   let sectionConfig = config.globals?.find((item) => item.name === name)
@@ -13,6 +13,31 @@ export const getSectionConfig = (name: string) => {
   }
 
   throw new Error(`Error getting section config with name ${name}`)
+}
+
+export const findMatchingConfig = <T extends SectionBase>(
+  name: string | null,
+  config: boolean | T | T[] | undefined
+): SectionBase | null => {
+  if (!Array.isArray(config)) {
+    return null
+  }
+
+  for (let i = 0; i < config.length; i++) {
+    const currentConfig = config[i]
+    if (currentConfig.name === name) {
+      return currentConfig
+    } else {
+      if (Array.isArray(currentConfig.blocks)) {
+        const foundConfig = findMatchingConfig(name, currentConfig.blocks)
+        if (foundConfig) {
+          return foundConfig
+        }
+      }
+    }
+  }
+
+  return null
 }
 
 export const getDefaultSection = (
@@ -34,12 +59,4 @@ export const getSectionListData = (data: Data[]) => {
     name: item.name,
     label: item.label,
   }))
-}
-
-type ListItem = {
-  id: string
-}
-export const sortListByList = (data: ListItem[], list: ListItem[]) => {
-  const listIds = list.map((item) => item.id)
-  return data.sort((a, b) => listIds.indexOf(a.id) - listIds.indexOf(b.id))
 }

@@ -1,8 +1,8 @@
-import { SecondaryButton } from "@/_local_repos/headcode/ui/Buttons"
+import { SecondaryButton } from "../../../ui/Buttons"
 
 const MetaPreview = ({ values, handleMetaEdit }: any) => {
   return (
-    <>
+    <div>
       <h3 className="pb-2 text-lg font-semibold text-gray-900">Metadata</h3>
       {values.title === '' && values.description === '' && (
         <p className="text-sm text-gray-400">No meta data available.</p>
@@ -22,7 +22,7 @@ const MetaPreview = ({ values, handleMetaEdit }: any) => {
           Edit Metadata
         </SecondaryButton>
       </div>
-    </>
+    </div>
   )
 }
 

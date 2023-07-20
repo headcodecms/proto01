@@ -22,7 +22,7 @@ const SortableList = ({
   handleItemSelected: any
 }) => {
   return (
-    <div className="mt-8">
+    <div>
       <h3 className="pb-2 text-lg font-semibold text-gray-900">{title}</h3>
       <div className="my-1">
         {list && list.length > 0 ? (

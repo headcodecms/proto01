@@ -1,25 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import {
-  PrimaryButton,
-  SecondaryButton,
-  SecondaryDangerButton,
-} from '../../../ui/Buttons'
-import ConfirmationDialog from '../../../ui/ConfirmationDialog'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
 import {
+  findMatchingConfig,
   getSectionConfig,
   getSectionListData,
-  sortListByList,
 } from '../../../utils/config'
-import {
-  findData,
-  findMatchingConfig,
-  getDefaultSectionData,
-  parseData,
-} from '../../../utils/parser'
+import { getDefaultSectionData, parseData } from '../../../utils/parser'
+import { getUpdatedBlocksData, getUpdatedFieldsData, sortListByList } from '../../../utils/data'
 import { saveSection } from '../../actions/SectionsAction'
 import { showToastMessage } from '../../../ui/Toast'
 import MetaEdit from './MetaEdit'
@@ -34,6 +24,9 @@ import {
   SortableListItem,
   SortableListMenuItem,
 } from '../../../types'
+import FieldsEdit from './FieldsEdit'
+import ActionBar from './ActionBar'
+import BlocksList from './BlocksList'
 
 const Editor = ({
   storedData,
@@ -64,6 +57,7 @@ const Editor = ({
   })
 
   const [metaSubmit, setMetaSubmit] = useState(false)
+  const [fieldsSubmit, setFieldsSubmit] = useState(false)
 
   const [sectionList, setSectionList] = useState(parsedSectionList)
   const sectionListMenu = Array.isArray(sectionConfig.sections)
@@ -73,22 +67,7 @@ const Editor = ({
       }))
     : []
 
-  const [blocksList, setBlocksList] = useState([
-    { id: '123', name: 'herosection', label: 'Hero Section' },
-    { id: '124', name: 'herosection2', label: 'Hero Section 2' },
-  ])
-  const [blocksListMenu, setBlocksListMenu] = useState([
-    {
-      name: 'newitem',
-      label: 'New Item',
-    },
-    {
-      name: 'newitem2',
-      label: 'New Item 2',
-    },
-  ])
-
-  const [data, setData] = useState(parsedData)
+  const [data, setData] = useState<any>(parsedData)
   const [saving, setSaving] = useState(false)
 
   const isRootNav = () => {
@@ -107,14 +86,12 @@ const Editor = ({
     return isRootNav() && nav.hasSections
   }
 
-  const isSectionNav = () => {
-    return nav.section && nav.blocks.length === 0
-  }
-
   const handleSave = () => {
-    console.log('handle save')
     if (nav.meta) {
       setMetaSubmit(true)
+    }
+    if (nav.section) {
+      setFieldsSubmit(true)
     }
   }
 
@@ -126,18 +103,41 @@ const Editor = ({
   const handleMetaSubmit = async (values: any) => {
     const newData = { ...data, meta: values }
     if (metaSubmit) {
-      setSaving(true)
-      // @ts-ignore
-      await saveSection(newData)
-
-      setMetaSubmit(false)
-      setSaving(false)
-      showToastMessage(`${slug ?? name} saved successful`)
+      await saveData(newData)
     } else {
       setNav({ ...nav, meta: false })
     }
 
     setData(newData)
+  }
+
+  const handleFieldsSubmit = async (id: string, values: any) => {
+    const newData = { ...data, data: getUpdatedFieldsData(data.data, id, values) }
+    if (fieldsSubmit) {
+      await saveData(newData)
+    } else {
+      if (nav.blocks.length > 0) {
+        const newBlocks = [...nav.blocks]
+        newBlocks.pop()
+        setNav({ ...nav, blocks: newBlocks })
+      } else if (nav.hasSections && nav.section) {
+        setNav({ ...nav, section: null })
+      }
+    }
+
+    setData(newData)
+  }
+
+  const saveData = async (newData: Section) => {
+    setSaving(true)
+    // @ts-ignore
+    await saveSection(newData)
+
+    setMetaSubmit(false)
+    setFieldsSubmit(false)
+    setSaving(false)
+
+    showToastMessage(`${slug ?? name} saved successful`)
   }
 
   const handleUpdateTags = (newTags: string[]) => {
@@ -172,11 +172,28 @@ const Editor = ({
     setNav({ ...nav, meta: false, section: item.id, blocks: [] })
   }
 
+  const handleBlocksListUpdate = (list: SortableListItem[], values: Data) => {
+    if (Array.isArray(values.blocks)) {
+      const id = values.id
+      const newBlocks = sortListByList(values.blocks, list)
+      const newData = {...data, data: getUpdatedBlocksData(data.data, id, newBlocks)}
+      setData(newData)
+    }
+  }
+
+  const handleBlocksItemAdd = (item: SortableListMenuItem) => {
+    console.log('handleBlocksItemAdd', item)
+  }
+
+  const handleBlocksItemSelected = (item: SortableListItem) => {
+    console.log('handleBlocksItemSelected', item)
+  }
+
   console.log('editsection', nav, data, sectionConfig)
 
   return (
     <>
-      <div className="px-4 pb-4 sm:px-6 lg:px-8">
+      <div className="space-y-8 px-4 pb-4 sm:px-6 lg:px-8">
         {showMetaPreview() && (
           <MetaPreview values={data.meta} handleMetaEdit={handleMetaEdit} />
         )}
@@ -200,34 +217,29 @@ const Editor = ({
             handleItemSelected={handleSectionItemSelected}
           />
         )}
-        {/* @ts-ignore */}
-        {isSectionNav() && <SectionEdit data={data} id={nav.section} />}
+        {nav.section && (
+          <>
+            <FieldsEdit
+              data={data.data}
+              config={sectionConfig}
+              nav={nav}
+              fieldsSubmit={fieldsSubmit}
+              handleFieldsSubmit={handleFieldsSubmit}
+            />
+            <BlocksList
+              data={data.data}
+              config={sectionConfig}
+              nav={nav}
+              handleListUpdate={handleBlocksListUpdate}
+              handleItemAdd={handleBlocksItemAdd}
+              handleItemSelected={handleBlocksItemSelected}
+            />
+          </>
+        )}
       </div>
       <ActionBar handleSave={handleSave} saving={saving} />
       <Toaster position="bottom-center" reverseOrder={false} />
     </>
-  )
-}
-
-const SectionEdit = ({ data, id }: { data: Section; id: string }) => {
-  const currentData = findData(data.data, id)
-  console.log('data', data, id, currentData)
-  return <div>Section Edit</div>
-}
-
-const ActionBar = ({ handleSave, saving }: any) => {
-  return (
-    <div className="sticky bottom-0 mt-12 flex justify-between border-t border-gray-200 bg-white px-6 py-5 pl-4 lg:px-8">
-      <div></div>
-      <div className="space-x-3">
-        <SecondaryButton onClick={() => console.log('cancel clicked')}>
-          Cancel
-        </SecondaryButton>
-        <PrimaryButton disabled={saving} loading={saving} onClick={handleSave}>
-          Save
-        </PrimaryButton>
-      </div>
-    </div>
   )
 }
 

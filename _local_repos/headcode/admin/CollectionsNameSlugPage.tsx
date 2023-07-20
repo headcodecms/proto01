@@ -24,7 +24,7 @@ const CollectionNameSlugPage = async ({
 
   return (
     <>
-      <div className="px-4 pb-4 sm:px-6 lg:px-8">
+      <div className="px-4 pb-8 sm:px-6 lg:px-8">
         <div>
           <Link
             href="/headcode/admin/collections"

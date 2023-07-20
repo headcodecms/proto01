@@ -19,7 +19,7 @@ const MetaEdit = ({ values, handleMetaSubmit, metaSubmit }: any) => {
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        <div className="mb-6 flex items-center space-x-2">
+        <div className="mb-4 flex items-center space-x-2">
           <button type="submit">
             <ArrowLeftIcon className="h-8 w-8 rounded-md bg-gray-200 p-1.5 text-white hover:bg-gray-300" />
           </button>

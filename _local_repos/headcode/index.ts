@@ -1,6 +1,11 @@
 import { buildConfig, buildSection } from './build'
 
 import TextField from './fields/TextField'
+import TextAreaField from './fields/TextAreaField'
+import CheckboxField from './fields/CheckboxField'
+import SelectField from './fields/SelectField'
+import RichTextField from './fields/richtext/RichTextField'
+
 import ImgPlaceholder from './fields/placeholder/placeholder.jpg'
 
 import SetupLayout from './admin/SetupLayout'
@@ -20,6 +25,10 @@ export {
   buildConfig,
   buildSection,
   TextField,
+  TextAreaField,
+  CheckboxField,
+  SelectField,
+  RichTextField,
   ImgPlaceholder,
   SetupLayout,
   SetupPage,

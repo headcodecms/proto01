@@ -1,0 +1,1 @@
+Tests moved to npm library headcodecms/headcode

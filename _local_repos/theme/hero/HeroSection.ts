@@ -1,5 +1,5 @@
-import { buildSection } from '@headcode'
-import { TextField } from '@headcode'
+import { RichTextField, buildSection } from '@headcode'
+import { TextField, CheckboxField, SelectField } from '@headcode'
 import Hero from './Hero'
 
 export default buildSection({
@@ -23,15 +23,15 @@ export default buildSection({
     },
     fadeIn: {
       label: 'Fade in or out',
-      type: TextField,
+      type: CheckboxField,
     },
     body: {
       label: 'Body (rich text)',
-      type: TextField,
+      type: RichTextField,
     },
     size: {
       label: 'Select size',
-      type: TextField,
+      type: SelectField,
       defaultValue: 'medium',
       options: [
         {
