@@ -1,14 +1,14 @@
 import {
-  SectionBase,
   SectionBlock,
   SectionFields,
   SectionTypeConfig,
   Section,
   MetaData,
   Data,
+  EditorNav,
 } from '../types'
 import { findMatchingConfig, getSectionConfig } from './config'
-import { v4 as uuidv4 } from 'uuid'
+import { getDefaultSectionData } from './data'
 
 export const parseData = (data: Section, name: string) => {
   const sectionConfig = getSectionConfig(name)
@@ -32,14 +32,6 @@ export const parseData = (data: Section, name: string) => {
     tags: getValue(data, 'tags', []),
   }
 }
-
-export const getDefaultSectionData = (config: SectionBase) => ({
-  id: uuidv4(),
-  name: config.name,
-  label: config.label,
-  fields: parseFields({}, config.fields),
-  blocks: config.blocks ? [] : null,
-})
 
 const parseMetadata = (data: MetaData | null) => {
   return {
@@ -79,7 +71,7 @@ const parseSectionData = (data: Section, config: SectionTypeConfig) => {
   })
 }
 
-const parseFields = (fields: any, fieldsConfig: SectionFields) => {
+export const parseFields = (fields: any, fieldsConfig: SectionFields) => {
   const obj: any = {}
   for (const [key, value] of Object.entries(fieldsConfig)) {
     // TODO: validate that fields[key] is correct type and has all props - e.g., img
@@ -121,3 +113,6 @@ const getValue = (data: any, key: string, defaultValue: any) => {
 
   return defaultValue
 }
+
+export const getNavId = (nav: EditorNav) =>
+  nav.blocks.length === 0 ? nav.section : nav.blocks[nav.blocks.length - 1]

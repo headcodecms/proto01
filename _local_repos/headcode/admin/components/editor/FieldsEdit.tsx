@@ -5,6 +5,7 @@ import { findMatchingConfig } from '../../../utils/config'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { FormikProvider, useFormik } from 'formik'
 import React, { useEffect } from 'react'
+import { getNavId } from '@/_local_repos/headcode/utils/parser'
 
 const FieldsEdit = ({
   data,
@@ -20,8 +21,7 @@ const FieldsEdit = ({
   handleFieldsSubmit: any
 }) => {
   // TODO: Improve error handling, TypeScript support
-  const isSection = nav.blocks.length === 0
-  const id = isSection ? nav.section : nav.blocks[nav.blocks.length - 1]
+  const id = getNavId(nav)
   const values = findData(data, id)
   const sectionConfig = findMatchingConfig(values?.name ?? '', config.sections)
   const fields: any = sectionConfig?.fields
@@ -38,7 +38,7 @@ const FieldsEdit = ({
   }, [fieldsSubmit])
 
   const showBack = () => {
-    return nav.hasSections || !isSection
+    return nav.hasSections || nav.blocks.length > 0
   }
 
   if (!values || !sectionConfig) {

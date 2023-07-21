@@ -1,8 +1,21 @@
-import { Data, EditorNav, SectionTypeConfig, SortableListItem, SortableListMenuItem } from '../../../types'
+import {
+  Data,
+  EditorNav,
+  SectionTypeConfig,
+  SortableListItem,
+  SortableListMenuItem,
+} from '../../../types'
 import { useState } from 'react'
 import SortableList from '../../../ui/SortableList'
-import { findData } from '../../../utils/data'
+import { findData, getDefaultBlockData } from '../../../utils/data'
 import { findMatchingConfig } from '../../../utils/config'
+import { getNavId } from '@/_local_repos/headcode/utils/parser'
+
+const getBlockListItem = (item: Data) => ({
+  id: item.id,
+  name: item.name,
+  label: item.label,
+})
 
 const BlocksList = ({
   data,
@@ -19,18 +32,13 @@ const BlocksList = ({
   handleItemAdd: any
   handleItemSelected: any
 }) => {
-  const isSection = nav.blocks.length === 0
-  const id = isSection ? nav.section : nav.blocks[nav.blocks.length - 1]
+  const id = getNavId(nav)
   const values = findData(data, id)
   const sectionConfig = findMatchingConfig(values?.name ?? '', config.sections)
 
   const [blocksList, setBlocksList] = useState(
     Array.isArray(values?.blocks)
-      ? values?.blocks.map((item) => ({
-          id: item.id,
-          name: item.name,
-          label: item.label,
-        }))
+      ? values?.blocks.map((item) => getBlockListItem(item))
       : []
   )
   const blocksListMenu = Array.isArray(sectionConfig?.blocks)
@@ -46,14 +54,17 @@ const BlocksList = ({
   }
 
   const handleBlocksItemAdd = (item: SortableListMenuItem) => {
-    console.log('handleBlocksItemAdd', item)
+    if (blocksList && sectionConfig) {
+      const newBlock = getDefaultBlockData(item.name, sectionConfig)
+      if (newBlock && values && values.blocks) {
+        setBlocksList([...blocksList, getBlockListItem(newBlock)])
+        const newValues = { ...values, blocks: [...values.blocks, newBlock] }
+        handleItemAdd(newValues)
+      } else {
+        console.error('Cannot generate new block', item)
+      }
+    }
   }
-
-  const handleBlocksItemSelected = (item: SortableListItem) => {
-    console.log('handleBlocksItemSelected', item)
-  }
-
-  console.log('BlocksList', id, values, sectionConfig)
 
   if (!blocksListMenu || !blocksList) {
     return <></>
@@ -66,7 +77,7 @@ const BlocksList = ({
       menu={blocksListMenu}
       handleListUpdate={handleBlocksListUpdate}
       handleItemAdd={handleBlocksItemAdd}
-      handleItemSelected={handleBlocksItemSelected}
+      handleItemSelected={handleItemSelected}
     />
   )
 }

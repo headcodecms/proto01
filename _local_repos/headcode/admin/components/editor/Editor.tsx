@@ -8,8 +8,13 @@ import {
   getSectionConfig,
   getSectionListData,
 } from '../../../utils/config'
-import { getDefaultSectionData, parseData } from '../../../utils/parser'
-import { getUpdatedBlocksData, getUpdatedFieldsData, sortListByList } from '../../../utils/data'
+import { getNavId, parseData } from '../../../utils/parser'
+import {
+  getDefaultSectionData,
+  getUpdatedBlocksData,
+  getUpdatedFieldsData,
+  sortListByList,
+} from '../../../utils/data'
 import { saveSection } from '../../actions/SectionsAction'
 import { showToastMessage } from '../../../ui/Toast'
 import MetaEdit from './MetaEdit'
@@ -112,7 +117,10 @@ const Editor = ({
   }
 
   const handleFieldsSubmit = async (id: string, values: any) => {
-    const newData = { ...data, data: getUpdatedFieldsData(data.data, id, values) }
+    const newData = {
+      ...data,
+      data: getUpdatedFieldsData(data.data, id, values),
+    }
     if (fieldsSubmit) {
       await saveData(newData)
     } else {
@@ -145,11 +153,9 @@ const Editor = ({
   }
 
   const handleSectionListUpdate = (list: SortableListItem[]) => {
-    // @ts-ignore
     const newSections = sortListByList(data.data, list)
     const newData = { ...data, data: newSections }
 
-    // @ts-ignore
     setData(newData)
     setSectionList([...list])
   }
@@ -160,7 +166,6 @@ const Editor = ({
       const newItem = getDefaultSectionData(config)
       const newSections = [...data.data, newItem]
       const newData = { ...data, data: newSections }
-      // @ts-ignore
       const newSectionList = getSectionListData(newSections)
 
       setData(newData)
@@ -176,17 +181,28 @@ const Editor = ({
     if (Array.isArray(values.blocks)) {
       const id = values.id
       const newBlocks = sortListByList(values.blocks, list)
-      const newData = {...data, data: getUpdatedBlocksData(data.data, id, newBlocks)}
+      const newData = {
+        ...data,
+        data: getUpdatedBlocksData(data.data, id, newBlocks),
+      }
       setData(newData)
     }
   }
 
-  const handleBlocksItemAdd = (item: SortableListMenuItem) => {
-    console.log('handleBlocksItemAdd', item)
+  const handleBlocksItemAdd = (values: Data) => {
+    if (Array.isArray(values.blocks)) {
+      const id = values.id
+      const newData = {
+        ...data,
+        data: getUpdatedBlocksData(data.data, id, values.blocks),
+      }
+      setData(newData)
+    }
   }
 
   const handleBlocksItemSelected = (item: SortableListItem) => {
-    console.log('handleBlocksItemSelected', item)
+    const newBlocks = [...nav.blocks, item.id]
+    setNav({ ...nav, meta: false, blocks: newBlocks })
   }
 
   console.log('editsection', nav, data, sectionConfig)
@@ -220,6 +236,7 @@ const Editor = ({
         {nav.section && (
           <>
             <FieldsEdit
+              key={`fields-${getNavId(nav)}`}
               data={data.data}
               config={sectionConfig}
               nav={nav}
@@ -227,6 +244,7 @@ const Editor = ({
               handleFieldsSubmit={handleFieldsSubmit}
             />
             <BlocksList
+              key={`blocks-${getNavId(nav)}`}
               data={data.data}
               config={sectionConfig}
               nav={nav}

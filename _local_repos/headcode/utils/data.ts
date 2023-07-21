@@ -1,4 +1,32 @@
-import { Data, FieldsData } from '../types'
+import { Data, FieldsData, SectionBase } from '../types'
+import { v4 as uuidv4 } from 'uuid'
+import { parseFields } from './parser'
+
+export const getDefaultSectionData = (config: SectionBase) => ({
+  id: uuidv4(),
+  name: config.name,
+  label: config.label,
+  fields: parseFields({}, config.fields),
+  blocks: config.blocks ? [] : null,
+})
+
+export const getDefaultBlockData = (name: string, config: SectionBase) => {
+  if (Array.isArray(config.blocks)) {
+    const blockConfig = config.blocks.find(item => item.name === name)
+    if (blockConfig) {
+      console.log('getDefaultBlockData', name, blockConfig)
+      return {
+        id: uuidv4(),
+        name: blockConfig.name,
+        label: blockConfig.label,
+        fields: parseFields({}, blockConfig.fields),
+        blocks: blockConfig.blocks ? [] : null,
+      }
+    }
+  }
+
+  return null
+}
 
 export const findData = (list: Data[], id: string | null): Data | null => {
   for (let i = 0; i < list.length; i++) {
