@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import supabaseDb from '../services/supabase/supabaseDb'
-import config from '@/headcode.config'
 import Editor from './components/editor/Editor'
+import DBService from '../services/DBService'
 
 const CollectionNameSlugPage = async ({
   params,
@@ -14,8 +13,7 @@ const CollectionNameSlugPage = async ({
   const locale = searchParams.locale
   const localeParam = locale ? `?locale=${locale}` : ''
 
-  const dbService = supabaseDb(config.services.supabase)
-  const data = await dbService.getSection(name, slug, locale)
+  const data = await DBService.getSection(name, slug, locale)
   if (data?.length !== 1) {
     throw new Error(
       `Error getting collection data for ${name} ${slug} ${locale}`

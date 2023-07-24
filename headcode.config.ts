@@ -4,19 +4,6 @@ import { HeroSection } from '@theme'
 export default buildConfig({
   version: 'v01',
   // clone: 'v01',
-  services: {
-    supabase: {
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      connectionString: process.env.SUPABASE_CONNECTION_STRING!,
-      rowLevelSecurity: true,
-      revalidate: 0,
-      storage: {
-        bucket: 'headcode',
-        version: 'v1',
-      },
-    },
-  },
   globals: [
     {
       name: 'global.hero',

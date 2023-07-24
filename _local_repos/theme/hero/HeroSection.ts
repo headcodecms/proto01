@@ -1,4 +1,4 @@
-import { RichTextField, buildSection } from '@headcode'
+import { ImageField, RichTextField, buildSection } from '@headcode'
 import { TextField, CheckboxField, SelectField } from '@headcode'
 import Hero from './Hero'
 
@@ -15,7 +15,7 @@ export default buildSection({
   fields: {
     img: {
       label: 'Image Field',
-      type: TextField,
+      type: ImageField,
     },
     alt: {
       label: 'Image ALT text',

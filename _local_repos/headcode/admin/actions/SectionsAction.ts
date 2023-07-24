@@ -1,17 +1,14 @@
 'use server'
 
 import { Section } from '../../types'
-import config from '@/headcode.config'
-import supabaseDb from '../../services/supabase/supabaseDb'
+import DBService from '../../services/DBService'
 
 export const saveSection = async (section: Section) => {
-  const dbService = supabaseDb(config.services.supabase)
-  return dbService.saveSection(section)
+  return DBService.saveSection(section)
 }
 
 export const deleteSection = async (id: string) => {
-  const dbService = supabaseDb(config.services.supabase)
-  return dbService.deleteSection(id)
+  return DBService.deleteSection(id)
 }
 
 export const addSection = async (
@@ -19,6 +16,5 @@ export const addSection = async (
   slug: string,
   locale?: string
 ) => {
-  const dbService = supabaseDb(config.services.supabase)
-  return dbService.addSection(name, slug, locale)
+  return DBService.addSection(name, slug, locale)
 }

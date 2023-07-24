@@ -2,10 +2,9 @@
 
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
-import config from '@/headcode.config'
-import supabaseAuth from '../../services/supabase/supabaseAuth'
+import AuthService from '../../services/AuthService'
 import { useCookies } from 'react-cookie'
-import { ROLES, TABLES, table } from '../../services/db'
+import { ROLES, TABLES, table } from '../../utils/db'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 import { handleSetRole } from '../actions/RolesAction'
 
@@ -16,8 +15,7 @@ const UserAction = ({ user }: any) => {
   const path = '/headcode/admin/users'
 
   const updateUserId = async () => {
-    const authService = supabaseAuth(config.services.supabase)
-    const newUser = await authService.getUser()
+    const newUser = await AuthService.getUser()
     setUserId(newUser?.id ?? '')
   }
 

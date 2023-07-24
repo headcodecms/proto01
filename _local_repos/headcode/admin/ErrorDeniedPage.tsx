@@ -5,9 +5,8 @@ import Banner from '../ui/Banner'
 import { ContainerSmall } from '../ui/Container'
 import { PrimaryButton } from '../ui/Buttons'
 import { useCookies } from 'react-cookie'
-import { TABLES, table } from '../services/db'
-import supabaseAuth from '../services/supabase/supabaseAuth'
-import config from '@/headcode.config'
+import { TABLES, table } from '../utils/db'
+import AuthService from '../services/AuthService'
 import { useRouter } from 'next/navigation'
 
 const Page = () => {
@@ -17,8 +16,7 @@ const Page = () => {
 
   const handleLogout = async () => {
     setLoading(true)
-    const authService = supabaseAuth(config.services.supabase)
-    await authService.signOut()
+    await AuthService.signOut()
     removeCookie(table(TABLES.roles), { path: '/' })
     removeCookie(table('email'), { path: '/' })
     router.push('/headcode')

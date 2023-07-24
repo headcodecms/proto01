@@ -1,29 +1,29 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { AuthCallbackInterface, SupabaseConfig } from "../../types";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { AuthCallbackInterface } from '../../types'
 import { cookies } from 'next/headers'
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
+import services from '@/headcode.services'
 
-const supabaseAuthCallback = (config: SupabaseConfig): AuthCallbackInterface => {
+const authCallback = async (request: Request): Promise<NextResponse> => {
+  const requestUrl = new URL(request.url)
+  const code = requestUrl.searchParams.get('code')
   const supabase = createServerComponentClient(
     { cookies },
     {
-      supabaseUrl: config.url,
-      supabaseKey: config.anon,
+      supabaseUrl: services?.supabase?.url,
+      supabaseKey: services?.supabase?.anon,
     }
   )
 
-  return {
-    authCallback: async (request: Request) => {
-      const requestUrl = new URL(request.url)
-      const code = requestUrl.searchParams.get('code')
-
-      if (code) {
-        await supabase.auth.exchangeCodeForSession(code)
-      }
-
-      return NextResponse.redirect('/headcode/login')
-    }
+  if (code) {
+    await supabase.auth.exchangeCodeForSession(code)
   }
+
+  return NextResponse.redirect('/headcode/login')
 }
 
-export default supabaseAuthCallback
+const SupabaseAuthCallback: AuthCallbackInterface = {
+  authCallback,
+}
+
+export default SupabaseAuthCallback

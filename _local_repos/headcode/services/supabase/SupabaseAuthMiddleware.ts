@@ -1,15 +1,16 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { Session } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { table, TABLES, ROLES } from '../db'
+import { table, TABLES, ROLES } from '../../utils/db'
+import { AuthMiddleware } from '../../types'
 
-export const supabaseMiddleware = async ({
+const middleware = async ({
   req,
   res,
 }: {
   req: NextRequest
   res: NextResponse
-}) => {
+}): Promise<string | null> => {
   const pathname = req.nextUrl.pathname
   if (pathname.startsWith('/headcode/error')) return null
   if (pathname === '/headcode' || pathname === '/headcode/admin') {
@@ -82,3 +83,9 @@ const getRole = async ({
 
   return null
 }
+
+const SupabaseAuthMiddleware: AuthMiddleware = {
+  middleware,
+}
+
+export default SupabaseAuthMiddleware

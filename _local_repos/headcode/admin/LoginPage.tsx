@@ -6,9 +6,8 @@ import Banner from '../ui/Banner'
 import Input from '../ui/Input'
 import Link from 'next/link'
 import { PrimaryButton } from '../ui/Buttons'
-import config from '@/headcode.config'
-import supabaseAuth from '../services/supabase/supabaseAuth'
 import { useState } from 'react'
+import AuthService from '../services/AuthService'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -22,7 +21,7 @@ const LoginPage = () => {
       formikHelper.setStatus(null)
       setLoading(true)
 
-      const error = await authService.signIn(values.email, values.password)
+      const error = await AuthService.signIn(values.email, values.password)
 
       formikHelper.setStatus(error)
       if (!error) {
@@ -33,7 +32,6 @@ const LoginPage = () => {
       }
     },
   })
-  const authService = supabaseAuth(config.services.supabase)
 
   const handleForgotPassword = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()

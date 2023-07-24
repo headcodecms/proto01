@@ -4,7 +4,7 @@ import User from './components/User'
 import config from '@/headcode.config'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { table } from '../services/db'
+import { table } from '../utils/db'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const cookieStore = cookies()

@@ -50,13 +50,16 @@ const FieldsEdit = ({
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-4 flex items-center space-x-2">
           {showBack() && (
-            <button type="submit" onClick={() => console.log('back')}>
+            <button type="submit">
               <ArrowLeftIcon className="h-8 w-8 rounded-md bg-gray-200 p-1.5 text-white hover:bg-gray-300" />
             </button>
           )}
-          <h3 className="text-lg font-semibold text-gray-900">
-            {values.label}
-          </h3>
+          <div>
+            <NavBreadcrumbs nav={nav} />
+            <h3 className="text-lg font-semibold text-gray-900">
+              {values.label}
+            </h3>
+          </div>
         </div>
         <div className="space-y-4">
           {Object.keys(fields).map((key, index) => {
@@ -77,6 +80,30 @@ const FieldsEdit = ({
         </div>
       </form>
     </FormikProvider>
+  )
+}
+
+const NavBreadcrumbs = ({ nav }: { nav: EditorNav }) => {
+  if (nav.blocks.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="-mb-2">
+      <span className="text-xs text-gray-400">
+        {nav.section?.label}
+      </span>
+      {nav.blocks.map((item, index) =>
+        index < nav.blocks.length - 1 ? (
+          <span key={index}>
+            <span className="px-1 text-xs text-gray-400">/</span>
+            <span className="text-xs text-gray-400">
+              {item.label}
+            </span>
+          </span>
+        ) : null
+      )}
+    </div>
   )
 }
 

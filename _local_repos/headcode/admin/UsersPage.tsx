@@ -1,10 +1,8 @@
-import supabaseDb from '../services/supabase/supabaseDb'
-import config from '@/headcode.config'
 import Users from './components/Users'
+import DBService from '../services/DBService'
 
 const Page = async () => {
-  const dbService = supabaseDb(config.services.supabase)
-  return <Users users={await dbService.getRoles()} />
+  return <Users users={await DBService.getRoles()} />
 }
 
 export default Page

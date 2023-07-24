@@ -9,9 +9,8 @@ import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { TABLES, table } from '../../services/db'
-import supabaseAuth from '../../services/supabase/supabaseAuth'
-import config from '@/headcode.config'
+import { TABLES, table } from '../../utils/db'
+import AuthService from '../../services/AuthService'
 
 const User = ({ email, small }: { email?: string; small: boolean }) => {
   const router = useRouter()
@@ -20,8 +19,7 @@ const User = ({ email, small }: { email?: string; small: boolean }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const updateEmail = async () => {
-    const authService = supabaseAuth(config.services.supabase)
-    const user = await authService.getUser()
+    const user = await AuthService.getUser()
     setUserEmail(user?.email ?? '')
     setLoading(false)
   }
@@ -34,8 +32,7 @@ const User = ({ email, small }: { email?: string; small: boolean }) => {
 
   const handleLogout = async () => {
     setLoading(true)
-    const authService = supabaseAuth(config.services.supabase)
-    await authService.signOut()
+    await AuthService.signOut()
     removeCookie(table(TABLES.roles), { path: '/' })
     removeCookie(table('email'), { path: '/' })
     router.refresh()

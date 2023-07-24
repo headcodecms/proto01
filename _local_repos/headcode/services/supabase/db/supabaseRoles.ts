@@ -1,5 +1,5 @@
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { TABLES, table } from '../db'
+import { TABLES, table } from '../../../utils/db'
 
 export const getRoles = async (
   supabase: SupabaseClient<any, 'public', any>,

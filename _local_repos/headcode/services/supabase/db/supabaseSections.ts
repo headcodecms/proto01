@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { TABLES, table } from '../db'
-import { Section } from '../../types'
+import { TABLES, table } from '../../../utils/db'
+import { Section } from '../../../types'
 
 export const getCollections = async (
   supabase: SupabaseClient<any, 'public', any>,

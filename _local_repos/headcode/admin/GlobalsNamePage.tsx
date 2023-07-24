@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import supabaseDb from '../services/supabase/supabaseDb'
-import config from '@/headcode.config'
 import Editor from './components/editor/Editor'
 import { getDefaultSection } from '../utils/config'
+import DBService from '../services/DBService'
 
 const GlobalsNamePage = async ({
   params,
@@ -15,8 +14,7 @@ const GlobalsNamePage = async ({
   const locale = searchParams.locale
   const localeParam = locale ? `?locale=${locale}` : ''
 
-  const dbService = supabaseDb(config.services.supabase)
-  const data = await dbService.getSection(name, undefined, locale)
+  const data = await DBService.getSection(name, undefined, locale)
   if (!data) {
     throw new Error(`Error getting global data for ${name} ${locale}`)
   }

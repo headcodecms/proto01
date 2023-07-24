@@ -1,5 +1,5 @@
-import { supabaseMiddleware } from './services/supabase/supabaseMiddleware'
-import supabaseAuthCallback from './services/supabase/supabaseAuthCallback'
+import AuthMiddlewareService from './services/AuthMiddlewareService'
+import AuthCallbackService from './services/AuthCallbackService'
 
 import ExecuteSetupPage from './admin/ExecuteSetupPage'
 
@@ -17,8 +17,8 @@ import CollectionsNamePage from './admin/CollectionsNamePage'
 import CollectionsNameSlugPage from './admin/CollectionsNameSlugPage'
 
 export {
-  supabaseMiddleware,
-  supabaseAuthCallback,
+  AuthMiddlewareService,
+  AuthCallbackService,
   ExecuteSetupPage,
   AdminLayout,
   DashboardLayout,

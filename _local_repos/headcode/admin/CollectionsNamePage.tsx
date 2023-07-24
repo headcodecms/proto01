@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import config from '@/headcode.config'
 import LinkList from './components/LinkList'
-import supabaseDb from '../services/supabase/supabaseDb'
 import AddCollection from './components/AddCollection'
+import DBService from '../services/DBService'
 
 const CollectionNamePage = async ({
   params,
@@ -19,8 +19,7 @@ const CollectionNamePage = async ({
     (item) => item.name === name
   )
 
-  const dbService = supabaseDb(config.services.supabase)
-  const data = await dbService.getCollections(name, searchParams.locale)
+  const data = await DBService.getCollections(name, searchParams.locale)
 
   let links = data.map((item) => ({
     title: item.slug,

@@ -10,7 +10,6 @@ export const buildConfig = (config: HeadcodeConfig) => {
   return {
     version: config.version,
     clone,
-    services: config.services,
     globals,
     collections,
   }

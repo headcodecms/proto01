@@ -7,7 +7,7 @@ import Input from '../ui/Input'
 import { PrimaryButton } from '../ui/Buttons'
 import Link from 'next/link'
 import { useState } from 'react'
-import supabaseAuth from '../services/supabase/supabaseAuth'
+import AuthService from '../services/AuthService'
 
 const RegisterPage = () => {
   const [success, setSuccess] = useState(false)
@@ -19,7 +19,7 @@ const RegisterPage = () => {
     onSubmit: async (values, formikHelper) => {
       formikHelper.setStatus(null)
 
-      const error = await authService.signUp(values.email, values.password)
+      const error = await AuthService.signUp(values.email, values.password)
 
       if (error) {
         formikHelper.setStatus(error)
@@ -28,8 +28,7 @@ const RegisterPage = () => {
       }
     },
   })
-  const authService = supabaseAuth(config.services.supabase)
-
+  
   return (
     <>
       <h2 className="my-6 text-center text-3xl font-bold tracking-tight text-gray-900">

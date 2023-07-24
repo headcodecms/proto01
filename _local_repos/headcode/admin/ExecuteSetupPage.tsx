@@ -1,11 +1,9 @@
-import supabaseDb from "../services/supabase/supabaseDb"
 import Banner from "../ui/Banner"
 import { PrimaryLink } from "../ui/Buttons"
-import config from '@/headcode.config'
+import DBService from '../services/DBService'
 
 const ExecuteSetupPage = async () => {
-  const dbService = supabaseDb(config.services.supabase)
-  await dbService.setup()
+  await DBService.setup()
 
   return (
     <>

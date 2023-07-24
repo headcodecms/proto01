@@ -1,14 +1,11 @@
 import { StaticImageData } from 'next/image'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Types for headcode.config.ts
 
 export type HeadcodeConfig = {
   version: string
   clone?: string | boolean
-  services: {
-    supabase: SupabaseConfig
-  }
   globals?: SectionTypeConfig[]
   collections?: SectionTypeConfig[]
 }
@@ -20,6 +17,13 @@ export type SectionTypeConfig = {
   sections?: SectionConfig | SectionConfig[] | boolean
   limit?: number
   renderer?: any
+}
+
+export type ServicesConfig = {
+  supabase?: SupabaseConfig
+  auth: string
+  db: string
+  storage: string
 }
 
 export type SupabaseConfig = {
@@ -81,10 +85,10 @@ export interface DBInterface {
 }
 
 export interface StorageInterface {
-  upload(): void
+  upload(file: File, name: string, format: string): Promise<string | null>
 }
 
-type User = {
+export type User = {
   id: string
   email: string | undefined
 }
@@ -98,6 +102,16 @@ export interface AuthInterface {
 
 export interface AuthCallbackInterface {
   authCallback(request: Request): Promise<NextResponse>
+}
+
+export interface AuthMiddleware {
+  middleware({
+    req,
+    res,
+  }: {
+    req: NextRequest
+    res: NextResponse
+  }): Promise<string | null>
 }
 
 // Types for data from DB
@@ -185,10 +199,14 @@ export type SortableListMenuItem = {
 }
 
 // Other types
+type NavItem = {
+  id: string
+  label: string
+}
 
 export type EditorNav = {
   hasSections: boolean
   meta: boolean
-  section: string | null
-  blocks: string[]
+  section: NavItem | null
+  blocks: NavItem[]
 }

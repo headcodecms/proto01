@@ -5,6 +5,7 @@ import TextAreaField from './fields/TextAreaField'
 import CheckboxField from './fields/CheckboxField'
 import SelectField from './fields/SelectField'
 import RichTextField from './fields/richtext/RichTextField'
+import ImageField from './fields/image/ImageField'
 
 import ImgPlaceholder from './fields/placeholder/placeholder.jpg'
 
@@ -29,6 +30,7 @@ export {
   CheckboxField,
   SelectField,
   RichTextField,
+  ImageField,
   ImgPlaceholder,
   SetupLayout,
   SetupPage,

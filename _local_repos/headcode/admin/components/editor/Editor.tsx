@@ -3,14 +3,9 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
-import {
-  findMatchingConfig,
-  getSectionConfig,
-  getSectionListData,
-} from '../../../utils/config'
+import { getSectionConfig } from '../../../utils/config'
 import { getNavId, parseData } from '../../../utils/parser'
 import {
-  getDefaultSectionData,
   getUpdatedBlocksData,
   getUpdatedFieldsData,
   sortListByList,
@@ -19,19 +14,12 @@ import { saveSection } from '../../actions/SectionsAction'
 import { showToastMessage } from '../../../ui/Toast'
 import MetaEdit from './MetaEdit'
 import MetaPreview from './MetaPreview'
-import SortableList from '../../../ui/SortableList'
 import TagsEdit from './TagsEdit'
-import {
-  Data,
-  EditorNav,
-  Section,
-  SectionConfig,
-  SortableListItem,
-  SortableListMenuItem,
-} from '../../../types'
+import { Data, EditorNav, Section, SortableListItem } from '../../../types'
 import FieldsEdit from './FieldsEdit'
 import ActionBar from './ActionBar'
 import BlocksList from './BlocksList'
+import SectionList from './SectionList'
 
 const Editor = ({
   storedData,
@@ -50,9 +38,6 @@ const Editor = ({
   const localeParam = locale ? `?locale=${locale}` : ''
   const sectionConfig = getSectionConfig(name)
   const parsedData = parseData(storedData, name)
-  const parsedSectionList =
-    // @ts-ignore
-    sectionConfig.limit > 1 ? getSectionListData(parsedData.data) : []
 
   const [nav, setNav] = useState<EditorNav>({
     hasSections: sectionConfig.limit > 1,
@@ -63,14 +48,6 @@ const Editor = ({
 
   const [metaSubmit, setMetaSubmit] = useState(false)
   const [fieldsSubmit, setFieldsSubmit] = useState(false)
-
-  const [sectionList, setSectionList] = useState(parsedSectionList)
-  const sectionListMenu = Array.isArray(sectionConfig.sections)
-    ? sectionConfig.sections.map((item: SectionConfig) => ({
-        name: item.name,
-        label: item.label,
-      }))
-    : []
 
   const [data, setData] = useState<any>(parsedData)
   const [saving, setSaving] = useState(false)
@@ -157,24 +134,20 @@ const Editor = ({
     const newData = { ...data, data: newSections }
 
     setData(newData)
-    setSectionList([...list])
   }
 
-  const handleSectionItemAdd = (item: SortableListMenuItem) => {
-    const config = findMatchingConfig(item.name, sectionConfig.sections)
-    if (config) {
-      const newItem = getDefaultSectionData(config)
-      const newSections = [...data.data, newItem]
-      const newData = { ...data, data: newSections }
-      const newSectionList = getSectionListData(newSections)
-
-      setData(newData)
-      setSectionList(newSectionList)
-    }
+  const handleSectionItemAdd = (newSections: Data[]) => {
+    const newData = { ...data, data: newSections }
+    setData(newData)
   }
 
   const handleSectionItemSelected = (item: SortableListItem) => {
-    setNav({ ...nav, meta: false, section: item.id, blocks: [] })
+    setNav({
+      ...nav,
+      meta: false,
+      section: { id: item.id, label: item.label },
+      blocks: [],
+    })
   }
 
   const handleBlocksListUpdate = (list: SortableListItem[], values: Data) => {
@@ -201,7 +174,7 @@ const Editor = ({
   }
 
   const handleBlocksItemSelected = (item: SortableListItem) => {
-    const newBlocks = [...nav.blocks, item.id]
+    const newBlocks = [...nav.blocks, { id: item.id, label: item.label }]
     setNav({ ...nav, meta: false, blocks: newBlocks })
   }
 
@@ -224,10 +197,11 @@ const Editor = ({
           <TagsEdit tags={data.tags} handleUpdateTags={handleUpdateTags} />
         )}
         {showSectionList() && (
-          <SortableList
-            title="Sections"
-            list={sectionList}
-            menu={sectionListMenu}
+          <SectionList
+            key={`sections-${getNavId(nav)}`}
+            data={data.data}
+            config={sectionConfig}
+            nav={nav}
             handleListUpdate={handleSectionListUpdate}
             handleItemAdd={handleSectionItemAdd}
             handleItemSelected={handleSectionItemSelected}

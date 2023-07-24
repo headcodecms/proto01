@@ -74,10 +74,12 @@ const parseSectionData = (data: Section, config: SectionTypeConfig) => {
 export const parseFields = (fields: any, fieldsConfig: SectionFields) => {
   const obj: any = {}
   for (const [key, value] of Object.entries(fieldsConfig)) {
-    // TODO: validate that fields[key] is correct type and has all props - e.g., img
-    obj[key] = fields.hasOwnProperty(key)
-      ? fields[key]
-      : value.type.defaultValue
+    // TODO: validate that fields[key] has all props - e.g., img
+    obj[key] =
+      fields.hasOwnProperty(key) &&
+      typeof fields[key] === typeof value.type.defaultValue
+        ? fields[key]
+        : value.type.defaultValue
   }
 
   return obj
@@ -114,5 +116,11 @@ const getValue = (data: any, key: string, defaultValue: any) => {
   return defaultValue
 }
 
-export const getNavId = (nav: EditorNav) =>
-  nav.blocks.length === 0 ? nav.section : nav.blocks[nav.blocks.length - 1]
+export const getNavId = (nav: EditorNav) => {
+  if (!nav.section) return null
+  if (nav.blocks.length === 0) {
+    return nav.section.id
+  }
+
+  return nav.blocks[nav.blocks.length - 1].id
+}
