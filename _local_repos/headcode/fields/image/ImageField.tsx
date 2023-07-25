@@ -2,7 +2,7 @@
 
 import { useField } from 'formik'
 import { FormEvent, useRef, useState } from 'react'
-import { FieldType, ImageValue } from '../../types'
+import { FieldType, ImageData, ImageValue } from '../../types'
 import { showToastMessage } from '../../ui/Toast'
 import CurrentImage from './CurrentImage'
 import EmptyImage from './EmptyImage'
@@ -38,8 +38,16 @@ const render = ({ label, name, ...props }: { label: string; name: string }) => {
     }
   }
 
-  const handleSelectFromLibrary = () => {
-    console.log('select from library')
+  const handleSelectFromLibrary = (item: ImageData) => {
+    if (item.width > 0 && item.height > 0) {
+      const newFieldValue = {
+        ...item,
+        alt: altField.value,
+      }
+      helpers.setValue(newFieldValue)
+      setFile(null)
+      setPreviewValue(null)
+    }
   }
 
   const handleFileChange = (e: FormEvent<HTMLInputElement>) => {
@@ -148,10 +156,10 @@ const render = ({ label, name, ...props }: { label: string; name: string }) => {
               handleCancelUpload={handleCancelUpload}
             />
           ) : (
-            <EmptyImage
-              handleSelectFile={handleSelectFile}
-              handleSelectFromLibrary={handleSelectFromLibrary}
-            />
+              <EmptyImage
+                handleSelectFile={handleSelectFile}
+                handleSelectFromLibrary={handleSelectFromLibrary}
+              />
           )}
         </>
       )}

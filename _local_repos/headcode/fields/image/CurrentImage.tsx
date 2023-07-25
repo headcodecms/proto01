@@ -1,7 +1,8 @@
-import { FieldInputProps } from "formik"
-import Image from "next/image"
-import ImageDetails from "./ImageDetails"
-import { SecondaryButton } from "../../ui/Buttons"
+import { FieldInputProps } from 'formik'
+import Image from 'next/image'
+import ImageDetails from './ImageDetails'
+import { SecondaryButton } from '../../ui/Buttons'
+import StorageService from '../../services/StorageService'
 
 const CurrentImage = ({
   field,
@@ -19,14 +20,10 @@ const CurrentImage = ({
       <div className="shrink-0">
         <Image
           className="h-40 w-40 rounded border border-gray-300 object-cover object-center"
-          src={
-            'https://www.salzburg.gv.at/Style%20Library/icospcms/g/logo-sbg.png'
-          }
+          src={StorageService.getPublicUrl(field.value.url)}
           alt={field.value.alt}
           width={field.value.width}
           height={field.value.height}
-          placeholder={field.value.blurDataURL ? 'blur' : 'empty'}
-          blurDataURL={field.value.blurDataURL ?? ''}
         />
       </div>
       <div className="w-full shrink truncate p-1">

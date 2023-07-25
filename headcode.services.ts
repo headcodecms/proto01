@@ -1,5 +1,7 @@
 import { ServicesConfig } from "./_local_repos/headcode/types"
 
+// optional when .env variables available 
+
 const config: ServicesConfig = {
   supabase: {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL!,

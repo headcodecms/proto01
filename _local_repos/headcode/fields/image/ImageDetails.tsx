@@ -1,5 +1,6 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'
 import { supportedFileTypes } from './ImageField'
+import StorageService from '../../services/StorageService'
 
 const displayFormat = (format: string | null) => {
   if (!format) return ''
@@ -16,15 +17,21 @@ const displayCompact = (number: number) => {
 }
 
 const ImageDetails = ({ imageValue, altField, props }: any) => {
+  const handleCopyToClipboard = () => {
+    if (imageValue.url && 'clipboard' in navigator) {
+      navigator.clipboard.writeText(StorageService.getPublicUrl(imageValue.url))
+    }
+  }
+
   return (
     <>
       <div className="text-sm">{imageValue.name}</div>
       <div className="flex items-center space-x-2">
         <span className="truncate text-xs text-gray-400">
-          {imageValue.url ?? 'https://...'}
+          {imageValue.url ?? ''}
         </span>
         {imageValue.url && (
-          <button type="button" onClick={(e) => console.log('copy clicked')}>
+          <button type="button" onClick={handleCopyToClipboard}>
             <DocumentDuplicateIcon className="h-4 w-4 text-gray-400 hover:text-gray-500" />
           </button>
         )}
