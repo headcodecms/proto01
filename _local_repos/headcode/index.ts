@@ -9,6 +9,8 @@ import ImageField from './fields/image/ImageField'
 
 import ImgPlaceholder from './fields/placeholder/placeholder.jpg'
 
+import MediaPage from './admin/MediaPage'
+
 import SetupLayout from './admin/SetupLayout'
 import SetupPage from './admin/SetupPage'
 
@@ -32,6 +34,7 @@ export {
   RichTextField,
   ImageField,
   ImgPlaceholder,
+  MediaPage,
   SetupLayout,
   SetupPage,
   LoginLayout,

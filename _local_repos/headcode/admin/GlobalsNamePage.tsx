@@ -12,7 +12,7 @@ const GlobalsNamePage = async ({
 }) => {
   const { name } = params
   const locale = searchParams.locale
-  const localeParam = locale ? `?locale=${locale}` : ''
+  const backLink = '/headcode/admin/globals'
 
   const data = await DBService.getSection(name, undefined, locale)
   if (!data) {
@@ -24,7 +24,7 @@ const GlobalsNamePage = async ({
       <div className="px-4 pb-8 sm:px-6 lg:px-8">
         <div>
           <Link
-            href="/headcode/admin/globals"
+            href={backLink}
             className="text-sm text-gray-400 hover:text-gray-500"
           >
             Globals
@@ -47,6 +47,7 @@ const GlobalsNamePage = async ({
         }
         name={name}
         locale={locale}
+        backLink={backLink}
       />
     </>
   )

@@ -12,6 +12,7 @@ const CollectionNameSlugPage = async ({
   const { name, slug } = params
   const locale = searchParams.locale
   const localeParam = locale ? `?locale=${locale}` : ''
+  const backLink = `/headcode/admin/collections/${name}${localeParam}`
 
   const data = await DBService.getSection(name, slug, locale)
   if (data?.length !== 1) {
@@ -32,7 +33,7 @@ const CollectionNameSlugPage = async ({
           </Link>
           <span className="px-2 text-sm text-gray-400">/</span>
           <Link
-            href={`/headcode/admin/collections/${name}${localeParam}`}
+            href={backLink}
             className="text-sm text-gray-400 hover:text-gray-500"
           >
             {name}
@@ -52,7 +53,7 @@ const CollectionNameSlugPage = async ({
         name={name}
         slug={slug}
         locale={locale}
-        hasDelete={true}
+        backLink={backLink}
       />
     </>
   )

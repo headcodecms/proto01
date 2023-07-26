@@ -7,6 +7,8 @@ import AdminLayout from './admin/AdminLayout'
 import DashboardLayout from './admin/DashboardLayout'
 import DashboardPage from './admin/DashboardPage'
 
+import MediaLayout from './admin/MediaLayout'
+
 import UsersLayout from './admin/UsersLayout'
 import UsersPage from './admin/UsersPage'
 
@@ -23,6 +25,7 @@ export {
   AdminLayout,
   DashboardLayout,
   DashboardPage,
+  MediaLayout,
   UsersLayout,
   UsersPage,
   GlobalsPage,

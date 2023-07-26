@@ -120,8 +120,6 @@ const render = ({ label, name, ...props }: { label: string; name: string }) => {
     helpers.setValue(ImageField.defaultValue, false)
   }
 
-  console.log('image field', field, altField, previewImgSrc, previewValue)
-
   if (!field || !altField) {
     return null
   }

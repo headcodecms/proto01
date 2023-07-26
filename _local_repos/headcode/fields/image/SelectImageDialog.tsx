@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { SecondaryButton } from '../../ui/Buttons'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import MediaLibrary from './MediaLibrary'
+import MediaLibrary from '../../admin/components/MediaLibrary'
 
 const SelectImageDialog = ({
   show,

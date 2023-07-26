@@ -4,7 +4,12 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { FormikProvider, useFormik } from 'formik'
 import { useEffect } from 'react'
 
-const MetaEdit = ({ values, handleMetaSubmit, metaSubmit }: any) => {
+const MetaEdit = ({
+  values,
+  handleMetaSubmit,
+  metaSubmit,
+  updateDirty,
+}: any) => {
   const formik = useFormik({
     initialValues: values,
     onSubmit: handleMetaSubmit,
@@ -15,6 +20,10 @@ const MetaEdit = ({ values, handleMetaSubmit, metaSubmit }: any) => {
       formik.handleSubmit()
     }
   }, [metaSubmit])
+
+  useEffect(() => {
+    updateDirty(formik.dirty)
+  }, [formik])
 
   return (
     <FormikProvider value={formik}>

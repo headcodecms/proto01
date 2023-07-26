@@ -1,4 +1,4 @@
-import { Data, EditorNav, SectionTypeConfig } from '../../../types'
+import { Data, EditorNav, SectionTypeConfig, SortableListItem } from '../../../types'
 import Banner from '../../../ui/Banner'
 import { findData } from '../../../utils/data'
 import { findMatchingConfig } from '../../../utils/config'
@@ -12,13 +12,17 @@ const FieldsEdit = ({
   config,
   nav,
   fieldsSubmit,
+  fieldsUpdate,
   handleFieldsSubmit,
+  updateDirty,
 }: {
   data: Data[]
   config: SectionTypeConfig
   nav: EditorNav
   fieldsSubmit: boolean
+  fieldsUpdate: SortableListItem | null
   handleFieldsSubmit: any
+  updateDirty: any
 }) => {
   // TODO: Improve error handling, TypeScript support
   const id = getNavId(nav)
@@ -32,10 +36,14 @@ const FieldsEdit = ({
   })
 
   useEffect(() => {
-    if (fieldsSubmit) {
+    if (fieldsSubmit || fieldsUpdate) {
       formik.handleSubmit()
     }
-  }, [fieldsSubmit])
+  }, [fieldsSubmit, fieldsUpdate])
+
+  useEffect(() => {
+    updateDirty(formik.dirty)
+  }, [formik])
 
   const showBack = () => {
     return nav.hasSections || nav.blocks.length > 0
@@ -90,16 +98,12 @@ const NavBreadcrumbs = ({ nav }: { nav: EditorNav }) => {
 
   return (
     <div className="-mb-2">
-      <span className="text-xs text-gray-400">
-        {nav.section?.label}
-      </span>
+      <span className="text-xs text-gray-400">{nav.section?.label}</span>
       {nav.blocks.map((item, index) =>
         index < nav.blocks.length - 1 ? (
           <span key={index}>
             <span className="px-1 text-xs text-gray-400">/</span>
-            <span className="text-xs text-gray-400">
-              {item.label}
-            </span>
+            <span className="text-xs text-gray-400">{item.label}</span>
           </span>
         ) : null
       )}

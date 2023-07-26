@@ -26,7 +26,7 @@ export const navigation = [
     href: '/headcode/admin/collections',
     icon: Square2StackIcon,
   },
-  { name: 'Media', href: '#', icon: PhotoIcon },
+  { name: 'Media', href: '/headcode/admin/media', icon: PhotoIcon },
   { name: 'Users', href: '/headcode/admin/users', icon: UsersIcon },
 ]
 
@@ -44,7 +44,7 @@ const Nav = ({ small }: { small: boolean }) => {
             pathname.startsWith(item.href)
               ? 'bg-gray-100 text-gray-900'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-            'group flex items-center px-2 py-2 font-medium rounded-md'
+            'group flex items-center rounded-md px-2 py-2 font-medium'
           )}
         >
           <item.icon
@@ -52,7 +52,7 @@ const Nav = ({ small }: { small: boolean }) => {
               pathname.startsWith(item.href)
                 ? 'text-gray-500'
                 : 'text-gray-400 group-hover:text-gray-500',
-              'mr-3 flex-shrink-0 h-6 w-6'
+              'mr-3 h-6 w-6 flex-shrink-0'
             )}
             aria-hidden="true"
           />

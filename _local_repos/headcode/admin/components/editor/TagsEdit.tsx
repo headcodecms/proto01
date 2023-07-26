@@ -23,7 +23,7 @@ const TagsEdit = ({
   }
 
   return (
-    <div className="mt-8">
+    <div>
       <h3 className="pb-2 text-lg font-semibold text-gray-900">Tags</h3>
       <form className="mt-1 flex max-w-xl items-center">
         <input

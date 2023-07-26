@@ -12,7 +12,7 @@ export const getDefaultSectionData = (config: SectionBase) => ({
 
 export const getDefaultBlockData = (name: string, config: SectionBase) => {
   if (Array.isArray(config.blocks)) {
-    const blockConfig = config.blocks.find(item => item.name === name)
+    const blockConfig = config.blocks.find((item) => item.name === name)
     if (blockConfig) {
       console.log('getDefaultBlockData', name, blockConfig)
       return {
@@ -43,6 +43,17 @@ export const findData = (list: Data[], id: string | null): Data | null => {
     }
   }
   return null
+}
+
+export const removeFromData = (list: Data[], id: string): Data[] => {
+  const filtered = list.filter((item) => item.id !== id)
+  return filtered.map((item) => {
+    if (!Array.isArray(item.blocks)) {
+      return item
+    }
+
+    return { ...item, blocks: removeFromData(item.blocks, id) }
+  })
 }
 
 export const getUpdatedFieldsData = (

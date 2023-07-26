@@ -54,7 +54,7 @@ const SectionList = ({
 
   return (
     <SortableList
-      title="Blocks"
+      title="Sections"
       list={sectionList}
       menu={sectionListMenu}
       handleListUpdate={handleSectionListUpdate}
