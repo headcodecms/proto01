@@ -21,7 +21,6 @@ import FieldsEdit from './FieldsEdit'
 import ActionBar from './ActionBar'
 import BlocksList from './BlocksList'
 import SectionList from './SectionList'
-import deepEqual from 'deep-equal'
 
 const Editor = ({
   storedData,
@@ -67,7 +66,7 @@ const Editor = ({
   const [fieldsDirty, setFieldsDirty] = useState<boolean>(false)
 
   useEffect(() => {
-    const equal = deepEqual(parsedData, data)
+    const equal = JSON.stringify(parsedData) === JSON.stringify(data)
     setDataDirty(!equal)
   }, [data])
 
