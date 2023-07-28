@@ -3,11 +3,11 @@ import ImageDetails from './ImageDetails'
 import { SecondaryButton } from '../../ui/Buttons'
 
 const PreviewImage = ({
+  name,
+  form,
   previewImgRef,
   previewImgSrc,
   previewValue,
-  altField,
-  props,
   handlePreviewFileLoad,
   handleCancelUpload,
 }: any) => {
@@ -27,8 +27,8 @@ const PreviewImage = ({
           <>
             <ImageDetails
               imageValue={previewValue}
-              altField={altField}
-              props={props}
+              name={name}
+              form={form}
             />
             <div className="mt-3 flex items-center justify-between">
               <DotPulse size={32} color="#6b7280" />

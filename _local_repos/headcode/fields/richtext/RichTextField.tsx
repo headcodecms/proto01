@@ -1,14 +1,21 @@
 'use client'
 
-import { useField } from 'formik'
 import { FieldType, TextValue } from '../../types'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import RichTextMenuBar from './RichTextMenuBar'
 
-const render = ({ label, name, ...props }: { label: string; name: string }) => {
-  const [field, meta, helpers] = useField({ ...props, name })
+const render = ({
+  form,
+  label,
+  name,
+  ...props
+}: {
+  form: any
+  label: string
+  name: string
+}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -16,7 +23,7 @@ const render = ({ label, name, ...props }: { label: string; name: string }) => {
         openOnClick: false,
       }),
     ],
-    content: field.value,
+    content: form.getValues(name),
     editorProps: {
       attributes: {
         class:
@@ -24,7 +31,7 @@ const render = ({ label, name, ...props }: { label: string; name: string }) => {
       },
     },
     onUpdate({ editor }) {
-      helpers.setValue(editor.getHTML())
+      form.setValue(name, editor.getHTML())
     },
   })
 

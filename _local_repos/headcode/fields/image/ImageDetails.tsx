@@ -1,6 +1,7 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'
 import { supportedFileTypes } from './ImageField'
 import StorageService from '../../services/StorageService'
+import { useState } from 'react'
 
 const displayFormat = (format: string | null) => {
   if (!format) return ''
@@ -16,11 +17,20 @@ const displayCompact = (number: number) => {
   return formatter.format(number)
 }
 
-const ImageDetails = ({ imageValue, altField, props }: any) => {
+const ImageDetails = ({ imageValue, name, form }: any) => {
+  const [alt, setAlt] = useState<string>(form.getValues(`${name}.alt`))
+
   const handleCopyToClipboard = () => {
     if (imageValue.url && 'clipboard' in navigator) {
       navigator.clipboard.writeText(StorageService.getPublicUrl(imageValue.url))
     }
+  }
+
+  const handleAltChanged = (e: any) => {
+    const newAlt = e.currentTarget.value
+    const value = form.getValues(name)
+    form.setValue(name, { ...value, alt: newAlt })
+    setAlt(newAlt)
   }
 
   return (
@@ -40,8 +50,8 @@ const ImageDetails = ({ imageValue, altField, props }: any) => {
         type="text"
         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         placeholder="ALT text"
-        {...altField}
-        {...props}
+        value={alt}
+        onChange={handleAltChanged}
       />
       <p className="mt-1 divide-x divide-solid divide-gray-300 text-xs text-gray-400">
         <span className="pr-1">{displayFormat(imageValue.format)}</span>

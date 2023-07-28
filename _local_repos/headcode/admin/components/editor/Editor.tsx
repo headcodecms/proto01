@@ -125,12 +125,13 @@ const Editor = ({
     return null
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (nav.meta) {
       setMetaSubmit(true)
-    }
-    if (nav.section) {
+    } else if (nav.section) {
       setFieldsSubmit(true)
+    } else {
+      await saveData(data)
     }
   }
 

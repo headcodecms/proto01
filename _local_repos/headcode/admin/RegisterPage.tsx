@@ -1,34 +1,39 @@
 'use client'
 
-import { useFormik } from 'formik'
-import config from '@/headcode.config'
 import Banner from '../ui/Banner'
 import Input from '../ui/Input'
 import { PrimaryButton } from '../ui/Buttons'
 import Link from 'next/link'
 import { useState } from 'react'
 import AuthService from '../services/AuthService'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { AuthUser } from '../types'
 
 const RegisterPage = () => {
-  const [success, setSuccess] = useState(false)
-  const formik = useFormik({
-    initialValues: {
+  const [success, setSuccess] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const { register, handleSubmit } = useForm<AuthUser>({
+    defaultValues: {
       email: '',
       password: '',
     },
-    onSubmit: async (values, formikHelper) => {
-      formikHelper.setStatus(null)
-
-      const error = await AuthService.signUp(values.email, values.password)
-
-      if (error) {
-        formikHelper.setStatus(error)
-      } else {
-        setSuccess(true)
-      }
-    },
   })
-  
+
+  const handleRegister: SubmitHandler<AuthUser> = async (data) => {
+    setError(null)
+    setLoading(true)
+
+    const newError = await AuthService.signUp(data.email, data.password)
+
+    if (newError) {
+      setError(newError)
+      setLoading(false)
+    } else {
+      setSuccess(data.email)
+    }
+  }
+
   return (
     <>
       <h2 className="my-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -37,42 +42,21 @@ const RegisterPage = () => {
       {success ? (
         <Banner size="sm">
           Please close this browser window. Finish the registration and confirm
-          the email sent to {formik.values.email}.
+          the email sent to {success}.
         </Banner>
       ) : (
-        <form onSubmit={formik.handleSubmit} method="POST">
-          {formik.status && (
+        <form onSubmit={handleSubmit(handleRegister)}>
+          {error && (
             <Banner error={true} size="xs">
-              {formik.status}
+              {error}
             </Banner>
           )}
           <div className="my-9 space-y-3">
-            <Input
-              name="email"
-              label="Email address"
-              type="email"
-              autoComplete="email"
-              autoFocus
-              required
-              onChange={formik.handleChange}
-              value={formik.values.email}
-            />
-            <Input
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              required
-              onChange={formik.handleChange}
-              value={formik.values.password}
-            />
+            <Input label="Email address" type="email" {...register('email')} />
+            <Input label="Password" type="password" {...register('password')} />
           </div>
           <div>
-            <PrimaryButton
-              loading={formik.isSubmitting}
-              className="w-full"
-              type="Register"
-            >
+            <PrimaryButton loading={loading} className="w-full" type="Register">
               Sign In
             </PrimaryButton>
           </div>

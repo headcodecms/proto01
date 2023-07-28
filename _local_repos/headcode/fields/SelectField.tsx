@@ -1,29 +1,28 @@
 'use client'
 
-import { useField } from 'formik'
-import { FieldType, TextValue } from '../types'
 import { useEffect } from 'react'
+import { FieldType, TextValue } from '../types'
 
 const render = ({
+  form,
   label,
   name,
   ...props
 }: {
+  form: any
   label: string
   name: string
   options: { label: string; value: string }[]
   defaultValue?: string
 }) => {
   const { options, defaultValue, ...rest } = props
-  const [field, meta, helpers] = useField({ ...rest, name })
-  const { value } = meta
-  const { setValue } = helpers
 
   useEffect(() => {
+    const value = form.getValues(name)
     if (defaultValue && value === SelectField.defaultValue) {
-      setValue(defaultValue)
+      form.setValue(name, defaultValue)
     }
-  }, [value])
+  }, [form])
 
   return (
     <label htmlFor={name} className="block text-sm font-medium text-gray-700">
@@ -32,7 +31,7 @@ const render = ({
         <select
           id={name}
           className="mt-1 block w-full max-w-xl rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm"
-          {...field}
+          {...form.register(name)}
           {...rest}
         >
           {options.map((item, index) => (
@@ -42,9 +41,6 @@ const render = ({
           ))}
         </select>
       </div>
-      {meta.touched && meta.error ? (
-        <div className="text-red-600">{meta.error}</div>
-      ) : null}
     </label>
   )
 }

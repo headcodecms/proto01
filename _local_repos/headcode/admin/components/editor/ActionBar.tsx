@@ -1,7 +1,7 @@
 import {
-  DangerButton,
   PrimaryButton,
   SecondaryButton,
+  SecondaryDangerButton,
 } from '../../../ui/Buttons'
 
 const ActionBar = ({
@@ -16,7 +16,9 @@ const ActionBar = ({
     <div className="sticky bottom-0 mt-12 flex justify-between border-t border-gray-200 bg-white px-6 py-5 pl-4 lg:px-8">
       <div>
         {deleteTitle && (
-          <DangerButton onClick={handleDelete}>{deleteTitle}</DangerButton>
+          <SecondaryDangerButton onClick={handleDelete}>
+            {deleteTitle}
+          </SecondaryDangerButton>
         )}
       </div>
       <div className="space-x-3">

@@ -1,37 +1,40 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useFormik } from 'formik'
 import Banner from '../ui/Banner'
 import Input from '../ui/Input'
 import Link from 'next/link'
 import { PrimaryButton } from '../ui/Buttons'
 import { useState } from 'react'
 import AuthService from '../services/AuthService'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { AuthUser } from '../types'
 
 const LoginPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-  const formik = useFormik({
-    initialValues: {
+  const [error, setError] = useState<string | null>(null)
+  const { register, handleSubmit } = useForm<AuthUser>({
+    defaultValues: {
       email: '',
       password: '',
     },
-    onSubmit: async (values, formikHelper) => {
-      formikHelper.setStatus(null)
-      setLoading(true)
-
-      const error = await AuthService.signIn(values.email, values.password)
-
-      formikHelper.setStatus(error)
-      if (!error) {
-        router.push('/headcode/admin')
-        router.refresh()
-      } else {
-        setLoading(false)
-      }
-    },
   })
+
+  const handleLogin: SubmitHandler<AuthUser> = async (data) => {
+    setError(null)
+    setLoading(true)
+
+    const newError = await AuthService.signIn(data.email, data.password)
+
+    if (!newError) {
+      router.push('/headcode/admin')
+      router.refresh()
+    } else {
+      setError(newError)
+      setLoading(false)
+    }
+  }
 
   const handleForgotPassword = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
@@ -43,39 +46,18 @@ const LoginPage = () => {
       <h2 className="my-6 text-center text-3xl font-bold tracking-tight text-gray-900">
         Sign in to your account
       </h2>
-      <form onSubmit={formik.handleSubmit} method="POST">
-        {formik.status && (
+      <form onSubmit={handleSubmit(handleLogin)}>
+        {error && (
           <Banner error={true} size="xs">
-            {formik.status}
+            {error}
           </Banner>
         )}
         <div className="my-9 space-y-3">
-          <Input
-            name="email"
-            label="Email address"
-            type="email"
-            autoComplete="email"
-            autoFocus
-            required
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          <Input
-            name="password"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            required
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
+          <Input label="Email address" type="email" {...register('email')} />
+          <Input label="Password" type="password" {...register('password')} />
         </div>
         <div>
-          <PrimaryButton
-            loading={loading}
-            className="w-full"
-            type="submit"
-          >
+          <PrimaryButton loading={loading} className="w-full" type="submit">
             Sign In
           </PrimaryButton>
         </div>

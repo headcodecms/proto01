@@ -212,3 +212,8 @@ export type EditorNav = {
   section: NavItem | null
   blocks: NavItem[]
 }
+
+export type AuthUser = {
+  email: string
+  password: string
+}

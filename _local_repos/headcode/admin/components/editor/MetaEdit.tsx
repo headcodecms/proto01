@@ -1,8 +1,8 @@
 import TextField from '../../../fields/TextField'
 import TextAreaField from '../../../fields/TextAreaField'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
-import { FormikProvider, useFormik } from 'formik'
 import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
 const MetaEdit = ({
   values,
@@ -10,24 +10,18 @@ const MetaEdit = ({
   metaSubmit,
   updateDirty,
 }: any) => {
-  const formik = useFormik({
-    initialValues: values,
-    onSubmit: handleMetaSubmit,
+  const form = useForm<any>({
+    defaultValues: values,
   })
 
   useEffect(() => {
     if (metaSubmit) {
-      formik.handleSubmit()
+      handleMetaSubmit(form.getValues())
     }
   }, [metaSubmit])
 
-  useEffect(() => {
-    updateDirty(formik.dirty)
-  }, [formik])
-
   return (
-    <FormikProvider value={formik}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={form.handleSubmit(handleMetaSubmit)}>
         <div className="mb-4 flex items-center space-x-2">
           <button type="submit">
             <ArrowLeftIcon className="h-8 w-8 rounded-md bg-gray-200 p-1.5 text-white hover:bg-gray-300" />
@@ -36,14 +30,13 @@ const MetaEdit = ({
         </div>
         <div className="space-y-4">
           <div>
-            <TextField.render label="Title" name="title" />
+            <TextField.render form={form} label="Title" name="title" />
           </div>
           <div>
-            <TextAreaField.render label="Description" name="description" />
+            <TextAreaField.render form={form} label="Description" name="description" />
           </div>
         </div>
       </form>
-    </FormikProvider>
   )
 }
 
