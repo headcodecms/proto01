@@ -1,3 +1,3 @@
-import SupabaseAuthCallback from "./supabase/SupabaseAuthCallback";
+import SupabaseAuthCallback from "./supabase-old/SupabaseAuthCallback";
 
 export default SupabaseAuthCallback

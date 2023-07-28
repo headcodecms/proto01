@@ -1,3 +1,3 @@
-import SupabaseDB from "./supabase/SupabaseDB";
+import SupabaseDB from "./supabase-old/SupabaseDB";
 
 export default SupabaseDB
