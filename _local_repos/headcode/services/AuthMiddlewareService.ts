@@ -1,3 +1,3 @@
-import SupabaseAuthMiddleware from "./supabase-old/SupabaseAuthMiddleware";
+import SupabaseAuthMiddleware from "./supabase/SupabaseAuthMiddleware";
 
 export default SupabaseAuthMiddleware

@@ -1,3 +1,3 @@
-import SupabaseStorage from "./supabase-old/SupabaseStorage";
+import SupabaseStorage from "./supabase/SupabaseStorage";
 
 export default SupabaseStorage

@@ -1,3 +1,3 @@
-import SupabaseAuth from './supabase-old/SupabaseAuth'
+import SupabaseAuth from './supabase/SupabaseAuth'
 
 export default SupabaseAuth
