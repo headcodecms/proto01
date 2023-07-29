@@ -1,7 +1,7 @@
 'use client'
 
 import { FormEvent, useRef, useState } from 'react'
-import { FieldType, ImageData, ImageValue } from '../../types'
+import { FieldComponent, FieldType, ImageData, ImageValue } from '../../types'
 import { showToastMessage } from '../../ui/Toast'
 import CurrentImage from './CurrentImage'
 import EmptyImage from './EmptyImage'
@@ -18,15 +18,7 @@ export const supportedFileTypes = {
 
 type PreviewValue = typeof ImageField.defaultValue | null
 
-const render = ({
-  form,
-  label,
-  name,
-}: {
-  form: any
-  label: string
-  name: string
-}) => {
+const render = ({ form, label, name }: FieldComponent) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const previewImgRef = useRef<HTMLImageElement>(null)
@@ -172,7 +164,7 @@ const FileInput = ({ fileInputRef, handleFileChange }: any) => (
   />
 )
 
-const ImageField: FieldType<ImageValue> = {
+const ImageField: FieldType<ImageValue, FieldComponent> = {
   render,
   defaultValue: {
     name: null,

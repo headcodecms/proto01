@@ -39,13 +39,23 @@ export const PrimaryButton = ({
   </button>
 )
 
-export const SecondaryButton = ({ className, children, ...props }: any) => (
+export const SecondaryButton = ({ loading, className, children, ...props }: any) => (
   <button
+    disabled={loading}
     type="button"
     className={clsx(className, secondaryClassName)}
     {...props}
   >
-    {children}
+    {loading ? (
+      <>
+        <div className="absolute">
+          <DotPulse size={32} color="white" />
+        </div>
+        <span className="opacity-0">{children}</span>
+      </>
+    ) : (
+      children
+    )}
   </button>
 )
 

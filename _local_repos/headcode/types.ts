@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image'
 import { NextRequest, NextResponse } from 'next/server'
+import { UseFormReturn } from 'react-hook-form'
 
 // Types for headcode.config.ts
 
@@ -45,7 +46,7 @@ type SectionFieldOption = {
 
 type SectionField = {
   label: string
-  type: FieldType<FieldValue>
+  type: FieldType<FieldValue, FieldComponent>
   defaultValue?: string
   options?: SectionFieldOption[]
 }
@@ -171,8 +172,18 @@ export type FieldValue =
   | ImageValue
   | CheckboxValue
   | SelectValue
-export type FieldType<FieldValue> = {
-  render: any
+
+export type FieldComponent = {
+  form: UseFormReturn<any, any, undefined>
+  label: string
+  name: string
+}
+export type SelectFieldComponent = FieldComponent & {
+  options: { label: string; value: string }[]
+  defaultValue?: string
+}
+export type FieldType<FieldValue, TRender extends FieldComponent> = {
+  render(props: TRender): JSX.Element
   defaultValue: FieldValue
 }
 

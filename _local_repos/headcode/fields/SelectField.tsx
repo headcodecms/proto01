@@ -1,22 +1,15 @@
 'use client'
 
 import { useEffect } from 'react'
-import { FieldType, TextValue } from '../types'
+import { FieldType, SelectFieldComponent, TextValue } from '../types'
 
 const render = ({
   form,
   label,
   name,
-  ...props
-}: {
-  form: any
-  label: string
-  name: string
-  options: { label: string; value: string }[]
-  defaultValue?: string
-}) => {
-  const { options, defaultValue, ...rest } = props
-
+  options,
+  defaultValue,
+}: SelectFieldComponent) => {
   useEffect(() => {
     const value = form.getValues(name)
     if (defaultValue && value === SelectField.defaultValue) {
@@ -32,7 +25,6 @@ const render = ({
           id={name}
           className="mt-1 block w-full max-w-xl rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm"
           {...form.register(name)}
-          {...rest}
         >
           {options.map((item, index) => (
             <option key={index} value={item.value}>
@@ -45,7 +37,7 @@ const render = ({
   )
 }
 
-const SelectField: FieldType<TextValue> = {
+const SelectField: FieldType<TextValue, SelectFieldComponent> = {
   render,
   defaultValue: '',
 }

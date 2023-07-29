@@ -1,21 +1,12 @@
 'use client'
 
-import { FieldType, TextValue } from '../../types'
+import { FieldComponent, FieldType, TextValue } from '../../types'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import RichTextMenuBar from './RichTextMenuBar'
 
-const render = ({
-  form,
-  label,
-  name,
-  ...props
-}: {
-  form: any
-  label: string
-  name: string
-}) => {
+const render = ({ form, label, name }: FieldComponent) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -48,7 +39,7 @@ const render = ({
   )
 }
 
-const RichTextField: FieldType<TextValue> = {
+const RichTextField: FieldType<TextValue, FieldComponent> = {
   render,
   defaultValue: '',
 }
