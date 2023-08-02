@@ -41,9 +41,8 @@ const parseSectionConfigs = (configs: SectionTypeConfig[] | undefined) => {
     const locales = item.locales ?? []
     const metadata = item.metadata ?? false
     const sections = parseSections(item.sections)
-
     const limit = sectionsIsArray ? item.limit ?? Number.MAX_SAFE_INTEGER : 1
-    const renderer = item.renderer ?? 'defaultRenderer'
+    const presets = item.presets ?? (limit === 1 ? sections : [])
 
     return {
       name: item.name,
@@ -51,7 +50,7 @@ const parseSectionConfigs = (configs: SectionTypeConfig[] | undefined) => {
       metadata,
       sections,
       limit,
-      renderer,
+      presets,
     }
   })
 }

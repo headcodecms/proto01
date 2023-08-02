@@ -1,5 +1,6 @@
 import AuthMiddlewareService from './services/AuthMiddlewareService'
 import AuthCallbackService from './services/AuthCallbackService'
+import DBService from './services/DBService'
 
 import ExecuteSetupPage from './admin/ExecuteSetupPage'
 
@@ -18,9 +19,12 @@ import CollectionsPage from './admin/CollectionsPage'
 import CollectionsNamePage from './admin/CollectionsNamePage'
 import CollectionsNameSlugPage from './admin/CollectionsNameSlugPage'
 
+import Section from './render/Section'
+
 export {
   AuthMiddlewareService,
   AuthCallbackService,
+  DBService,
   ExecuteSetupPage,
   AdminLayout,
   DashboardLayout,
@@ -33,4 +37,5 @@ export {
   CollectionsPage,
   CollectionsNamePage,
   CollectionsNameSlugPage,
+  Section,
 }

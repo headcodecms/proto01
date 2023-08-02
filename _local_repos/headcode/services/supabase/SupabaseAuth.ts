@@ -1,12 +1,8 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { AuthInterface, User } from '../../types'
-import services from '@/headcode.services'
 
 const supabaseClient = () =>
-  createClientComponentClient({
-    supabaseUrl: services?.supabase?.url,
-    supabaseKey: services?.supabase?.anon,
-  })
+  createClientComponentClient()
 
 const signIn = async (
   email: string,

@@ -78,7 +78,9 @@ const Editor = ({
     return nav.blocks.length === 0 && !nav.meta
   }
 
-  const isDirty = () => dataDirty || metaDirty || fieldsDirty
+  // TODO: correctly implement dirty
+  // const isDirty = () => dataDirty || metaDirty || fieldsDirty
+  const isDirty = () => true
 
   const showMetaPreview = () => {
     return isRootNav() && sectionConfig.metadata

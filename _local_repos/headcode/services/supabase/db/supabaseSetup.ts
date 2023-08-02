@@ -1,8 +1,8 @@
 import postgres from 'postgres'
 import { SupabaseClient, User } from '@supabase/supabase-js'
 import config from '@/headcode.config'
-import services from '@/headcode.services'
 import { table, cloneTable, TABLES, ROLES } from '../../../utils/db'
+import { STORAGE_BUCKET } from '../SupabaseStorage'
 
 const sqlOptions = {
   idle_timeout: 20,
@@ -33,7 +33,7 @@ export const setup = async (supabase: SupabaseClient<any, 'public', any>) => {
 
   await createTables()
 
-  const bucket = services?.supabase?.storage?.bucket
+  const bucket = STORAGE_BUCKET
   if (bucket) {
     await createStorage(supabase, bucket)
   }
@@ -198,9 +198,10 @@ const createStorage = async (
   const { data: bucketExists } = await supabase.storage.getBucket(bucket)
   if (bucketExists) return
 
-  if (services.supabase?.connectionString) {
+  const supabaseConnectionString = process.env.SUPABASE_CONNECTION_STRING ?? false
+  if (supabaseConnectionString) {
     // @ts-ignore
-    const sql = postgres(services.supabase.connectionString, sqlOptions)
+    const sql = postgres(supabaseConnectionString, sqlOptions)
 
     try {
       await sql`

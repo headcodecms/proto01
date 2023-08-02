@@ -55,7 +55,7 @@ export const addSection = async (
   supabase: SupabaseClient<any, 'public', any>,
   name: string,
   slug: string,
-  locale?: string
+  locale?: string | null
 ) => {
   const { error } = await supabase
     .from(table(TABLES.sections))
@@ -67,8 +67,8 @@ export const addSection = async (
 export const getSection = async (
   supabase: SupabaseClient<any, 'public', any>,
   name: string,
-  slug?: string,
-  locale?: string
+  slug?: string | null,
+  locale?: string | null
 ) => {
   const { data, error } = await querySection(supabase, name, slug, locale)
   if (error) {
@@ -83,9 +83,10 @@ export const getSection = async (
 const querySection = async (
   supabase: SupabaseClient<any, 'public', any>,
   name: string,
-  slug?: string,
-  locale?: string
+  slug?: string | null,
+  locale?: string | null
 ) => {
+  console.log('querySection', name, slug, locale)
   if (slug) {
     return locale
       ? await supabase

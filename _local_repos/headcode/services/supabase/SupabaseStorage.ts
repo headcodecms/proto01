@@ -1,17 +1,16 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { ImageData, StorageInterface } from '../../types'
-import services from '@/headcode.services'
+
+export const STORAGE_BUCKET = 'headcode'
+export const STORAGE_VERSION = 'v1'
 
 const upload = async (
   file: File,
   name: string,
   format: string
 ): Promise<string | null> => {
-  const supabase = createClientComponentClient({
-    supabaseUrl: services?.supabase?.url,
-    supabaseKey: services?.supabase?.anon,
-  })
-  const bucket = services?.supabase?.storage?.bucket
+  const supabase = createClientComponentClient()
+  const bucket = STORAGE_BUCKET
   if (!bucket) return null
 
   const { data, error } = await supabase.storage
@@ -35,9 +34,9 @@ const upload = async (
 }
 
 const getPublicUrl = (path: string): string => {
-  const version = services.supabase?.storage?.version
-  const bucket = services.supabase?.storage?.bucket
-  const url = services.supabase?.url
+  const version = STORAGE_VERSION
+  const bucket = STORAGE_BUCKET
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
   if (path.startsWith('https://') || path.startsWith('http://')) {
     return path
@@ -47,12 +46,8 @@ const getPublicUrl = (path: string): string => {
 }
 
 const list = async (limit?: number, offset?: number): Promise<ImageData[]> => {
-  const supabase = createClientComponentClient({
-    supabaseUrl: services?.supabase?.url,
-    supabaseKey: services?.supabase?.anon,
-  })
-
-  const bucket = services?.supabase?.storage?.bucket
+  const supabase = createClientComponentClient()
+  const bucket = STORAGE_BUCKET
   if (!bucket) return []
 
   const { data, error } = await supabase.storage.from(bucket).list('public', {

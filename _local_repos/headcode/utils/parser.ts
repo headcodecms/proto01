@@ -71,7 +71,9 @@ const parseSectionData = (data: Section, config: SectionTypeConfig) => {
   })
 }
 
-export const parseFields = (fields: any, fieldsConfig: SectionFields) => {
+export const parseFields = (fields: any, fieldsConfig: SectionFields | null) => {
+  if (!fieldsConfig) return {}
+
   const obj: any = {}
   for (const [key, value] of Object.entries(fieldsConfig)) {
     // TODO: validate that fields[key] has all props - e.g., img
@@ -87,7 +89,7 @@ export const parseFields = (fields: any, fieldsConfig: SectionFields) => {
 
 const parseBlocks = (
   blocks: any,
-  blocksConfig: SectionBlock[] | undefined
+  blocksConfig: SectionBlock[] | null | undefined
 ): any => {
   if (!Array.isArray(blocks) || !blocksConfig) return null
   const filteredBlocks = blocks.filter(

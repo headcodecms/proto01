@@ -1,13 +1,21 @@
 import config from '@/headcode.config'
 import { Data, SectionBase } from '../types'
 
+export const getGlobalConfig = (name: string) => {
+  return config.globals?.find((item) => item.name === name)
+}
+
+export const getCollectionConfig = (name: string) => {
+  return config.collections?.find((item) => item.name === name)
+}
+
 export const getSectionConfig = (name: string) => {
-  let sectionConfig = config.globals?.find((item) => item.name === name)
+  let sectionConfig = getGlobalConfig(name)
   if (sectionConfig) {
     return sectionConfig
   }
 
-  sectionConfig = config.collections?.find((item) => item.name === name)
+  sectionConfig = getCollectionConfig(name)
   if (sectionConfig) {
     return sectionConfig
   }
@@ -18,7 +26,7 @@ export const getSectionConfig = (name: string) => {
 export const findMatchingConfig = <T extends SectionBase>(
   name: string | null,
   config: boolean | T | T[] | undefined
-): SectionBase | null => {
+): T | SectionBase | null => {
   if (!Array.isArray(config)) {
     return null
   }

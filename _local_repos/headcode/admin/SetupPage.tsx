@@ -1,6 +1,5 @@
 import { TABLES, table } from '../utils/db'
 import config from '@/headcode.config'
-import services from '@/headcode.services'
 import { PrimaryLink } from '../ui/Buttons'
 
 const Page = () => {
@@ -20,7 +19,7 @@ const Page = () => {
         </ul>
         <h3 className="mt-2 font-bold">Storage:</h3>
         <ul className="mb-2">
-          <li>{services?.supabase?.storage?.bucket}</li>
+          <li>headcode</li>
         </ul>
         {config.clone ? (
           <p>Data will be cloned from {config.clone}.</p>

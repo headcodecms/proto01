@@ -1,8 +1,10 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import services from '@/headcode.services'
 import { setup as supabaseSetup } from './db/supabaseSetup'
-import { getRoles as getSupabaseRoles, setRole as setSupabaseRole } from './db/supabaseRoles'
+import {
+  getRoles as getSupabaseRoles,
+  setRole as setSupabaseRole,
+} from './db/supabaseRoles'
 import {
   addSection as addSupabaseSection,
   deleteSection as deleteSupabaseSection,
@@ -12,24 +14,7 @@ import {
 } from './db/supabaseSections'
 import { DBInterface, Section } from '../../types'
 
-
-const supabaseClient = () =>
-  createServerComponentClient(
-    { cookies },
-    {
-      supabaseUrl: services?.supabase?.url,
-      supabaseKey: services?.supabase?.anon,
-      options: {
-        global: {
-          fetch: (...args: any[]) =>
-            fetch(args[0], {
-              ...args[1],
-              next: { revalidate: services?.supabase?.revalidate ?? 0 },
-            }),
-        },
-      },
-    }
-  )
+const supabaseClient = () => createServerComponentClient({ cookies })
 
 const setup = async (): Promise<void> => {
   const supabase = supabaseClient()
@@ -79,7 +64,7 @@ const SupabaseDB: DBInterface = {
   saveSection,
   deleteSection,
   addSection,
-  getSection
+  getSection,
 }
 
 export default SupabaseDB

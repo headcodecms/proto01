@@ -14,7 +14,6 @@ export const getDefaultBlockData = (name: string, config: SectionBase) => {
   if (Array.isArray(config.blocks)) {
     const blockConfig = config.blocks.find((item) => item.name === name)
     if (blockConfig) {
-      console.log('getDefaultBlockData', name, blockConfig)
       return {
         id: uuidv4(),
         name: blockConfig.name,
@@ -27,6 +26,14 @@ export const getDefaultBlockData = (name: string, config: SectionBase) => {
 
   return null
 }
+
+export const getEmptySectionData = (name: string, label: string) => ({
+  id: uuidv4(),
+  name,
+  label,
+  fields: null,
+  blocks: null,
+})
 
 export const findData = (list: Data[], id: string | null): Data | null => {
   for (let i = 0; i < list.length; i++) {

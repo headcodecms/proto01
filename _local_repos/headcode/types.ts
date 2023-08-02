@@ -17,7 +17,7 @@ export type SectionTypeConfig = {
   metadata?: boolean
   sections?: SectionConfig | SectionConfig[] | boolean
   limit?: number
-  renderer?: any
+  presets?: SectionConfig | SectionConfig[] | boolean
 }
 
 export type ServicesConfig = {
@@ -58,8 +58,8 @@ export type SectionFields = {
 export type SectionBase = {
   name: string
   label: string
-  fields: SectionFields
-  blocks?: SectionBase[]
+  fields: SectionFields | null
+  blocks?: SectionBase[] | null
 }
 
 export type SectionBlock = SectionBase
@@ -81,8 +81,12 @@ export interface DBInterface {
 
   saveSection(section: Section): Promise<any>
   deleteSection(id: string): Promise<void>
-  addSection(name: string, slug: string, locale?: string): Promise<any>
-  getSection(name: string, slug?: string, locale?: string): Promise<any[]>
+  addSection(name: string, slug: string, locale?: string | null): Promise<any>
+  getSection(
+    name: string,
+    slug?: string | null,
+    locale?: string | null
+  ): Promise<any[]>
 }
 
 export interface StorageInterface {
@@ -211,7 +215,18 @@ export type SortableListMenuItem = {
   label: string
 }
 
+// Rendering types
+
+export type RenderSection = {
+  name: string
+  slug?: string | null
+  locale?: string | null
+  localeFallback?: boolean
+  renderer?: any
+}
+
 // Other types
+
 type NavItem = {
   id: string
   label: string

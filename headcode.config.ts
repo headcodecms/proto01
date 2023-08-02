@@ -12,7 +12,7 @@ export default buildConfig({
       /* is equivalent to
       sections: [HeroSection],
       limit: 1,
-      renderer: DefaultRenderer,
+      presets: [HeroSection],
       */
     },
     {
@@ -21,8 +21,7 @@ export default buildConfig({
     },
     {
       name: 'global.herolist',
-      sections: [HeroSection],
-      renderer: 'CustomRenderer',
+      sections: [HeroSection, HeroSection],
     },
   ],
   collections: [
@@ -31,6 +30,23 @@ export default buildConfig({
       metadata: true,
       locales: ['de'],
       sections: [HeroSection],
+      presets: [HeroSection]
     },
   ],
+  /* I'm refactoring service architecture in package headcodecms/headcode
+  services: {
+    supabase: {
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      connectionString: process.env.SUPABASE_CONNECTION_STRING!,
+      storage: {
+        bucket: 'headcode',
+        version: 'v1',
+      },
+    },
+    auth: 'supabase',
+    db: 'supabase',
+    storage: 'supabase',
+  },
+  */
 })
