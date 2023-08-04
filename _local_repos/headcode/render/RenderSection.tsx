@@ -1,7 +1,8 @@
 import React from 'react'
-import { SectionConfig, SectionTypeConfig } from '../types'
+import { SectionConfig, SectionTypeConfig, VisualEditingInfo } from '../types'
 import Banner from '../ui/Banner'
 import { findMatchingConfig } from '../utils/config'
+import VisualEditingButton from '../visualediting/VisualEditingButton'
 
 const RenderSection = ({
   id,
@@ -10,6 +11,7 @@ const RenderSection = ({
   locale,
   section,
   config,
+  visualediting,
 }: {
   id: string | null
   name: string
@@ -17,12 +19,12 @@ const RenderSection = ({
   locale?: string | null
   section: any
   config: SectionTypeConfig
+  visualediting?: boolean
 }) => {
   const sectionConfig = findMatchingConfig<SectionConfig>(
     section.name,
     config.sections
   )
-  console.log('RenderSection', section, config, sectionConfig)
 
   if (!sectionConfig) {
     return (
@@ -45,18 +47,19 @@ const RenderSection = ({
   // @ts-ignore
   const component = sectionConfig.component
 
-  const info = JSON.stringify({
-    id,
-    name,
-    slug,
-    locale,
-    section: {
-      id: section.id,
-      name: sectionConfig.name,
-      label: sectionConfig.label,
-      theme: theme,
+  const info: VisualEditingInfo = {
+    origin: 'headcodecms.com',
+    data: {
+      id,
+      name,
+      slug,
+      locale,
+      section: {
+        id: section.id,
+        name: sectionConfig.name,
+      },
     },
-  })
+  }
 
   let data = {}
   if (section.fields) {
@@ -66,15 +69,18 @@ const RenderSection = ({
     }
   }
 
-  console.log('data', data)
-
   return (
     <section
+      className="group relative"
       data-headcode-name={sectionConfig.name}
       data-headcode-theme={theme}
-      data-headcode-info={info}
-      data-vercel-edit-info={info}
+      data-vercel-edit-info={JSON.stringify(info)}
     >
+      {visualediting && (
+        <VisualEditingButton info={info}>
+          Edit {name} / {sectionConfig.label}
+        </VisualEditingButton>
+      )}
       {React.createElement(component, data)}
     </section>
   )

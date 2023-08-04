@@ -9,6 +9,7 @@ const DefaultRenderer = ({
   locale,
   config,
   sections,
+  visualediting,
 }: {
   id: string | null
   name: string
@@ -16,10 +17,10 @@ const DefaultRenderer = ({
   locale?: string | null
   config: SectionTypeConfig
   sections: any[]
+  visualediting?: boolean
 }) => {
   return sections.map((section, index) => {
     const prevValue = getPrevSectionValue(sections, index, 'img', 'default')
-    console.log('prevValue', prevValue)
 
     return (
       <div className="bg-gray-200">
@@ -30,6 +31,7 @@ const DefaultRenderer = ({
           locale={locale}
           section={section}
           config={config}
+          visualediting={visualediting}
         />
       </div>
     )

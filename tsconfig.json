@@ -23,6 +23,7 @@
       "@/*": ["./*"],
       "@headcode": ["./_local_repos/headcode/index"],
       "@headcode/server": ["./_local_repos/headcode/server"],
+      "@headcode/client": ["./_local_repos/headcode/client"],
       "@theme": ["./_local_repos/theme/index"]
     }
   },

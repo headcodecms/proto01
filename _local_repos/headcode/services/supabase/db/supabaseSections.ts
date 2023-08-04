@@ -86,7 +86,6 @@ const querySection = async (
   slug?: string | null,
   locale?: string | null
 ) => {
-  console.log('querySection', name, slug, locale)
   if (slug) {
     return locale
       ? await supabase

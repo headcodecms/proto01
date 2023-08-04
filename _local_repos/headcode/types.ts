@@ -158,7 +158,7 @@ export type MetaData = {
 
 export type ImageData = {
   name: string | null
-  url: string | null
+  url: string | StaticImageData | null
   alt: string
   width: number
   height: number
@@ -167,7 +167,7 @@ export type ImageData = {
 }
 export type TextValue = string
 export type RichTextValue = string
-export type ImageValue = ImageData | StaticImageData
+export type ImageValue = ImageData
 export type CheckboxValue = boolean
 export type SelectValue = string
 export type FieldValue =
@@ -223,6 +223,23 @@ export type RenderSection = {
   locale?: string | null
   localeFallback?: boolean
   renderer?: any
+  visualediting?: boolean
+}
+
+export type VisualEditingData = {
+  id: string | null
+  name: string
+  slug?: string | null
+  locale?: string | null
+  section: {
+    id: string
+    name: string
+  }
+}
+
+export type VisualEditingInfo = {
+  origin: string
+  data: VisualEditingData
 }
 
 // Other types

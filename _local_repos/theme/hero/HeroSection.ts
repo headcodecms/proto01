@@ -1,5 +1,11 @@
-import { ImageField, RichTextField, buildSection } from '@headcode'
-import { TextField, CheckboxField, SelectField } from '@headcode'
+import {
+  ImageField,
+  RichTextField,
+  buildSection,
+  TextField,
+  CheckboxField,
+  SelectField,
+} from '@headcode'
 import Hero from './Hero'
 
 export default buildSection({

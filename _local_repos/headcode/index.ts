@@ -7,8 +7,6 @@ import SelectField from './fields/SelectField'
 import RichTextField from './fields/richtext/RichTextField'
 import ImageField from './fields/image/ImageField'
 
-import ImgPlaceholder from './fields/placeholder/placeholder.jpg'
-
 import MediaPage from './admin/MediaPage'
 
 import SetupLayout from './admin/SetupLayout'
@@ -33,7 +31,6 @@ export {
   SelectField,
   RichTextField,
   ImageField,
-  ImgPlaceholder,
   MediaPage,
   SetupLayout,
   SetupPage,

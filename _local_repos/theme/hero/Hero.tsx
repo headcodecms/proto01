@@ -1,10 +1,11 @@
-import { ImgPlaceholder } from '@headcode'
+import { PlaceholderImage, PlacholderRichText } from '@headcode/client'
+import Image from 'next/image'
 
 const Hero = ({
-  img = ImgPlaceholder,
+  img = PlaceholderImage,
   alt,
   fadeIn,
-  body = '<p>Body text</p>',
+  body = PlacholderRichText,
   size = 'large',
   blocks = [
     {
@@ -14,19 +15,25 @@ const Hero = ({
     },
     {
       galleryimg: {
-        img: ImgPlaceholder,
+        img,
         title: 'Gallery image',
         blocks: [],
       },
     },
   ],
 }: any) => {
-  console.log('Hero', img, alt, fadeIn, size, blocks)
+  console.log('img', img)
 
   return (
     <div className="w-full">
-      <div data-image={img} className="w-24" />
+      {img.url && (
+        <div className="w-24">
+          <Image src={img.url} alt={img.alt} />
+        </div>
+      )}
       <span>Size: {size}</span>
+      <h1 className="my-6 text-4xl">Body</h1>
+      <div dangerouslySetInnerHTML={{ __html: body }} />
       {blocks &&
         blocks.map((item: any, index: number) => {
           if (item.galleryimg) return <div key={index}>{item.img}</div>
