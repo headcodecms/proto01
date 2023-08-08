@@ -115,6 +115,7 @@ const VisualEditing = () => {
   }
 
   const handleCancel = () => {
+    console.log('handleCancel')
     setShowDialog(false)
   }
 
@@ -143,7 +144,7 @@ const VisualEditing = () => {
         </button>
       </div>
       <Transition.Root show={showDialog} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setShowDialog}>
+        <Dialog as="div" className="relative z-10" onClose={handleCancel}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -209,7 +210,7 @@ const VisualEditing = () => {
                       <button
                         type="button"
                         className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={() => setShowDialog(false)}
+                        onClick={handleCancel}
                       >
                         <span className="sr-only">Close</span>
                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />

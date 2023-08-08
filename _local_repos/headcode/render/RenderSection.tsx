@@ -74,8 +74,6 @@ const RenderSection = ({
     }
   }
 
-  // console.log('RenderSection', data, sectionConfig)
-
   return (
     <section
       className="group relative"
