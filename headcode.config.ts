@@ -1,5 +1,5 @@
 import { buildConfig } from '@headcode'
-import { HeroSection } from '@theme'
+import HeroSection from '@/theme/hero/HeroSection'
 
 export default buildConfig({
   version: 'v01',

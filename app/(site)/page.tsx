@@ -1,7 +1,5 @@
-import Hero from '@/_local_repos/theme/hero/Hero'
+import Hero from '@/theme/hero/Hero'
 import { Section } from '@headcode/server'
-
-export const revalidate = 600
 
 const Page = () => {
   return (

@@ -53,7 +53,6 @@ const addSection = async (name: string, slug: string, locale?: string) => {
 
 const getSection = async (name: string, slug?: string, locale?: string) => {
   const supabase = supabaseClient()
-  console.log('getSection')
   return await getSupabaseSection(supabase, name, slug, locale)
 }
 

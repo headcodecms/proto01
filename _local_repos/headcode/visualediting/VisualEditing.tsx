@@ -115,8 +115,8 @@ const VisualEditing = () => {
   }
 
   const handleCancel = () => {
-    console.log('handleCancel')
     setShowDialog(false)
+    router.refresh()
   }
 
   return (
