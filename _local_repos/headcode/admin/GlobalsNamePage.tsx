@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Editor from './components/editor/Editor'
 import { getDefaultSection } from '../utils/config'
 import DBService from '../services/DBService'
+import { useRouter } from 'next/navigation'
 
 const GlobalsNamePage = async ({
   params,
@@ -47,7 +48,7 @@ const GlobalsNamePage = async ({
         }
         name={name}
         locale={locale}
-        backLink={backLink}
+        handleCancel={backLink}
       />
     </>
   )

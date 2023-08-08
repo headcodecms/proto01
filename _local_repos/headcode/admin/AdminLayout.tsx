@@ -58,7 +58,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 }
 
 const Version = () => (
-  <div className="mt-2 flex items-center space-x-2">
+  <div className="mt-1 flex items-center space-x-2">
     <IconVersion className="h-6 w-6 text-gray-300" />
     <span className="text-sm text-gray-400">{config.version}</span>
   </div>

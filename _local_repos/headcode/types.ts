@@ -91,7 +91,7 @@ export interface DBInterface {
 
 export interface StorageInterface {
   upload(file: File, name: string, format: string): Promise<string | null>
-  getPublicUrl(path: string): string
+  getPublicUrl(path: string | StaticImageData): string | StaticImageData
   list(limit?: number, offset?: number): Promise<ImageData[]>
 }
 
@@ -223,7 +223,7 @@ export type RenderSection = {
   locale?: string | null
   localeFallback?: boolean
   renderer?: any
-  visualediting?: boolean
+  editable?: boolean
 }
 
 export type VisualEditingData = {
@@ -234,6 +234,7 @@ export type VisualEditingData = {
   section: {
     id: string
     name: string
+    label: string
   }
 }
 

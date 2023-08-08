@@ -3,6 +3,7 @@ import { SectionConfig, SectionTypeConfig, VisualEditingInfo } from '../types'
 import Banner from '../ui/Banner'
 import { findMatchingConfig } from '../utils/config'
 import VisualEditingButton from '../visualediting/VisualEditingButton'
+import { parseBlocks, parseFields } from '../utils/parser'
 
 const RenderSection = ({
   id,
@@ -11,7 +12,7 @@ const RenderSection = ({
   locale,
   section,
   config,
-  visualediting,
+  editable,
 }: {
   id: string | null
   name: string
@@ -19,7 +20,7 @@ const RenderSection = ({
   locale?: string | null
   section: any
   config: SectionTypeConfig
-  visualediting?: boolean
+  editable?: boolean
 }) => {
   const sectionConfig = findMatchingConfig<SectionConfig>(
     section.name,
@@ -57,17 +58,23 @@ const RenderSection = ({
       section: {
         id: section.id,
         name: sectionConfig.name,
+        label: sectionConfig.label,
       },
     },
   }
 
   let data = {}
   if (section.fields) {
-    data = { ...section.fields }
+    data = parseFields(section.fields, sectionConfig.fields)
     if (section.blocks) {
-      data = { ...data, blocks: [...section.blocks] }
+      data = {
+        ...data,
+        blocks: parseBlocks(section.blocks, sectionConfig.blocks),
+      }
     }
   }
+
+  // console.log('RenderSection', data, sectionConfig)
 
   return (
     <section
@@ -76,7 +83,7 @@ const RenderSection = ({
       data-headcode-theme={theme}
       data-vercel-edit-info={JSON.stringify(info)}
     >
-      {visualediting && (
+      {editable && (
         <VisualEditingButton info={info}>
           Edit {name} / {sectionConfig.label}
         </VisualEditingButton>

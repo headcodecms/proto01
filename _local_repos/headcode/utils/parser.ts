@@ -1,3 +1,4 @@
+import { StorageService } from '../client'
 import {
   SectionBlock,
   SectionFields,
@@ -71,23 +72,34 @@ const parseSectionData = (data: Section, config: SectionTypeConfig) => {
   })
 }
 
-export const parseFields = (fields: any, fieldsConfig: SectionFields | null) => {
+export const parseFields = (
+  fields: any,
+  fieldsConfig: SectionFields | null
+) => {
   if (!fieldsConfig) return {}
 
   const obj: any = {}
   for (const [key, value] of Object.entries(fieldsConfig)) {
-    // TODO: validate that fields[key] has all props - e.g., img
-    obj[key] =
-      fields.hasOwnProperty(key) &&
-      typeof fields[key] === typeof value.type.defaultValue
-        ? fields[key]
-        : value.type.defaultValue
+    if (value.type.defaultValue) {
+      obj[key] =
+        fields.hasOwnProperty(key) &&
+        typeof fields[key] === typeof value.type.defaultValue
+          ? fields[key]
+          : value.type.defaultValue
+    } else {
+      // TODO: Add validators to fields. Separate field implementation from definition, similar to sections
+      const fieldValue = fields.hasOwnProperty(key) ? fields[key] : null
+      if (typeof fieldValue === 'object' && fieldValue.hasOwnProperty('url')) {
+        fieldValue.url = StorageService.getPublicUrl(fieldValue.url)
+      }
+      obj[key] = fieldValue
+    }
   }
 
   return obj
 }
 
-const parseBlocks = (
+export const parseBlocks = (
   blocks: any,
   blocksConfig: SectionBlock[] | null | undefined
 ): any => {

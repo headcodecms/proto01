@@ -22,13 +22,16 @@ const Hero = ({
     },
   ],
 }: any) => {
-  console.log('img', img)
-
   return (
     <div className="w-full">
       {img.url && (
         <div className="w-24">
-          <Image src={img.url} alt={img.alt} />
+          <Image
+            src={img.url}
+            alt={img.alt}
+            width={img.width}
+            height={img.height}
+          />
         </div>
       )}
       <span>Size: {size}</span>

@@ -50,8 +50,8 @@ export const findMatchingConfig = <T extends SectionBase>(
 
 export const getDefaultSection = (
   name: string,
-  slug: string | undefined,
-  locale: string | undefined
+  slug: string | null | undefined,
+  locale: string | null | undefined
 ) => ({
   name,
   slug: slug ?? null,

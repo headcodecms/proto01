@@ -9,7 +9,7 @@ const DefaultRenderer = ({
   locale,
   config,
   sections,
-  visualediting,
+  editable,
 }: {
   id: string | null
   name: string
@@ -17,7 +17,7 @@ const DefaultRenderer = ({
   locale?: string | null
   config: SectionTypeConfig
   sections: any[]
-  visualediting?: boolean
+  editable?: boolean
 }) => {
   return sections.map((section, index) => {
     const prevValue = getPrevSectionValue(sections, index, 'img', 'default')
@@ -31,7 +31,7 @@ const DefaultRenderer = ({
           locale={locale}
           section={section}
           config={config}
-          visualediting={visualediting}
+          editable={editable}
         />
       </div>
     )

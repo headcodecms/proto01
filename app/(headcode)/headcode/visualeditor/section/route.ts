@@ -11,6 +11,8 @@ export const GET = async (request: Request): Promise<NextResponse> => {
     const data = await DBService.getSection(name, slug, locale)
     if (data.length === 1) {
       return NextResponse.json(data[0])
+    } else if (data.length === 0) {
+      return NextResponse.json({ status: 'empty' })
     }
   }
 

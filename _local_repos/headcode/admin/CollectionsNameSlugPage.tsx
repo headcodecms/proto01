@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Editor from './components/editor/Editor'
 import DBService from '../services/DBService'
+import { useRouter } from 'next/navigation'
 
 const CollectionNameSlugPage = async ({
   params,
@@ -53,7 +54,7 @@ const CollectionNameSlugPage = async ({
         name={name}
         slug={slug}
         locale={locale}
-        backLink={backLink}
+        handleCancel={backLink}
       />
     </>
   )

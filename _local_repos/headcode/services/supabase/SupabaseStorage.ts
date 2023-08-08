@@ -1,5 +1,6 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { ImageData, StorageInterface } from '../../types'
+import { StaticImageData } from 'next/image'
 
 export const STORAGE_BUCKET = 'headcode'
 export const STORAGE_VERSION = 'v1'
@@ -33,16 +34,22 @@ const upload = async (
   return data.path
 }
 
-const getPublicUrl = (path: string): string => {
-  const version = STORAGE_VERSION
-  const bucket = STORAGE_BUCKET
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
-
-  if (path.startsWith('https://') || path.startsWith('http://')) {
-    return path
+const getPublicUrl = (
+  path: string | StaticImageData
+): string | StaticImageData => {
+  if (typeof path === 'string') {
+    const version = STORAGE_VERSION
+    const bucket = STORAGE_BUCKET
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  
+    if (path.startsWith('https://') || path.startsWith('http://')) {
+      return path
+    }
+  
+    return `${url}/storage/${version}/object/public/${bucket}/${path}`
   }
 
-  return `${url}/storage/${version}/object/public/${bucket}/${path}`
+  return path
 }
 
 const list = async (limit?: number, offset?: number): Promise<ImageData[]> => {

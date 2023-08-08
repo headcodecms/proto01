@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
 import { getSectionConfig } from '../../../utils/config'
 import { getNavId, parseData } from '../../../utils/parser'
@@ -21,19 +20,26 @@ import FieldsEdit from './FieldsEdit'
 import ActionBar from './ActionBar'
 import BlocksList from './BlocksList'
 import SectionList from './SectionList'
+import { useRouter } from 'next/navigation'
 
 const Editor = ({
   storedData,
   name,
   slug,
   locale,
-  backLink,
+  section,
+  handleCancel,
 }: {
   storedData: Section
   name: string
   slug?: string
   locale?: string
-  backLink?: string
+  section?: {
+    id: string
+    name: string
+    label: string
+  }
+  handleCancel?: any
 }) => {
   const router = useRouter()
   const sectionConfig = getSectionConfig(name)
@@ -48,6 +54,8 @@ const Editor = ({
             id: parsedData.data[0]?.id ?? '',
             label: parsedData.data[0]?.label ?? '',
           }
+        : section
+        ? { id: section.id, label: section.label }
         : null,
     blocks: [],
   })
@@ -90,9 +98,13 @@ const Editor = ({
     return isRootNav() && nav.hasSections
   }
 
-  const handleCancel = () => {
-    if (backLink) {
-      router.push(backLink)
+  const handleCancelClicked = () => {
+    if (handleCancel) {
+      if (typeof handleCancel === 'string') {
+        router.push(handleCancel)
+      } else {
+        handleCancel()
+      }
     }
   }
 
@@ -299,7 +311,7 @@ const Editor = ({
         handleSave={handleSave}
         saving={saving}
         dirty={isDirty()}
-        handleCancel={handleCancel}
+        handleCancel={handleCancelClicked}
         deleteTitle={getDeleteTitle()}
         handleDelete={handleDelete}
       />

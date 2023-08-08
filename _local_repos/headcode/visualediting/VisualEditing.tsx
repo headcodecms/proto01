@@ -2,6 +2,7 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import {
+  ArrowTopRightOnSquareIcon,
   ArrowUpTrayIcon,
   ChatBubbleOvalLeftIcon,
   EllipsisHorizontalIcon,
@@ -17,17 +18,22 @@ import { DotPulse } from '@uiball/loaders'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Banner from '../ui/Banner'
 import Input from '../ui/Input'
-import { PrimaryButton } from '../ui/Buttons'
+import { PrimaryButton, SecondaryButton } from '../ui/Buttons'
 import Link from 'next/link'
 import Editor from '../admin/components/editor/Editor'
+import config from '@/headcode.config'
+import { useRouter } from 'next/navigation'
+import { getDefaultSection } from '../utils/config'
 
 const VIEW = {
   loading: 'loading',
   login: 'login',
   editor: 'editor',
+  error: 'error',
 }
 
 const VisualEditing = () => {
+  const router = useRouter()
   const [editingEnabled, setEditingEnabled] = useState<boolean>(false)
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [view, setView] = useState<string>(VIEW.loading)
@@ -54,7 +60,6 @@ const VisualEditing = () => {
   }, [showDialog])
 
   const loadSection = async () => {
-    console.log('load section', info)
     if (info) {
       const params: { name: string; slug?: string; locale?: string } = {
         name: info.name,
@@ -68,8 +73,17 @@ const VisualEditing = () => {
       const response = await fetch(url)
       const newData = await response.json()
 
-      setData(newData)
-      setView(VIEW.editor)
+      if (newData.hasOwnProperty('status')) {
+        if (!info.slug && newData.status === 'empty') {
+          setData(getDefaultSection(info.name, undefined, info.locale))
+          setView(VIEW.editor)
+        } else {
+          setView(VIEW.error)
+        }
+      } else {
+        setData(newData)
+        setView(VIEW.editor)
+      }
     }
   }
 
@@ -87,6 +101,21 @@ const VisualEditing = () => {
 
     dispatchEvent(new CustomEvent('edit:enabled', { detail: newValue }))
     setEditingEnabled(newValue)
+  }
+
+  const handleAdmin = () => {
+    if (info) {
+      const localeParam = info.locale ? `?locale=${info.locale}` : ''
+      const url = info.slug
+        ? `/headcode/admin/collections/${info.name}/${info.slug}${localeParam}`
+        : `/headcode/admin/globals/${info.name}${localeParam}`
+
+      router.push(url)
+    }
+  }
+
+  const handleCancel = () => {
+    setShowDialog(false)
   }
 
   return (
@@ -138,31 +167,45 @@ const VisualEditing = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative w-full transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-[960px] sm:p-6">
+                <Dialog.Panel className="relative w-full transform overflow-y-auto rounded-lg bg-white pt-5 text-left shadow-xl transition-all sm:my-8 sm:h-[90vh] sm:max-w-3xl">
                   <div>
                     <Dialog.Title
                       as="h3"
-                      className="text-base font-semibold leading-6 text-gray-900"
+                      className="px-4 text-base font-medium uppercase text-gray-900 sm:px-6 lg:px-8"
                     >
-                      {view === VIEW.login && 'Sign in to your account'}
+                      <div className="">Headcode</div>
+                      <Version />
                     </Dialog.Title>
-                    <div className="mt-2">
+                    <div className="mt-4">
                       {view === VIEW.login && (
                         <LoginView loadSection={loadSection} />
                       )}
                       {view === VIEW.loading && (
-                        <DotPulse size={32} color="#9ca3af" />
+                        <div className="px-4 py-6 sm:px-6 lg:px-8">
+                          <DotPulse size={32} color="#9ca3af" />
+                        </div>
                       )}
                       {view === VIEW.editor && info && info.name && (
-                        <Editor
-                          storedData={data}
-                          name={info.name}
-                          slug={info.slug || undefined}
-                          locale={info.locale || undefined}
-                        />
+                        <>
+                          <EditorHeader info={info} />
+                          <Editor
+                            storedData={data}
+                            name={info.name ?? ''}
+                            slug={info.slug || undefined}
+                            locale={info.locale || undefined}
+                            section={info.section}
+                            handleCancel={handleCancel}
+                          />
+                        </>
+                      )}
+                      {view === VIEW.error && (
+                        <Banner error={true} size="xs">
+                          Error getting section data for {info?.name}
+                          {info?.slug} {info?.locale}
+                        </Banner>
                       )}
                     </div>
-                    <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                    <div className="absolute right-0 top-0 flex flex-row-reverse items-center pr-4 pt-4">
                       <button
                         type="button"
                         className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -171,6 +214,10 @@ const VisualEditing = () => {
                         <span className="sr-only">Close</span>
                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
+                      <SecondaryButton onClick={handleAdmin} className="mr-4">
+                        <span className="hidden pr-2 sm:inline">Admin</span>
+                        <ArrowTopRightOnSquareIcon className="h-5 w-5 text-gray-400" />
+                      </SecondaryButton>
                     </div>
                   </div>
                 </Dialog.Panel>
@@ -182,6 +229,54 @@ const VisualEditing = () => {
     </>
   )
 }
+
+const EditorHeader = ({ info }: { info: VisualEditingData | null }) => {
+  if (!info) return null
+
+  return (
+    <div className="px-4 pb-8 sm:px-6 lg:px-8">
+      <div>
+        <span className="text-sm text-gray-400 hover:text-gray-500">
+          {info.slug ? 'Collections' : 'Globals'}
+        </span>
+        {info.slug && (
+          <>
+            <span className="px-2 text-sm text-gray-400">/</span>
+            <span className="text-sm text-gray-400 hover:text-gray-500">
+              {info.name}
+            </span>
+          </>
+        )}
+      </div>
+      <h1 className="flex items-center space-x-2 text-2xl font-semibold text-gray-900">
+        <span>{info.slug ?? info.name}</span>
+        {info.locale && (
+          <span className="rounded border border-gray-300 px-1.5 py-0.5 text-xs uppercase text-gray-400">
+            {info.locale}
+          </span>
+        )}
+      </h1>
+    </div>
+  )
+}
+
+const Version = () => (
+  <div className="mt-1 flex items-center space-x-2">
+    <IconVersion className="h-6 w-6 text-gray-300" />
+    <span className="text-sm text-gray-400">{config.version}</span>
+  </div>
+)
+
+const IconVersion = (props: any) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    {...props}
+  >
+    <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435ZM8.75 6v1c.14.301.338.617.588.95.537.716 1.259 1.44 2.016 2.196l-.708.708-.015-.016c-.652-.652-1.33-1.33-1.881-2.015V12h-1.5V6H6.034a.25.25 0 0 1-.192-.41l1.966-2.36a.25.25 0 0 1 .384 0l1.966 2.36a.25.25 0 0 1-.192.41H8.75Z" />
+  </svg>
+)
 
 const LoginView = ({ loadSection }: any) => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -208,13 +303,19 @@ const LoginView = ({ loadSection }: any) => {
   }
 
   return (
-    <form className="max-w-md" onSubmit={handleSubmit(handleLogin)}>
-      {error && (
-        <Banner error={true} size="xs">
-          {error}
-        </Banner>
-      )}
+    <form
+      className="max-w-md px-4 pb-4 sm:px-6 lg:px-8"
+      onSubmit={handleSubmit(handleLogin)}
+    >
       <div className="my-9 space-y-3">
+        <h1 className="mb-6 flex items-center space-x-2 text-2xl font-semibold text-gray-900">
+          Sign in to your account
+        </h1>
+        {error && (
+          <Banner error={true} size="xs">
+            {error}
+          </Banner>
+        )}
         <Input label="Email address" type="email" {...register('email')} />
         <Input label="Password" type="password" {...register('password')} />
       </div>

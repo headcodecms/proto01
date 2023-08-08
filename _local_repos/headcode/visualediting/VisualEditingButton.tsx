@@ -1,6 +1,5 @@
 'use client'
 
-import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
 const VisualEditingButton = ({ info, children }: any) => {
