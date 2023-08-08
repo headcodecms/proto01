@@ -91,7 +91,7 @@ export interface DBInterface {
 
 export interface StorageInterface {
   upload(file: File, name: string, format: string): Promise<string | null>
-  getPublicUrl(path: string | StaticImageData): string | StaticImageData
+  getPublicUrl(path: string): string
   list(limit?: number, offset?: number): Promise<ImageData[]>
 }
 

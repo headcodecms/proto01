@@ -46,9 +46,8 @@ const MediaLibrary = ({
     <>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 md:grid-cols-5">
         {images.map((item, index) => {
-          return (
-            <a
-              href="#"
+          return (typeof 
+            <button
               onClick={() => handleSelected(item)}
               key={index}
               className="shrink-0"
@@ -60,7 +59,7 @@ const MediaLibrary = ({
                 src={StorageService.getPublicUrl(item.url)}
                 alt={item.name}
               />
-            </a>
+            </button>
           )
         })}
       </div>
