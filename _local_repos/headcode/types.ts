@@ -150,8 +150,8 @@ export type Data = {
 }
 
 export type MetaData = {
-  title: string
-  description: string
+  title?: string
+  description?: string
 }
 
 // Types for editor fields

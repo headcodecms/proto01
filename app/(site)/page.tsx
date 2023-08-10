@@ -1,5 +1,9 @@
 import Hero from '@/theme/hero/Hero'
-import { Section } from '@headcode/server'
+import { Section, getMetadata } from '@headcode/server'
+
+export const generateMetadata = async () => {
+  return await getMetadata('pages.about')
+}
 
 const Page = () => {
   return (

@@ -20,6 +20,7 @@ import CollectionsNamePage from './admin/CollectionsNamePage'
 import CollectionsNameSlugPage from './admin/CollectionsNameSlugPage'
 
 import Section from './render/Section'
+import { getMetadata } from './utils/render'
 
 export {
   AuthMiddlewareService,
@@ -38,4 +39,5 @@ export {
   CollectionsNamePage,
   CollectionsNameSlugPage,
   Section,
+  getMetadata
 }
