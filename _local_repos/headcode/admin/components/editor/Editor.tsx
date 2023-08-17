@@ -54,7 +54,9 @@ const Editor = ({
             id: parsedData.data[0]?.id ?? '',
             label: parsedData.data[0]?.label ?? '',
           }
-        : section
+        : section &&
+          Array.isArray(parsedData.data) &&
+          parsedData.data.length > 0
         ? { id: section.id, label: section.label }
         : null,
     blocks: [],

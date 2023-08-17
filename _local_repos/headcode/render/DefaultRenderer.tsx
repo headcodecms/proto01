@@ -23,7 +23,7 @@ const DefaultRenderer = ({
     const prevValue = getPrevSectionValue(sections, index, 'img', 'default')
 
     return (
-      <div className="bg-gray-200">
+      <div>
         <RenderSection
           id={id}
           name={name}

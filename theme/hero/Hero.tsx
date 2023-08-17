@@ -1,59 +1,35 @@
-import { PlaceholderImage, PlacholderRichText } from '@headcode/client'
-import Image from 'next/image'
+import Link from 'next/link'
 
 const Hero = ({
-  img = PlaceholderImage,
-  alt,
-  fadeIn,
-  body = PlacholderRichText,
-  size = 'large',
-  blocks = [
-    {
-      galleryvideo: {
-        url: 'https://www.youtube.com/watch?v=gSSsZReIFRk',
-      },
-    },
-    {
-      galleryimg: {
-        img,
-        title: 'Gallery image',
-        blocks: [],
-      },
-    },
-  ],
+  title = 'Hero title',
+  subtitle = 'Hero subtitle',
+  cta = { url: '#', title: 'Call to action', newWindow: false },
+  more = { url: '#', title: 'More info', newWindow: false },
 }: any) => {
   return (
-    <div className="w-full">
-      {img.url && (
-        <div className="w-24">
-          <Image
-            src={img.url}
-            alt={img.alt}
-            width={img.width}
-            height={img.height}
-          />
+    <div className="py-6 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto my-6 max-w-4xl text-center md:mb-16 md:mt-32">
+          <h1 className="text-4xl font-bold md:text-5xl">{title}</h1>
+          <p className="my-6 text-lg font-light md:text-xl">{subtitle}</p>
+          <div className="mt-12 flex items-center justify-center space-x-6">
+            <Link
+              className="rounded-md bg-sky-600 px-4 py-2.5 text-lg font-medium text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 md:px-5 md:py-3 md:text-xl"
+              href={cta.url}
+            >
+              {cta.title}
+            </Link>
+            <Link
+              className="text-base text-gray-500 hover:text-gray-800 hover:underline md:text-lg"
+              href={more.url}
+            >
+              {more.title}
+            </Link>
+          </div>
         </div>
-      )}
-      <span>Size: {size}</span>
-      <h1 className="my-6 text-4xl">Body</h1>
-      <div dangerouslySetInnerHTML={{ __html: body }} />
-      {blocks &&
-        blocks.map((item: any, index: number) => {
-          if (item.galleryimg) return <div key={index}>{item.img}</div>
-          if (item.galleryvideo) return <div key={index}>{item.url}</div>
-          return null
-        })}
-      {blocks &&
-        blocks.map(
-          (item: any, index: number) =>
-            item.galleryimg && (
-              <div key={index}>
-                <h1>Image Gallery</h1>
-                <p>{item.img}</p>
-              </div>
-            )
-        )}
+      </div>
     </div>
   )
 }
+
 export default Hero

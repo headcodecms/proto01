@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { SectionConfig, SectionTypeConfig, VisualEditingInfo } from '../types'
 import Banner from '../ui/Banner'
 import { findMatchingConfig } from '../utils/config'
@@ -22,6 +22,7 @@ const RenderSection = ({
   config: SectionTypeConfig
   editable?: boolean
 }) => {
+  const isEditable = editable ?? true
   const sectionConfig = findMatchingConfig<SectionConfig>(
     section.name,
     config.sections
@@ -81,7 +82,7 @@ const RenderSection = ({
       data-headcode-theme={theme}
       data-vercel-edit-info={JSON.stringify(info)}
     >
-      {editable && (
+      {isEditable && (
         <VisualEditingButton info={info}>
           Edit {name} / {sectionConfig.label}
         </VisualEditingButton>

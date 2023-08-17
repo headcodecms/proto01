@@ -1,4 +1,5 @@
 import { VisualEditing } from '@headcode/client'
+import { Section } from '@headcode/server'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -13,7 +14,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+        <Section name="global.navigation" />
+
         {children}
+
+        <Section name="global.footer" />
         <VisualEditing />
       </body>
     </html>

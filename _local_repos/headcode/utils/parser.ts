@@ -89,7 +89,13 @@ export const parseFields = (
     } else {
       // TODO: Add validators to fields. Separate field implementation from definition, similar to sections
       const fieldValue = fields.hasOwnProperty(key) ? fields[key] : null
-      if (typeof fieldValue === 'object' && fieldValue.hasOwnProperty('url')) {
+      if (
+        fieldValue &&
+        typeof fieldValue === 'object' &&
+        fieldValue.hasOwnProperty('url') &&
+        fieldValue.hasOwnProperty('alt')
+      ) {
+        // TODO: better validate that it is image field
         fieldValue.url = StorageService.getPublicUrl(fieldValue.url)
       }
       obj[key] = fieldValue

@@ -5,92 +5,37 @@ import {
   TextField,
   CheckboxField,
   SelectField,
+  TextAreaField,
+  LinkField,
 } from '@headcode'
 import Hero from './Hero'
 
 export default buildSection({
-  name: 'headcodecms/theme-free:HeroSection',
-  // name: 'userOrOrg/repo:Name'
+  name: 'headcodecms/theme-proto:HeroSection',
+  // name: 'github/repo:Name'
   // name: 'acme-agency.com:Name'
   // name: 'john@gmail.com:Name'
   // name: '@twittername:Name'
   label: 'Hero Section',
+  theme: 'headcodecms.com/theme-proto',
   // theme: defaults to custom
-  theme: 'headcodecms.com/free-theme',
   component: Hero,
   fields: {
-    img: {
-      label: 'Image Field',
-      type: ImageField,
-    },
-    alt: {
-      label: 'Image ALT text',
+    title: {
+      label: 'Title',
       type: TextField,
     },
-    fadeIn: {
-      label: 'Fade in or out',
-      type: CheckboxField,
+    subtitle: {
+      label: 'Subtitle',
+      type: TextAreaField,
     },
-    body: {
-      label: 'Body (rich text)',
-      type: RichTextField,
+    cta: {
+      label: 'Call to action',
+      type: LinkField,
     },
-    size: {
-      label: 'Select size',
-      type: SelectField,
-      defaultValue: 'medium',
-      options: [
-        {
-          label: 'Small',
-          value: 'small',
-        },
-        {
-          label: 'Medium',
-          value: 'medium',
-        },
-        {
-          label: 'Large',
-          value: 'large',
-        },
-      ],
+    more: {
+      label: 'More link',
+      type: LinkField,
     },
   },
-  blocks: [
-    {
-      name: 'galleryvideo',
-      label: 'Gallery Video',
-      fields: {
-        url: {
-          label: 'Video URL',
-          type: TextField,
-        },
-      },
-    },
-    {
-      name: 'galleryimg',
-      label: 'Gallery Image',
-      fields: {
-        img: {
-          label: 'Image',
-          type: TextField,
-        },
-        title: {
-          label: 'Image title',
-          type: TextField,
-        },
-      },
-      blocks: [
-        {
-          name: 'links',
-          label: 'Image links',
-          fields: {
-            url: {
-              label: 'Image link',
-              type: TextField,
-            },
-          },
-        },
-      ],
-    },
-  ],
 })

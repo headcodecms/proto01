@@ -170,12 +170,18 @@ export type RichTextValue = string
 export type ImageValue = ImageData
 export type CheckboxValue = boolean
 export type SelectValue = string
+export type LinkValue = {
+  url: string
+  title: string
+  newWindow: boolean
+}
 export type FieldValue =
   | TextValue
   | RichTextValue
   | ImageValue
   | CheckboxValue
   | SelectValue
+  | LinkValue
 
 export type FieldComponent = {
   form: UseFormReturn<any, any, undefined>

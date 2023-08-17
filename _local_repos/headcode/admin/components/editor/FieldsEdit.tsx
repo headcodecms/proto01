@@ -9,7 +9,7 @@ import { findData } from '../../../utils/data'
 import { findMatchingConfig } from '../../../utils/config'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import React, { useEffect } from 'react'
-import { getNavId } from '@/_local_repos/headcode/utils/parser'
+import { getNavId } from '../../../utils/parser'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const FieldsEdit = ({

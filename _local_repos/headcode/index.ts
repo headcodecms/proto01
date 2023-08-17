@@ -6,6 +6,7 @@ import CheckboxField from './fields/CheckboxField'
 import SelectField from './fields/SelectField'
 import RichTextField from './fields/richtext/RichTextField'
 import ImageField from './fields/image/ImageField'
+import LinkField from './fields/LinkField'
 
 import MediaPage from './admin/MediaPage'
 
@@ -31,6 +32,7 @@ export {
   SelectField,
   RichTextField,
   ImageField,
+  LinkField,
   MediaPage,
   SetupLayout,
   SetupPage,

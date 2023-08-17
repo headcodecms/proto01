@@ -9,7 +9,7 @@ import { useState } from 'react'
 import SortableList from '../../../ui/SortableList'
 import { findData, getDefaultBlockData } from '../../../utils/data'
 import { findMatchingConfig } from '../../../utils/config'
-import { getNavId } from '@/_local_repos/headcode/utils/parser'
+import { getNavId } from '../../../utils/parser'
 
 const getBlockListItem = (item: Data) => ({
   id: item.id,

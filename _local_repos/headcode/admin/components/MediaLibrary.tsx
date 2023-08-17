@@ -31,11 +31,11 @@ const MediaLibrary = ({
 
   const handleImageLoaded = (e: any) => {
     const newImages = images.map((item) =>
-      item.name === e.target.id
+      item.name === e.currentTarget.id
         ? {
             ...item,
-            width: e.target.naturalWidth,
-            height: e.target.naturalHeight,
+            width: e.currentTarget.naturalWidth,
+            height: e.currentTarget.naturalHeight,
           }
         : item
     )

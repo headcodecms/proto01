@@ -18,11 +18,11 @@ const VisualEditingButton = ({ info, children }: any) => {
   return (
     editingEnabled && (
       <>
-        <div className="absolute bottom-0 left-0 right-0 top-0 hidden bg-transparent opacity-50 outline -outline-offset-1 outline-blue-600 group-hover:block"></div>
+        <div className="absolute bottom-0 left-0 right-0 top-0 -z-10 hidden bg-transparent opacity-50 outline -outline-offset-1 outline-blue-600 group-hover:block"></div>
         <button
           type="button"
           onClick={handleEdit}
-          className="hover:opacity-100 group-hover:block absolute right-0 top-0 hidden max-w-[200px] truncate bg-blue-600 px-2 py-1 text-xs text-white opacity-80"
+          className="absolute right-0 top-0 hidden max-w-[200px] truncate bg-blue-600 px-2 py-1 text-xs text-white opacity-80 hover:opacity-100 group-hover:block"
         >
           {children}
         </button>
