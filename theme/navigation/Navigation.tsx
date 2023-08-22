@@ -5,13 +5,13 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import Image from 'next/image'
-import { PlaceholderImage } from '@headcode/client'
+import { PlaceholderLogo } from '@headcode/client'
 
 const Navigation = ({
-  logo = PlaceholderImage,
+  logo = PlaceholderLogo,
   cta = {
     url: '/login',
-    title: 'Get started',
+    title: 'Call to action',
     newWindow: false,
   },
   blocks = [

@@ -41,6 +41,7 @@ export const setup = async (supabase: SupabaseClient<any, 'public', any>) => {
   if (config.clone) {
     await copyDataFromClone()
   } else {
+    console.log('insert admin', user, config.clone, ROLES.admin)
     await insertAdmin(supabase, user)
   }
 }
@@ -81,10 +82,9 @@ const insertAdmin = async (
 
 // TODO: add option to clone user generated postgres resources like custom stored procedures
 const copyDataFromClone = async () => {
-  // @ts-ignore
-  if (config.services.supabase.connectionString) {
-    // @ts-ignore
-    const sql = postgres(config.services.supabase.connectionString, sqlOptions)
+  const connectionString = process.env.SUPABASE_CONNECTION_STRING
+  if (connectionString) {
+    const sql = postgres(connectionString, sqlOptions)
 
     await sql`
 INSERT INTO ${sql(table(TABLES.roles))}
@@ -107,10 +107,9 @@ INSERT INTO ${sql(table(TABLES.sections))}
 }
 
 const createTables = async () => {
-  // @ts-ignore
-  if (config.services.supabase.connectionString) {
-    // @ts-ignore
-    const sql = postgres(config.services.supabase.connectionString, sqlOptions)
+  const connectionString = process.env.SUPABASE_CONNECTION_STRING
+  if (connectionString) {
+    const sql = postgres(connectionString, sqlOptions)
     const version = await sql`SELECT version();`
     console.log('Version 15 required', version)
 
@@ -143,8 +142,8 @@ CREATE TABLE public.${sql(table(TABLES.sections))} (
   )} UNIQUE NULLS NOT DISTINCT (name, slug)
 );`
 
-    // @ts-ignore
-    if (config.services.supabase.rowLevelSecurity) {
+    const rowLevelSecurity = true
+    if (rowLevelSecurity) {
       await sql`
 ALTER TABLE public.${sql(table(TABLES.roles))} ENABLE ROW LEVEL SECURITY;`
 

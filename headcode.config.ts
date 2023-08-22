@@ -12,7 +12,7 @@ import BlogHeroSection from './theme/bloghero/BlogHeroSection'
 import CopyTextSection from './theme/copytext/CopyTextSection'
 
 export default buildConfig({
-  version: 'v01',
+  version: 'v02',
   // clone: 'v01',
   globals: [
     {
@@ -33,6 +33,14 @@ export default buildConfig({
       // locales: ['de', 'it'],
       metadata: true,
       sections: [
+        HeroSection,
+        LogosSection,
+        TextBlocksSection,
+        CTASection,
+        PlansSection,
+        CardsSection,
+      ],
+      presets: [
         HeroSection,
         LogosSection,
         TextBlocksSection,

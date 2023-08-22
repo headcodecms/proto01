@@ -1,10 +1,10 @@
-import { PlaceholderRichText } from '@headcode/client'
+import { PlaceholderText } from '@headcode/client'
 import Link from 'next/link'
 
 const CTA = ({
   title = 'CTA title',
-  description = PlaceholderRichText,
-  link = { url: '#', title: 'Get started', newWindow: false },
+  description = PlaceholderText,
+  link = { url: '/login', title: 'Get started', newWindow: false },
 }) => {
   return (
     <div className="bg-gradient-to-bl from-sky-500 to-sky-600 py-24 text-white md:py-36">

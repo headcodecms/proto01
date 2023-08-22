@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { PlaceholderImage } from '@headcode/client'
+import { PlaceholderLogo } from '@headcode/client'
 
 const Footer = ({
-  logo = PlaceholderImage,
+  logo = PlaceholderLogo,
   blocks = [
     {
       name: 'link',
@@ -21,6 +21,16 @@ const Footer = ({
         link: {
           url: '#',
           title: 'Link 2',
+          newWindow: false,
+        },
+      },
+    },
+    {
+      name: 'link',
+      fields: {
+        link: {
+          url: '#',
+          title: 'Link 3',
           newWindow: false,
         },
       },

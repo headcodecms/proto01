@@ -1,19 +1,31 @@
-import { PlaceholderImage } from '@headcode/client'
+import { PlaceholderLogo } from '@headcode/client'
 import Image from 'next/image'
 
 const Logos = ({
-  title = 'Maybe trusted by',
+  title = 'Logo list title',
   blocks = [
     {
       name: 'logo',
       fields: {
-        logo: PlaceholderImage,
+        logo: PlaceholderLogo,
       },
     },
     {
       name: 'logo',
       fields: {
-        logo: PlaceholderImage,
+        logo: PlaceholderLogo,
+      },
+    },
+    {
+      name: 'logo',
+      fields: {
+        logo: PlaceholderLogo,
+      },
+    },
+    {
+      name: 'logo',
+      fields: {
+        logo: PlaceholderLogo,
       },
     },
   ],
@@ -22,7 +34,7 @@ const Logos = ({
     <div className="py-6 md:py-12">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
         <h3 className="text-center font-bold uppercase">{title}</h3>
-        <div className="flex flex-nowrap items-center overflow-auto">
+        <div className="flex flex-nowrap items-center justify-center overflow-auto">
           {blocks?.map(
             (item: any, index: number) =>
               item.name === 'logo' && (

@@ -1,10 +1,11 @@
+import { PlaceholderText } from '@headcode/client'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'next/link'
 
 const Plans = ({
   title = 'Title',
-  description = 'Description',
+  description = PlaceholderText,
   blocks = [
     {
       name: 'plan',
@@ -16,20 +17,94 @@ const Plans = ({
           title: 'Action',
           newWindow: false,
         },
-        description: 'Description',
+        description: PlaceholderText,
         popular: false,
       },
       blocks: [
         {
           name: 'feature',
           fields: {
-            feature: 'Facebook Ads',
+            feature: 'Feature 1',
           },
         },
         {
           name: 'feature',
           fields: {
-            feature: 'Google Ads',
+            feature: 'Feature 2',
+          },
+        },
+      ],
+    },
+    {
+      name: 'plan',
+      fields: {
+        name: 'Plan Name',
+        price: '$20',
+        action: {
+          url: '#',
+          title: 'Action',
+          newWindow: false,
+        },
+        description: PlaceholderText,
+        popular: true,
+      },
+      blocks: [
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 1',
+          },
+        },
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 2',
+          },
+        },
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 3',
+          },
+        },
+      ],
+    },
+    {
+      name: 'plan',
+      fields: {
+        name: 'Plan Name',
+        price: '$30',
+        action: {
+          url: '#',
+          title: 'Action',
+          newWindow: false,
+        },
+        description: PlaceholderText,
+        popular: false,
+      },
+      blocks: [
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 1',
+          },
+        },
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 2',
+          },
+        },
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 3',
+          },
+        },
+        {
+          name: 'feature',
+          fields: {
+            feature: 'Feature 4',
           },
         },
       ],

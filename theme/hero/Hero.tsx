@@ -1,9 +1,10 @@
+import { PlaceholderText } from '@headcode/client'
 import Link from 'next/link'
 
 const Hero = ({
   title = 'Hero title',
-  subtitle = 'Hero subtitle',
-  cta = { url: '#', title: 'Call to action', newWindow: false },
+  subtitle = PlaceholderText,
+  cta = { url: '/login', title: 'Call to action', newWindow: false },
   more = { url: '#', title: 'More info', newWindow: false },
 }: any) => {
   return (

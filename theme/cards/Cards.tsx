@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { PlaceholderImage } from '@headcode/client'
+import Banner from '@/_local_repos/headcode/ui/Banner'
 
 const Cards = ({
   title = 'Title',
@@ -54,35 +55,39 @@ const Cards = ({
           <h2 className="text-4xl font-bold">{title}</h2>
           <p className="text my-6 leading-6 text-gray-500">{description}</p>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-12">
-          {blocks?.map((item: any, index: number) => (
-            <div key={index} className="space-y-4">
-              <div className="relative w-full">
-                {item.fields.img.url && (
-                  <Image
-                    className="aspect-[16/9] w-full object-cover"
-                    src={item.fields.img.url}
-                    alt={item.fields.img.alt}
-                    width={item.fields.img.width}
-                    height={item.fields.img.height}
-                  />
-                )}
+        {blocks?.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-12">
+            {blocks?.map((item: any, index: number) => (
+              <div key={index} className="space-y-4">
+                <div className="relative w-full">
+                  {item.fields.img.url && (
+                    <Image
+                      className="aspect-[16/9] w-full object-cover"
+                      src={item.fields.img.url}
+                      alt={item.fields.img.alt}
+                      width={item.fields.img.width}
+                      height={item.fields.img.height}
+                    />
+                  )}
+                </div>
+                <h4 className="text-2xl font-bold">{item.fields.title}</h4>
+                <p className="line-clamp-3 text-sm leading-5 text-gray-500">
+                  {item.fields.description}
+                </p>
+                <div>
+                  <Link
+                    className="text-gray-500 underline hover:text-gray-800"
+                    href={item.fields.link.url}
+                  >
+                    {item.fields.link.title}
+                  </Link>
+                </div>
               </div>
-              <h4 className="text-2xl font-bold">{item.fields.title}</h4>
-              <p className="line-clamp-3 text-sm leading-5 text-gray-500">
-                {item.fields.description}
-              </p>
-              <div>
-                <Link
-                  className="text-gray-500 underline hover:text-gray-800"
-                  href={item.fields.link.url}
-                >
-                  {item.fields.link.title}
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <Banner size="sm">No entries found.</Banner>
+        )}
       </div>
     </div>
   )

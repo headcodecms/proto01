@@ -44,6 +44,15 @@ const TextBlocks = ({
         description: PlaceholderRichText,
       },
     },
+    {
+      name: 'block',
+      fields: {
+        icon: 'analytics',
+        caption: 'Caption',
+        title: 'Title',
+        description: PlaceholderRichText,
+      },
+    },
   ],
 }) => {
   return (
