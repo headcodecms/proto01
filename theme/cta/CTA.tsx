@@ -1,9 +1,9 @@
-import { PlacholderRichText } from '@headcode/client'
+import { PlaceholderRichText } from '@headcode/client'
 import Link from 'next/link'
 
 const CTA = ({
   title = 'CTA title',
-  description = PlacholderRichText,
+  description = PlaceholderRichText,
   link = { url: '#', title: 'Get started', newWindow: false },
 }) => {
   return (

@@ -71,6 +71,15 @@ export type SectionConfig = SectionBase & {
 
 // Types for service interfaces
 
+export type CollectionOptions = {
+  locale?: string
+  range?: {
+    from: number
+    to: number
+  }
+  tags?: string | string[]
+}
+
 export interface DBInterface {
   setup(): Promise<void>
 
@@ -78,6 +87,7 @@ export interface DBInterface {
   setRole(id: string, role: string): Promise<void>
 
   getCollections(name: string, locale?: string): Promise<any[]>
+  findCollections(name: string, options?: CollectionOptions): Promise<any[]>
 
   saveSection(section: Section): Promise<any>
   deleteSection(id: string): Promise<void>

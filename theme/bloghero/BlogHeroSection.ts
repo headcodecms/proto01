@@ -1,4 +1,4 @@
-import { TextField, buildSection, RichTextField, ImageField } from '@headcode'
+import { TextField, buildSection, ImageField, TextAreaField } from '@headcode'
 import BlogHero from './BlogHero'
 
 export default buildSection({
@@ -17,7 +17,7 @@ export default buildSection({
     },
     excerpt: {
       label: 'Excerpt',
-      type: RichTextField,
+      type: TextAreaField,
     },
   },
 })

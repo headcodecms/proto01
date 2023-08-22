@@ -1,6 +1,7 @@
 import { Data, FieldsData, SectionBase } from '../types'
 import { v4 as uuidv4 } from 'uuid'
-import { parseFields } from './parser'
+import { parseFields, parseSectionData } from './parser'
+import { getCollectionConfig, getGlobalConfig } from './config'
 
 export const getDefaultSectionData = (config: SectionBase) => ({
   id: uuidv4(),
@@ -113,4 +114,17 @@ export const sortListByList = <T extends ListItem>(
 ) => {
   const listIds = list.map((item) => item.id)
   return data.sort((a, b) => listIds.indexOf(a.id) - listIds.indexOf(b.id))
+}
+
+export const findSectionData = (
+  data: any,
+  sectionName: string,
+  name: string,
+  slug?: string
+) => {
+  const config = slug ? getCollectionConfig(name) : getGlobalConfig(name)
+  if (!config) return null
+
+  const sectionData = parseSectionData(data, config)
+  return sectionData.find((item: any) => item.name === sectionName)
 }

@@ -1,4 +1,4 @@
-import { PlacholderRichText } from '@headcode/client'
+import { PlaceholderRichText } from '@headcode/client'
 import {
   ArrowTrendingUpIcon,
   BanknotesIcon,
@@ -32,7 +32,7 @@ const TextBlocks = ({
         icon: 'analytics',
         caption: 'Caption',
         title: 'Title',
-        description: PlacholderRichText,
+        description: PlaceholderRichText,
       },
     },
     {
@@ -41,7 +41,7 @@ const TextBlocks = ({
         icon: 'analytics',
         caption: 'Caption',
         title: 'Title',
-        description: PlacholderRichText,
+        description: PlaceholderRichText,
       },
     },
   ],

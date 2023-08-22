@@ -41,7 +41,7 @@ const parseMetadata = (data: MetaData | null) => {
   }
 }
 
-const parseSectionData = (data: Section, config: SectionTypeConfig) => {
+export const parseSectionData = (data: Section, config: SectionTypeConfig) => {
   let sections: Data[] = []
   if (Array.isArray(data.data)) {
     sections = data.data

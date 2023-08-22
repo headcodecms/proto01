@@ -9,10 +9,11 @@ import {
   addSection as addSupabaseSection,
   deleteSection as deleteSupabaseSection,
   getCollections as getSupabaseCollections,
+  findCollections as findSupabaseCollections,
   getSection as getSupabaseSection,
   saveSection as saveSupabaseSection,
 } from './db/supabaseSections'
-import { DBInterface, Section } from '../../types'
+import { CollectionOptions, DBInterface, Section } from '../../types'
 
 const supabaseClient = () => createServerComponentClient({ cookies })
 
@@ -35,6 +36,12 @@ const getCollections = async (name: string, locale?: string) => {
   const supabase = supabaseClient()
   return await getSupabaseCollections(supabase, name, locale)
 }
+
+const findCollections = async (name: string, options?: CollectionOptions) => {
+  const supabase = supabaseClient()
+  return await findSupabaseCollections(supabase, name, options)
+}
+
 
 const saveSection = async (section: Section) => {
   const supabase = supabaseClient()
@@ -61,6 +68,7 @@ const SupabaseDB: DBInterface = {
   getRoles,
   setRole,
   getCollections,
+  findCollections,
   saveSection,
   deleteSection,
   addSection,

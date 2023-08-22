@@ -1,10 +1,10 @@
-import { PlaceholderImage, PlacholderRichText } from '@headcode/client'
+import { PlaceholderImage, PlaceholderText } from '@headcode/client'
 import Image from 'next/image'
 
 const BlogHero = ({
   img = PlaceholderImage,
   title = 'Title',
-  excerpt = PlacholderRichText,
+  excerpt = PlaceholderText,
 }) => {
   return (
     <div className="pb-6">
@@ -20,10 +20,7 @@ const BlogHero = ({
         </div>
         <div className="mt-12 max-w-4xl">
           <h1 className="mb-6 text-4xl font-bold md:text-5xl">{title}</h1>
-          <div
-            className="prose prose-xl prose-gray"
-            dangerouslySetInnerHTML={{ __html: excerpt }}
-          />
+          <p className="prose prose-xl prose-gray">{excerpt}</p>
         </div>
       </div>
     </div>

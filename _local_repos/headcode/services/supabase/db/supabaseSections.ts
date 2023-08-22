@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { TABLES, table } from '../../../utils/db'
-import { Section } from '../../../types'
+import { CollectionOptions, Section } from '../../../types'
 
 export const getCollections = async (
   supabase: SupabaseClient<any, 'public', any>,
@@ -16,6 +16,35 @@ export const getCollections = async (
     : await supabase
         .from(table(TABLES.sections))
         .select('name, slug')
+        .match({ name })
+        .is('locale', null)
+        .order('published_at')
+
+  if (error) {
+    const message = 'Error getting collections'
+    console.error(message, error)
+    throw new Error(message)
+  }
+
+  return data
+}
+
+export const findCollections = async (
+  supabase: SupabaseClient<any, 'public', any>,
+  name: string,
+  options?: CollectionOptions
+) => {
+  const locale = options?.locale ?? null
+
+  const { data, error } = locale
+    ? await supabase
+        .from(table(TABLES.sections))
+        .select()
+        .match({ name, locale })
+        .order('published_at')
+    : await supabase
+        .from(table(TABLES.sections))
+        .select()
         .match({ name })
         .is('locale', null)
         .order('published_at')
