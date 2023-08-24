@@ -41,7 +41,6 @@ export const setup = async (supabase: SupabaseClient<any, 'public', any>) => {
   if (config.clone) {
     await copyDataFromClone()
   } else {
-    console.log('insert admin', user, config.clone, ROLES.admin)
     await insertAdmin(supabase, user)
   }
 }
@@ -197,7 +196,8 @@ const createStorage = async (
   const { data: bucketExists } = await supabase.storage.getBucket(bucket)
   if (bucketExists) return
 
-  const supabaseConnectionString = process.env.SUPABASE_CONNECTION_STRING ?? false
+  const supabaseConnectionString =
+    process.env.SUPABASE_CONNECTION_STRING ?? false
   if (supabaseConnectionString) {
     // @ts-ignore
     const sql = postgres(supabaseConnectionString, sqlOptions)
@@ -219,10 +219,8 @@ CREATE POLICY "Every authenticated user can create a bucket"
 
     if (error) {
       console.error('Setup error: Creating storage bucket', bucket)
-      throw new Error(error.message)
-    }
-
-    await sql`
+    } else {
+      await sql`
 CREATE POLICY "Enable SELECT for all users" 
   ON storage.objects 
   FOR SELECT TO public 
@@ -233,6 +231,7 @@ CREATE POLICY "Enable all actions for authenticated users"
   ON storage.objects 
   FOR INSERT TO authenticated 
   WITH CHECK (bucket_id = 'headcode');`
+    }
   } else {
     const message =
       'current version requires config.services.supabase.connectionString'

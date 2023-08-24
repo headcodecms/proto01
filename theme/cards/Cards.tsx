@@ -74,14 +74,16 @@ const Cards = ({
                 <p className="line-clamp-3 text-sm leading-5 text-gray-500">
                   {item.fields.description}
                 </p>
-                <div>
-                  <Link
-                    className="text-gray-500 underline hover:text-gray-800"
-                    href={item.fields.link.url}
-                  >
-                    {item.fields.link.title}
-                  </Link>
-                </div>
+                {item.fields.link.url.length > 0 ? (
+                  <div>
+                    <Link
+                      className="text-gray-500 underline hover:text-gray-800"
+                      href={item.fields.link.url}
+                    >
+                      {item.fields.link.title}
+                    </Link>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

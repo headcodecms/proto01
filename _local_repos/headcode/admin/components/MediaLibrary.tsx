@@ -29,17 +29,13 @@ const MediaLibrary = ({
     appendImages()
   }, [show])
 
-  const handleImageLoaded = (e: any) => {
-    const newImages = images.map((item) =>
-      item.name === e.currentTarget.id
-        ? {
-            ...item,
-            width: e.currentTarget.naturalWidth,
-            height: e.currentTarget.naturalHeight,
-          }
-        : item
-    )
-    setImages(newImages)
+  const handleImageSelected = (item: any) => {
+    const el = document.getElementById(item.name) as HTMLImageElement
+    handleSelected({
+      ...item,
+      width: el.naturalWidth,
+      height: el.naturalHeight,
+    })
   }
 
   return (
@@ -48,13 +44,12 @@ const MediaLibrary = ({
         {images.map((item, index) => {
           return (
             <button
-              onClick={() => handleSelected(item)}
+              onClick={() => handleImageSelected(item)}
               key={index}
               className="shrink-0"
             >
               <img
                 id={item.name}
-                onLoad={handleImageLoaded}
                 className="h-40 w-40 rounded border border-gray-300 object-cover object-center"
                 src={StorageService.getPublicUrl(item.url)}
                 alt={item.name}

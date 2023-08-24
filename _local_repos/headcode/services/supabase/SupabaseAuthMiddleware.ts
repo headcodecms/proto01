@@ -44,9 +44,26 @@ const middleware = async ({
   role = await getRole({ supabase, session })
   if (!role) return '/headcode/setup'
 
+  clearCookies({ req, res })
   res.cookies.set(table(TABLES.roles), role)
   res.cookies.set(table('email'), session.user.email!)
   return role === ROLES.new ? '/headcode/error/denied' : null
+}
+
+const clearCookies = ({
+  req,
+  res,
+}: {
+  req: NextRequest
+  res: NextResponse
+}) => {
+  const cookies = req.cookies.getAll()
+  for (let i = 0; i < cookies.length; i++) {
+    const name = cookies[i].name
+    if (name.endsWith('_roles') || name.endsWith('_email')) {
+      res.cookies.delete(name)
+    }
+  }
 }
 
 const getRole = async ({

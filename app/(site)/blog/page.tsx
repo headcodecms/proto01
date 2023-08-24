@@ -1,4 +1,3 @@
-import BlogHeroSection from '@/theme/bloghero/BlogHeroSection'
 import Cards from '@/theme/cards/Cards'
 import { DBService, findSectionData, getMetadata } from '@headcode/server'
 
@@ -9,7 +8,7 @@ export const generateMetadata = async () => {
 const Page = async () => {
   const data = await DBService.findCollections('blog')
   const blocks = data.map((item) => {
-    const sectionName = BlogHeroSection.name
+    const sectionName = 'headcodecms/theme-proto:BlogHeroSection'
     const section = findSectionData(item, sectionName, 'blog', item.name)
     return section
       ? {

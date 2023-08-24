@@ -6,7 +6,7 @@ const Hero = ({
   subtitle = PlaceholderText,
   cta = { url: '/login', title: 'Call to action', newWindow: false },
   more = { url: '#', title: 'More info', newWindow: false },
-}: any) => {
+}) => {
   return (
     <div className="py-6 md:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
