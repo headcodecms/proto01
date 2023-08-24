@@ -120,30 +120,35 @@ const VisualEditing = () => {
     router.refresh()
   }
 
-  return showVisualEditing ? (
+  return (
     <>
-      <div className="fixed bottom-[6%] left-1/2 flex -translate-x-1/2 items-center space-x-4 rounded-full border-2 border-gray-600 bg-gray-700 px-4 py-1 text-gray-200">
-        <button type="button">
-          <ChatBubbleOvalLeftIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
-        </button>
-        <button type="button">
-          <InboxIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
-        </button>
-        <button type="button" onClick={handleVisualEditing}>
-          <PencilSquareIcon
-            className={clsx(
-              'h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white',
-              editingEnabled && 'border border-gray-500 bg-gray-600'
-            )}
-          />
-        </button>
-        <button type="button">
-          <ArrowUpTrayIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
-        </button>
-        <button type="button">
-          <EllipsisHorizontalIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
-        </button>
-      </div>
+      {showVisualEditing ? (
+        <>
+          <div className="fixed bottom-[6%] left-1/2 flex -translate-x-1/2 items-center space-x-4 rounded-full border-2 border-gray-600 bg-gray-700 px-4 py-1 text-gray-200">
+            <button type="button">
+              <ChatBubbleOvalLeftIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
+            </button>
+            <button type="button">
+              <InboxIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
+            </button>
+            <button type="button" onClick={handleVisualEditing}>
+              <PencilSquareIcon
+                className={clsx(
+                  'h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white',
+                  editingEnabled && 'border border-gray-500 bg-gray-600'
+                )}
+              />
+            </button>
+            <button type="button">
+              <ArrowUpTrayIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
+            </button>
+            <button type="button">
+              <EllipsisHorizontalIcon className="h-10 w-10 rounded-full px-2 py-1 text-gray-300 hover:bg-gray-600 hover:text-white" />
+            </button>
+          </div>
+        </>
+      ) : null}
+
       <Transition.Root show={showDialog} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={handleCancel}>
           <Transition.Child
@@ -229,7 +234,7 @@ const VisualEditing = () => {
         </Dialog>
       </Transition.Root>
     </>
-  ) : null
+  )
 }
 
 const EditorHeader = ({ info }: { info: VisualEditingData | null }) => {
