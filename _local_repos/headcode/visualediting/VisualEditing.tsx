@@ -39,6 +39,7 @@ const VisualEditing = () => {
   const [view, setView] = useState<string>(VIEW.loading)
   const [info, setInfo] = useState<VisualEditingData | null>(null)
   const [data, setData] = useState<any>(null)
+  const showVisualEditing = process.env.NODE_ENV === 'development'
 
   useEffect(() => {
     window.addEventListener<any>('edit:open', (event: CustomEvent) => {
@@ -119,7 +120,7 @@ const VisualEditing = () => {
     router.refresh()
   }
 
-  return (
+  return showVisualEditing ? (
     <>
       <div className="fixed bottom-[6%] left-1/2 flex -translate-x-1/2 items-center space-x-4 rounded-full border-2 border-gray-600 bg-gray-700 px-4 py-1 text-gray-200">
         <button type="button">
@@ -228,7 +229,7 @@ const VisualEditing = () => {
         </Dialog>
       </Transition.Root>
     </>
-  )
+  ) : null
 }
 
 const EditorHeader = ({ info }: { info: VisualEditingData | null }) => {
