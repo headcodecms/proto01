@@ -42,16 +42,20 @@ export const getMetadata = async (
   slug?: string,
   locale?: string
 ) => {
-  const data = await DBService.getSection(name, slug, locale)
-  if (data.length === 1) {
-    const meta = data[0].meta
-    if (meta) {
-      const obj: MetaData = {}
-      if (meta.title.length > 0) obj.title = meta.title
-      if (meta.description.length > 0) obj.description = meta.description
-
-      return obj
+  try {
+    const data = await DBService.getSection(name, slug, locale)
+    if (data.length === 1) {
+      const meta = data[0].meta
+      if (meta) {
+        const obj: MetaData = {}
+        if (meta.title.length > 0) obj.title = meta.title
+        if (meta.description.length > 0) obj.description = meta.description
+  
+        return obj
+      }
     }
+  } catch (error) {
+    console.error(error)
   }
 
   return null

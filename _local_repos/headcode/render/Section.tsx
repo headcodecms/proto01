@@ -5,6 +5,7 @@ import { DBService } from '@headcode/server'
 import { getEmptySectionData } from '../utils/data'
 import DefaultRenderer from './DefaultRenderer'
 import React from 'react'
+import Link from 'next/link'
 
 const getPresets = (config: SectionTypeConfig) => {
   if (!Array.isArray(config.presets)) return []
@@ -23,21 +24,30 @@ const Section = async ({
   const config = slug ? getCollectionConfig(name) : getGlobalConfig(name)
   if (!config) return <InvalidConfigError name={name} slug={slug} />
 
-  let data = await DBService.getSection(name, slug, locale)
-  if (data.length === 0 && locale && localeFallback) {
-    data = await DBService.getSection(name, slug, null)
-  }
+  try {
+    let data = await DBService.getSection(name, slug, locale)
+    if (data.length === 0 && locale && localeFallback) {
+      data = await DBService.getSection(name, slug, null)
+    }
 
-  const id = data.length === 1 ? data[0].id : null
-  const sections: any[] = data.length === 1 ? data[0].data : getPresets(config)
-  return React.createElement(renderer ?? DefaultRenderer, {
-    id,
-    name,
-    slug,
-    locale,
-    config,
-    sections,
-  })
+    const id = data.length === 1 ? data[0].id : null
+    const sections: any[] =
+      data.length === 1 ? data[0].data : getPresets(config)
+    return React.createElement(renderer ?? DefaultRenderer, {
+      id,
+      name,
+      slug,
+      locale,
+      config,
+      sections,
+    })
+  } catch (error) {
+    return (
+      <Banner error={true} size="sm">
+        <Link href="/headcode/setup">Finish setup</Link>
+      </Banner>
+    )
+  }
 }
 
 const InvalidConfigError = ({
