@@ -6,6 +6,7 @@ import { getEmptySectionData } from '../utils/data'
 import DefaultRenderer from './DefaultRenderer'
 import React from 'react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 const getPresets = (config: SectionTypeConfig) => {
   if (!Array.isArray(config.presets)) return []
@@ -42,11 +43,7 @@ const Section = async ({
       sections,
     })
   } catch (error) {
-    return (
-      <Banner error={true} size="sm">
-        <Link href="/headcode/setup">Finish setup</Link>
-      </Banner>
-    )
+    redirect('/headcode/setup')
   }
 }
 
