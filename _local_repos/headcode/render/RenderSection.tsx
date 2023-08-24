@@ -46,10 +46,9 @@ const RenderSection = ({
   const theme = sectionConfig.theme ?? 'custom'
   // @ts-ignore
   const component = sectionConfig.component
-  const origin =  `${name} / ${sectionConfig.label}`
 
   const info: VisualEditingInfo = {
-    origin,
+    origin: 'headcodecms.com',
     data: {
       id,
       name,
@@ -83,7 +82,7 @@ const RenderSection = ({
     >
       {isEditable && (
         <VisualEditingButton info={info}>
-          Open in {origin}
+          Edit {name} / {sectionConfig.label}
         </VisualEditingButton>
       )}
       {React.createElement(component, data)}

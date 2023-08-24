@@ -6,6 +6,7 @@ import {
   PhotoIcon,
   StopIcon,
   Square2StackIcon,
+  GlobeAltIcon,
 } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { usePathname } from 'next/navigation'
@@ -28,6 +29,7 @@ export const navigation = [
   },
   { name: 'Media', href: '/headcode/admin/media', icon: PhotoIcon },
   { name: 'Users', href: '/headcode/admin/users', icon: UsersIcon },
+  { name: 'Website', href: '/', icon: GlobeAltIcon },
 ]
 
 const Nav = ({ small }: { small: boolean }) => {
@@ -41,7 +43,7 @@ const Nav = ({ small }: { small: boolean }) => {
           href={item.href}
           className={clsx(
             small ? 'text-sm' : 'text-base',
-            pathname.startsWith(item.href)
+            item.href !== '/' && pathname.startsWith(item.href)
               ? 'bg-gray-100 text-gray-900'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
             'group flex items-center rounded-md px-2 py-2 font-medium'
