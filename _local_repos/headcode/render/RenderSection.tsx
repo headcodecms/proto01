@@ -12,7 +12,6 @@ const RenderSection = ({
   locale,
   section,
   config,
-  editable,
 }: {
   id: string | null
   name: string
@@ -20,9 +19,8 @@ const RenderSection = ({
   locale?: string | null
   section: any
   config: SectionTypeConfig
-  editable?: boolean
 }) => {
-  const isEditable = editable ?? true
+  const isEditable = process.env.NODE_ENV === 'development'
   const sectionConfig = findMatchingConfig<SectionConfig>(
     section.name,
     config.sections
@@ -48,9 +46,10 @@ const RenderSection = ({
   const theme = sectionConfig.theme ?? 'custom'
   // @ts-ignore
   const component = sectionConfig.component
+  const origin =  `${name} / ${sectionConfig.label}`
 
   const info: VisualEditingInfo = {
-    origin: 'headcodecms.com',
+    origin,
     data: {
       id,
       name,
@@ -84,7 +83,7 @@ const RenderSection = ({
     >
       {isEditable && (
         <VisualEditingButton info={info}>
-          Edit {name} / {sectionConfig.label}
+          Open in {origin}
         </VisualEditingButton>
       )}
       {React.createElement(component, data)}

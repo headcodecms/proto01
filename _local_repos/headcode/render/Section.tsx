@@ -19,7 +19,6 @@ const Section = async ({
   locale,
   localeFallback,
   renderer,
-  editable,
 }: RenderSection) => {
   const config = slug ? getCollectionConfig(name) : getGlobalConfig(name)
   if (!config) return <InvalidConfigError name={name} slug={slug} />
@@ -38,7 +37,6 @@ const Section = async ({
     locale,
     config,
     sections,
-    editable,
   })
 }
 

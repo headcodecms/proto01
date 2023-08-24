@@ -22,7 +22,7 @@ const VisualEditingButton = ({ info, children }: any) => {
         <button
           type="button"
           onClick={handleEdit}
-          className="absolute right-0 top-0 hidden max-w-[200px] truncate bg-blue-600 px-2 py-1 text-xs text-white opacity-80 hover:opacity-100 group-hover:block"
+          className="absolute right-0 top-0 hidden max-w-[250px] truncate bg-blue-600 px-2 py-1 text-xs text-white opacity-80 hover:opacity-100 group-hover:block"
         >
           {children}
         </button>

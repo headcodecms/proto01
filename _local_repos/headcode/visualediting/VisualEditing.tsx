@@ -43,7 +43,7 @@ const VisualEditing = () => {
   useEffect(() => {
     window.addEventListener<any>('edit:open', (event: CustomEvent) => {
       const { origin, data } = event.detail
-      if (origin !== 'headcodecms.com') return
+      // if (origin !== 'headcodecms.com') return
 
       setInfo(data)
       setShowDialog(true)

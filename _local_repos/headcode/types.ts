@@ -239,7 +239,6 @@ export type RenderSection = {
   locale?: string | null
   localeFallback?: boolean
   renderer?: any
-  editable?: boolean
 }
 
 export type VisualEditingData = {
