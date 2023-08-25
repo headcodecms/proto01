@@ -68,7 +68,7 @@ const TextBlocks = ({
               const CurrentIcon = Icon[item.fields.icon]
 
               return (
-                <div className="space-y-2">
+                <div key={index} className="space-y-2">
                   <div className="mb-4">
                     <CurrentIcon className="h-10 w-10 rounded-lg bg-sky-400 p-1.5 text-sky-50" />
                   </div>
