@@ -5,8 +5,7 @@ export const generateMetadata = async ({
 }: {
   params: { slug: string }
 }) => {
-  console.log('metadata', slug)
-  return await getMetadata('blog.overview')
+  return await getMetadata('blog', slug)
 }
 
 const Page = ({ params: { slug } }: { params: { slug: string } }) => {
