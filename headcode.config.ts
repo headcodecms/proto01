@@ -12,8 +12,8 @@ import BlogHeroSection from './theme/bloghero/BlogHeroSection'
 import CopyTextSection from './theme/copytext/CopyTextSection'
 
 export default buildConfig({
-  version: 'v03',
-  clone: 'v01',
+  version: 'v01',
+  // clone: 'v01',
   globals: [
     {
       name: 'global.navigation',
