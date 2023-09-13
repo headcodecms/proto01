@@ -2,6 +2,10 @@
 
 Headcode CMS is a 100% open-source headless CMS. It does not require a separate CMS server or cloud service. Simply embed it into your Next.js 13 project - configure Supabase for database, storage, and Auth - and you are DONE! Future versions will support additional front-end frameworks and cloud services.
 
+More information:
+- [Video - walkthrough all features](https://youtu.be/kGzsYRvDjn8?si=qIgt-UeUqEno5HZZ)
+- [www.headcodecms.com](https://www.headcodecms.com/)
+
 ## Setup and Installation
 
 To run the prototype locally you need to perform the following steps:
@@ -12,7 +16,8 @@ To run the prototype locally you need to perform the following steps:
 4. Create a new [Supabase](https://supabase.com) project
 5. Add Supabase connection strings to .env.local
 6. Run "npm run dev" to start the server
-7. Open http://localhost:3000 to setup the database tables and storage.
+7. Open http://localhost:3000 
+8. Click "Register" to register and account and setup the database tables and storage.
 
 ### Upload Demo Data
 
@@ -39,3 +44,13 @@ The prototype requires Supabase to work correctly. Therefore configure the follo
     NEXT_PUBLIC_SUPABASE_URL=https://<PROJECT_ID>.supabase.co
     NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
     SUPABASE_CONNECTION_STRING=postgresql://postgres:xxx
+
+## PLEASE NOTE
+
+In this demo I bundled an early version of Headcode CMS with a basic theme. It is not intended to be used in production, and I don't give support for this repository.
+
+I'm currently working on the npm packages which includes documention, full TypeScript support, and testing.
+
+You may not redistribute copies of this demo under a different name.
+
+For feedback you can reach me at X (Twitter) via (@markustripp)[https://twitter.com/markustripp] or via email: markus@headcodecms.com
