@@ -7,7 +7,7 @@ Headcode CMS is a 100% open-source headless CMS. It does not require a separate 
 To run the prototype locally you need to perform the following steps:
 
 1. Clone or download the repository from GitHub
-2. Run "npm install" to install the dependencies
+2. Run "npm install --legacy-peer-deps" to install the dependencies
 3. Copy .env.local.example to .env.local
 4. Create a new [Supabase](https://supabase.com) project
 5. Add Supabase connection strings to .env.local
@@ -36,7 +36,6 @@ Unzip the file supabase-storage.zip from the folder _demo_data and upload the fi
 
 The prototype requires Supabase to work correctly. Therefore configure the following environment variables (e.g.: .env.local):
 
-    NEXT_PUBLIC_SUPABASE_URL=
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=
-    SUPABASE_CONNECTION_STRING=
-
+    NEXT_PUBLIC_SUPABASE_URL=https://<PROJECT_ID>.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
+    SUPABASE_CONNECTION_STRING=postgresql://postgres:xxx
