@@ -55,20 +55,23 @@ const Navigation = ({
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between">
             <div className="flex items-center md:gap-x-12">
-              <Link href="/">
-                <Image
-                  className="h-8 w-auto md:h-10"
-                  src={logo.url}
-                  alt={logo.alt}
-                  width={logo.width}
-                  height={logo.height}
-                />
-              </Link>
+              {!!logo.url && (
+                <Link href="/">
+                  <Image
+                    className="h-8 w-auto md:h-10"
+                    src={logo.url}
+                    alt={logo.alt}
+                    width={logo.width}
+                    height={logo.height}
+                  />
+                </Link>
+              )}
               <nav className="hidden md:flex md:gap-x-2">
                 {blocks &&
                   blocks.map(
                     (item: any, index: number) =>
-                      item.name === 'link' && (
+                      item.name === 'link' &&
+                      !!item.fields?.link?.url && (
                         <Link
                           key={index}
                           className="rounded-md px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900"
@@ -81,7 +84,7 @@ const Navigation = ({
               </nav>
             </div>
             <div className="flex items-center gap-x-2 md:gap-x-8">
-              {cta && (
+              {!!cta.url && (
                 <Link
                   className="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                   href={cta.url}
@@ -132,13 +135,15 @@ const MobileMenu = ({
       <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-4 py-7 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
         <div className="flex items-center justify-between">
           <div>
-            <Image
-              className="h-8 w-auto md:h-10"
-              src={logo.url}
-              alt={logo.alt}
-              width={logo.width}
-              height={logo.height}
-            />
+            {!!logo.url && (
+              <Image
+                className="h-8 w-auto md:h-10"
+                src={logo.url}
+                alt={logo.alt}
+                width={logo.width}
+                height={logo.height}
+              />
+            )}
           </div>
           <button
             type="button"
@@ -153,22 +158,22 @@ const MobileMenu = ({
             <Link href="/" className="block leading-9 text-gray-600">
               Home
             </Link>
-            {blocks &&
-              blocks.map(
-                (item: any, index: number) =>
-                  item.name === 'link' && (
-                    <Link
-                      key={index}
-                      className="block leading-9 text-gray-600"
-                      href={item.fields.link.url}
-                    >
-                      {item.fields.link.title}
-                    </Link>
-                  )
-              )}
+            {blocks?.map(
+              (item: any, index: number) =>
+                item.name === 'link' &&
+                !!item.fields?.link?.url && (
+                  <Link
+                    key={`nav-link-${index}`}
+                    className="block leading-9 text-gray-600"
+                    href={item.fields.link.url}
+                  >
+                    {item.fields.link.title}
+                  </Link>
+                )
+            )}
           </div>
           <div className="mt-2">
-            {cta && (
+            {!!cta.url && (
               <Link
                 href={cta.url}
                 className="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"

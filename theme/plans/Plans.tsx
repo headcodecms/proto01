@@ -121,7 +121,7 @@ const Plans = ({
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-12">
           {blocks?.map((item: any, index: number) => (
             <div
-              key={index}
+              key={`plan-${index}`}
               className={clsx(
                 'space-y-6 rounded-xl  px-4 py-8 shadow-2xl',
                 item.fields.popular
@@ -131,17 +131,19 @@ const Plans = ({
             >
               <h3 className="text-5xl font-light">{item.fields.price}</h3>
               <h4 className="text-lg font-bold">{item.fields.name}</h4>
-              <Link
-                className={clsx(
-                  'inline-block w-full rounded-md  px-4 py-2.5 text-center text-lg font-medium  shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 md:px-5 md:py-3 md:text-xl',
-                  item.fields.popular
-                    ? 'bg-white text-sky-700 hover:bg-sky-200'
-                    : 'bg-sky-600 text-white hover:bg-sky-500'
-                )}
-                href={item.fields.action.url}
-              >
-                {item.fields.action.title}
-              </Link>
+              {!!item.fields.action.url && (
+                <Link
+                  className={clsx(
+                    'inline-block w-full rounded-md  px-4 py-2.5 text-center text-lg font-medium  shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 md:px-5 md:py-3 md:text-xl',
+                    item.fields.popular
+                      ? 'bg-white text-sky-700 hover:bg-sky-200'
+                      : 'bg-sky-600 text-white hover:bg-sky-500'
+                  )}
+                  href={item.fields.action.url}
+                >
+                  {item.fields.action.title}
+                </Link>
+              )}
               <p
                 className={clsx(
                   'text-sm leading-5',
@@ -156,8 +158,11 @@ const Plans = ({
                   item.fields.popular ? 'text-sky-100' : 'text-gray-700'
                 )}
               >
-                {item.blocks.map((item2: any, index2: number) => (
-                  <li key={index2} className="flex items-center space-x-2">
+                {item.blocks?.map((item2: any, index2: number) => (
+                  <li
+                    key={`feature-${index2}`}
+                    className="flex items-center space-x-2"
+                  >
                     <span>
                       <CheckCircleIcon
                         className={clsx(

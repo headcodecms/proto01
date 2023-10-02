@@ -2,7 +2,20 @@ import { PlaceholderRichText } from '@headcode/client'
 import {
   ArrowTrendingUpIcon,
   BanknotesIcon,
-  BellAlertIcon, BoltIcon, BuildingStorefrontIcon, CameraIcon, ChatBubbleLeftRightIcon, CircleStackIcon, CloudIcon, Cog6ToothIcon, DocumentCheckIcon, IdentificationIcon, MegaphoneIcon, PencilSquareIcon, ShieldCheckIcon, TruckIcon,
+  BellAlertIcon,
+  BoltIcon,
+  BuildingStorefrontIcon,
+  CameraIcon,
+  ChatBubbleLeftRightIcon,
+  CircleStackIcon,
+  CloudIcon,
+  Cog6ToothIcon,
+  DocumentCheckIcon,
+  IdentificationIcon,
+  MegaphoneIcon,
+  PencilSquareIcon,
+  ShieldCheckIcon,
+  TruckIcon,
 } from '@heroicons/react/24/outline'
 
 export const Icon = {
@@ -21,7 +34,7 @@ export const Icon = {
   edit: PencilSquareIcon,
   security: ShieldCheckIcon,
   truck: TruckIcon,
-  camera: CameraIcon
+  camera: CameraIcon,
 }
 
 const TextBlocks = ({
@@ -68,7 +81,7 @@ const TextBlocks = ({
               const CurrentIcon = Icon[item.fields.icon]
 
               return (
-                <div key={index} className="space-y-2">
+                <div key={`text-block-${index}`} className="space-y-2">
                   <div className="mb-4">
                     <CurrentIcon className="h-10 w-10 rounded-lg bg-sky-400 p-1.5 text-sky-50" />
                   </div>
