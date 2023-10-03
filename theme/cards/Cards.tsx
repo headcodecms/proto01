@@ -58,9 +58,9 @@ const Cards = ({
         {blocks?.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-12">
             {blocks?.map((item: any, index: number) => (
-              <div key={index} className="space-y-4">
+              <div key={`card-${index}`} className="space-y-4">
                 <div className="relative w-full">
-                  {item.fields.img.url && (
+                  {!!item.fields?.img?.url && (
                     <Image
                       className="aspect-[16/9] w-full object-cover"
                       src={item.fields.img.url}
@@ -74,7 +74,7 @@ const Cards = ({
                 <p className="line-clamp-3 text-sm leading-5 text-gray-500">
                   {item.fields.description}
                 </p>
-                {item.fields.link.url.length > 0 ? (
+                {!!item.fields.link.url && (
                   <div>
                     <Link
                       className="text-gray-500 underline hover:text-gray-800"
@@ -83,7 +83,7 @@ const Cards = ({
                       {item.fields.link.title}
                     </Link>
                   </div>
-                ) : null}
+                )}
               </div>
             ))}
           </div>

@@ -37,16 +37,17 @@ const Logos = ({
         <div className="flex flex-nowrap items-center justify-center overflow-auto">
           {blocks?.map(
             (item: any, index: number) =>
-              item.name === 'logo' && (
+              item.name === 'logo' &&
+              !!item.fields?.logo?.url && (
                 <div
-                  key={index}
+                  key={`logo-${index}`}
                   className="mx-2.5 w-1/6 flex-none px-1 py-6 sm:mx-1.5 sm:w-[10%] sm:px-2"
                 >
                   <Image
-                    src={item.fields.logo.url}
-                    alt={item.fields.logo.alt}
-                    width={item.fields.logo.width}
-                    height={item.fields.logo.height}
+                    src={item.fields?.logo?.url}
+                    alt={item.fields?.logo?.alt}
+                    width={item.fields?.logo?.width}
+                    height={item.fields?.logo?.height}
                   />
                 </div>
               )

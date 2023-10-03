@@ -21,7 +21,7 @@ const DefaultRenderer = ({
     const prevValue = getPrevSectionValue(sections, index, 'img', 'default')
 
     return (
-      <div key={id}>
+      <div key={`section-${id}-${index}`}>
         <RenderSection
           id={id}
           name={name}

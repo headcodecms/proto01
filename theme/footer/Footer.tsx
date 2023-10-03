@@ -41,23 +41,26 @@ const Footer = ({
     <div className="bg-gray-100 py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center">
-          <Link className="block" href="/">
-            <Image
-              className="h-8 w-auto"
-              src={logo.url}
-              alt={logo.alt}
-              width={logo.width}
-              height={logo.height}
-            />
-          </Link>
+          {logo.url && (
+            <Link className="block" href="/">
+              <Image
+                className="h-8 w-auto"
+                src={logo.url}
+                alt={logo.alt}
+                width={logo.width}
+                height={logo.height}
+              />
+            </Link>
+          )}
         </div>
         <div className="my-5 flex items-center justify-center">
           <nav className="flex items-center space-x-5">
             {blocks?.map(
               (item: any, index: number) =>
-                item.name === 'link' && (
+                item.name === 'link' &&
+                !!item.fields?.link?.url && (
                   <Link
-                    key={index}
+                    key={`footer-link-${index}`}
                     className="rounded-md px-4 py-2 text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-800"
                     href={item.fields.link.url}
                   >
