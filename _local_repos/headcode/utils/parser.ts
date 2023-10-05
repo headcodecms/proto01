@@ -38,6 +38,7 @@ const parseMetadata = (data: MetaData | null) => {
   return {
     title: getValue(data, 'title', ''),
     description: getValue(data, 'description', ''),
+    keywords: getValue(data, 'keywords', ''),
   }
 }
 

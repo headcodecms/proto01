@@ -21,22 +21,29 @@ const MetaEdit = ({
   }, [metaSubmit])
 
   return (
-      <form onSubmit={form.handleSubmit(handleMetaSubmit)}>
-        <div className="mb-4 flex items-center space-x-2">
-          <button type="submit">
-            <ArrowLeftIcon className="h-8 w-8 rounded-md bg-gray-200 p-1.5 text-white hover:bg-gray-300" />
-          </button>
-          <h3 className="text-lg font-semibold text-gray-900">Metadata</h3>
+    <form onSubmit={form.handleSubmit(handleMetaSubmit)}>
+      <div className="mb-4 flex items-center space-x-2">
+        <button type="submit">
+          <ArrowLeftIcon className="h-8 w-8 rounded-md bg-gray-200 p-1.5 text-white hover:bg-gray-300" />
+        </button>
+        <h3 className="text-lg font-semibold text-gray-900">Metadata</h3>
+      </div>
+      <div className="space-y-4">
+        <div>
+          <TextField.render form={form} label="Title" name="title" />
         </div>
-        <div className="space-y-4">
-          <div>
-            <TextField.render form={form} label="Title" name="title" />
-          </div>
-          <div>
-            <TextAreaField.render form={form} label="Description" name="description" />
-          </div>
+        <div>
+          <TextAreaField.render
+            form={form}
+            label="Description"
+            name="description"
+          />
         </div>
-      </form>
+        <div>
+          <TextField.render form={form} label="Keywords" name="keywords" />
+        </div>
+      </div>
+    </form>
   )
 }
 

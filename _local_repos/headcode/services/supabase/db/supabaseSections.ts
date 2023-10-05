@@ -115,29 +115,12 @@ const querySection = async (
   slug?: string | null,
   locale?: string | null
 ) => {
-  if (slug) {
-    return locale
-      ? await supabase
-          .from(table(TABLES.sections))
-          .select()
-          .match({ name, slug, locale })
-      : await supabase
-          .from(table(TABLES.sections))
-          .select()
-          .match({ name, slug })
-          .is('locale', null)
-  } else {
-    return locale
-      ? await supabase
-          .from(table(TABLES.sections))
-          .select()
-          .match({ name, locale })
-          .is('slug', null)
-      : await supabase
-          .from(table(TABLES.sections))
-          .select()
-          .match({ name })
-          .is('locale', null)
-          .is('slug', null)
-  }
+  return await supabase
+    .from(table(TABLES.sections))
+    .select()
+    .match({
+      name,
+      ...(!!slug && { slug }),
+      ...(!!locale && { locale }),
+    })
 }
