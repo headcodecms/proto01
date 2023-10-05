@@ -50,6 +50,7 @@ export const getMetadata = async (
         const obj: MetaData = {
           title: meta.title ?? '',
           description: meta.description ?? '',
+          keywords: meta.keywords ?? '',
         }
         return obj
       }

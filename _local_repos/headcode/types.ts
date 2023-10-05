@@ -162,6 +162,7 @@ export type Data = {
 export type MetaData = {
   title?: string
   description?: string
+  keywords?: string
 }
 
 // Types for editor fields

@@ -35,8 +35,6 @@ const render = ({ form, label, name }: FieldComponent) => {
   }
 
   const handleSelectFromLibrary = (item: ImageData) => {
-    console.log('handleSelectFromLibrary', item)
-    
     if (item.width > 0 && item.height > 0 && typeof item.url === 'string') {
       const newFieldValue = {
         ...item,
